@@ -1,0 +1,141 @@
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to right, #ffe0ec, #fbeff5);
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px 20px;
+      background-color: #fff0f5;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown button {
+      background-color: #cc3366;
+      color: white;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f9d9e4;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      color: #cc3366;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    .slider {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 12s infinite;
+    }
+
+    .slides img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0%); }
+      33% { transform: translateX(-100%); }
+      66% { transform: translateX(-200%); }
+      100% { transform: translateX(0%); }
+    }
+
+    .ads {
+      background-color: #fff0f7;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .ads h2 {
+      color: #cc3366;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .ads p {
+      font-size: 1rem;
+      color: #444;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 10px;
+      background-color: #fff;
+      font-size: 14px;
+      color: #777;
+      display: flex;
+      bottom: 0;
+    }
+
+    .socials-footer {
+      margin-top: 10px;
+    }
+
+    .socials-footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #cc3366;
+      font-size: 24px;
+    }
+
+    .socials-footer a:hover {
+      color: #b82c5e;
+    }

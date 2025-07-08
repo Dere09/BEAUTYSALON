@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beauty Salon</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fff5f8;
+      color: #333;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .spacer {
+      height: 100px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #cc3366;
+    }
+
+    .search-profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-profile input {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      right: 0;
+      min-width: 120px;
+      z-index: 1;
+      border-radius: 8px;
+    }
+
+    .profile-dropdown-content a {
+      color: #333;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .profile-dropdown-content a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .profile-dropdown:hover .profile-dropdown-content {
+      display: block;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #e91e63;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: flex-start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      width: 220px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card .icon {
+      font-size: 30px;
+      color: #cc3366;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #cc3366;
+    }
+
+    .back-link {
+      display: block;
+      margin: 40px auto 0;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      background-color: #e91e63;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      width: fit-content;
+    }
+
+    .back-link:hover {
+      background-color: #d81b60;
+    }
+       footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      padding: 30px 10px;
+      background-color: #b4afaf;
+      border-top: 1px solid #ddd;
+    }
+
+    .socials-footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #cc3366;
+      font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 100%;
+      }
+
+    }
+    .card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 0 10px #ccc;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Dashboard</div>
+    <div class="search-profile">
+      <input type="text" placeholder="Search client..." />
+      <div class="profile-dropdown">
+        <i class="fas fa-user-circle fa-2x"></i>
+        <div class="profile-dropdown-content">
+          <a href="/profile">Profile</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="spacer"></div>
+
+  <!-- Dashboard Cards -->
+  <div class="container">
+    <h2><i class="fas fa-users"></i> Registered Clients</h2>
+
+    <% if (registrations.length === 0) { %>
+      <p style="text-align: center;">No registrations found.</p>
+    <% } else { %>
+      <div class="cards">
+        <% registrations.forEach(reg => { %>
+        <a href="/serviceoffer/<%=reg.registrationId %>" class="card-link">
+          <div class="card">
+            <div class="icon"><i class="fas fa-user"></i></div>
+            <p><span class="highlight">Name:</span><br> <%= reg.fullName %></p>
+            <p><span class="highlight">Phone:</span><br> <%= reg.phone %></p>
+            <p><span class="highlight">Reg ID:</span><br> <%= reg.registrationId %></p>
+            <p><span class="highlight">Date:</span><br> <%= new Date(reg.regdate).toLocaleDateString() %></p>
+          </div>
+        </a>
+      <% }) %>
+      </div>
+    <% } %>
+
+  </div>
+  <!-- Footer -->
+  <footer>
+    <div>© 2025 Bisrat Professional Beauty Salon. All rights reserved.</div>
+    <div class="socials-footer">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>

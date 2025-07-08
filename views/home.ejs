@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beauty Salon - Home</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+<link href="/css/menu.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-L+F8hl8..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  padding: var(--spacing);
+    }
+
+    header {
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    header .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #cc3366;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #444;
+      font-size: 16px;
+      position: relative;
+    }
+
+    nav a:hover::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: #cc3366;
+      bottom: -6px;
+      left: 0;
+    }
+
+    .search-profile {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-profile input {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .hero {
+      position: relative;
+      background: url('/images/thumbNail.jpg') center/cover no-repeat;
+      height: 80vh;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+    }
+
+    .hero-content {
+      max-width: 40%;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hero-content p {
+      margin: 20px 0;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .hero-content button {
+      background: #cc3366;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .floating-cards {
+      position: absolute;
+      right: 60px;
+      bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .floating-cards div {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      padding: 12px 16px;
+      border-radius: 10px;
+      max-width: 240px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+    .features {
+      display: flex;
+      padding: 60px;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .feature-list {
+      flex: 1;
+    }
+
+    .feature-list h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .feature-item {
+      background: #f9f9f9;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      gap: 20px;
+    }
+
+    .feature-item:hover {
+      background: #fff0f7;
+    } 
+
+    .feature-image {
+     /*  flex: 1;
+      align-items:center; */
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+    gap: 20px; /* space between items */
+    align-items: start;
+    }
+
+    .feature-image img {
+      width: 100%;
+      border-radius: 20px;
+    } 
+
+     footer {
+      text-align: center;
+      padding: 30px 10px;
+      background-color: #b4afaf;
+      border-top: 1px solid #ddd;
+      margin-top: 50px;
+    } 
+    .socials-footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #cc3366;
+      font-size: 20px;
+    }
+    .cylinder{
+      height: 50px;
+      width: 500px;
+      background:linear-gradient(to right, 204,204,204,0);
+      border-radius: 50px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+      border-width:1px solid #cebaba;
+      padding-top: 10px;
+      padding-left: 40px;
+      
+    }
+    .cylinder{
+      transition: transform 0.3 ease;
+      transform: scale(1);/*default zoom in*/
+    }
+    .cylinder:hover{
+      transform: scale(0.9); /*zoom-out on hover*/
+    }
+    .column{
+      flex: 1;
+    }
+    a{
+      text-decoration: none;
+      font-family: var(--font-main);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Logo</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="registration">Services</a>
+      <a href="gallery">Gallery</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="search-profile">
+      <input type="text" placeholder="Search..." />
+      <i class="fas fa-user-circle fa-2x"></i>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Where Beauty Meets Serenity</h1>
+      <p>Where calm meets care — a beauty journey tailored to you with elegance, passion, and serenity.</p>
+      <button>
+      <a href="registration" >Booking Now(ቀጠሮ)</a></button>
+    </div>
+    <!-- <div class="floating-cards">
+      <div>🌸 Custom Services, Your Way</div>
+      <div>💆‍♀️ Spa + Hair + Skin in One Place</div>
+      <div>✨ A Style to Remember</div>
+    </div> -->
+  </section>
+
+  <!-- Features Section feature-item feature-image --> 
+  <section class="features">
+    <div class="feature-list">
+      <h2>Only Here, Only With Us</h2>
+      <div class="cylinder">Dine by Design - Romantic coastal dinner</div><br>
+      <div class="cylinder">Local Living Encounters - Culture, beauty & you</div><br>
+      <div class="cylinder">Sunrise Awakening Rituals - Herbal tea & guided calm</div>
+    </div>
+<div class="feature-image">
+<h2 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Hair Services</h2>
+
+<!-- Nail Services -->
+<h2 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h2>
+
+<!-- Facial & Skin Care -->
+<h2 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Facial & Skin Care</h2>
+
+<!-- Body Care -->
+<h2 style="color: #8FBC8F;" ><i class="fa-solid fa-hands-bubbles"></i> Body Care</h2>
+
+<!-- Makeup Services -->
+<h2 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h2>
+
+<!-- Eye & Brow Services -->
+<h2 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h2>
+
+<!-- Special Services -->
+<h2 style="color: #A0522D;"><i class="fa-solid fa-gem"></i> Special Services</h2>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>© 2025 Bisrat Professional Beauty Salon. All rights reserved.</div>
+    <div class="socials-footer">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>

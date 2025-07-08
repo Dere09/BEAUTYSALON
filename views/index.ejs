@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beauty Salon Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link href="/css/menu.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Dropdown Menu Top Right -->
+  <div class="top-bar">
+    <div class="dropdown">
+      <button>Menu ▼</button>
+      <div class="dropdown-content">
+        <a href="member">Register</a>
+        <a href="#">Gallery</a>
+        <a href="#">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Form -->
+  <div class="container">
+    <h2>Salon Appointment Registration</h2>
+    <form action="/register" method="POST" enctype="multipart/form-data">
+     <input type="text" name="fullName" placeholder="Full Name" required />
+      <input type="number" name="phone" placeholder="Phone No." required />
+       <input type="datetime-local" name="regdate" placeholder="Date " required />
+      <input type="file" name="receipt" accept="image/*" required />
+      <button type="submit">Upload Receipt</button>
+    </form>
+    <div class="note">Please upload a clear image of your payment receipt.</div>
+  </div>
+
+  <script>
+    history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+  </script>
+</body>
+</html>

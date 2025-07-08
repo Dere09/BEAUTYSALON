@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Member Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+
+  <!-- Top Right Dropdown Menu -->
+  <div class="top-bar">
+    <div class="dropdown">
+      <button>Menu ▼</button>
+      <div class="dropdown-content">
+        <a href="#">Home</a>
+        <a href="#">Login</a>
+        <a href="#">Help</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Registration Form -->
+  <div class="container">
+    <h2>Member Registration</h2>
+    <form action="/member-register" method="POST">
+      <input type="text" name="fullName" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <select name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <div class="note">Already a member? <a href="/login">Login here</a>.</div>
+  </div>
+
+  <script>
+    history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+  </script>
+</body>
+</html>
