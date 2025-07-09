@@ -20,11 +20,13 @@ exports.addServiceType = async (req, res) => {
             servicePrice
         });
         await newServiceType.save();
+        const nextServiceId = await getNextserviceIdId(); // Get the next serviceId for the next entry
         const allServiceseTypes = await serviceTypemodel.find();
        res.render('services/createServiceType', {
-            serviceId: serviceId,
+            serviceId: nextServiceId,
             data: allServiceseTypes, // this is what the EJS is looping over
             message: 'Service type added successfully'
+           
         });
     }
       catch (error) {

@@ -287,12 +287,12 @@ form {
             <td><%=services.serviceDescription %><</td>
             <td><%=services.servicePrice %></td>
             <td class="actions">
-                  <a onclick="openDetailsModal('<%= services.serviceId %>', '<%= services.serviceName %>', '<%= services.serviceDescription %>', '<%= services.servicePrice %>')" title="View Details">
+            <a onclick="openDetailsModal('<%=services.serviceId %>','<%= services.serviceName %>', '<%= services.serviceDescription %>', '<%=services.servicePrice %>')" title="View Details">
                 <i class="fas fa-eye" style="color:#17a2b8;"></i>
-              </a>
-              <a onclick="openEditModal('<%= services.serviceId %>', '<%= services.serviceName %>', '<%= services.serviceDescription %>', '<%= services.servicePrice %>')" title="Edit User">
+            </a>
+            <a onclick="openEditModal('<%=services.serviceId %>','<%= services.serviceName %>', '<%= services.serviceDescription %>', '<%=services.servicePrice %>')" title="Edit User">
                 <i class="fas fa-edit" style="color:#ffc107;"></i>
-              </a>
+            </a>
             </td>
           </tr>
           <% }); %>
@@ -344,9 +344,9 @@ form {
   <script>
     function openDetailsModal(username, fullName, phone, role) {
       document.getElementById('viewUsername').textContent = serviceId;
-      document.getElementById('viewFullName').textContent = fullName;
-      document.getElementById('viewPhone').textContent = phone;
-      document.getElementById('viewRole').textContent = role;
+      document.getElementById('viewFullName').textContent = serviceName;
+      document.getElementById('viewPhone').textContent = serviceDescription;
+      document.getElementById('viewRole').textContent = servicePrice;
       document.getElementById('detailsModal').style.display = 'flex';
     }
 
