@@ -19,7 +19,6 @@ exports.addServiceType = async (req, res) => {
             serviceDescription,
             servicePrice
         });
-        console.log('About to save:', newServiceType);
         await newServiceType.save();
         const allServiceseTypes = await serviceTypemodel.find();
        res.render('services/createServiceType', {
