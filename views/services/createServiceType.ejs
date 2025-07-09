@@ -310,8 +310,9 @@ form {
       <p><strong>ServiceName:</strong> <span id="viewFullName"></span></p>
       <p><strong>Description:</strong> <span id="viewPhone"></span></p>
       <p><strong>Price:</strong> <span id="viewRole"></span></p>
-    </di
-    v>
+       <button type="button" onclick="closeModal('detailsModal')">Cancel</button>
+    </div>
+   
   </div>
 
   <!-- Edit Modal -->
@@ -330,7 +331,7 @@ form {
         <label>Phone</label>
         <input type="text" name="phone" id="editPhone" required>
         <button type="submit">Save Changes</button>
-        <button type="button" onclick="closeModal('editModal')">Cancel</button>
+        <button type="button" onclick="closeModal('detailsModal')">Cancel</button>
       </form>
     </div>
   </div>
@@ -342,7 +343,7 @@ form {
   </footer>
 
   <script>
-    function openDetailsModal(username, fullName, phone, role) {
+    function openDetailsModal(serviceId, serviceName, serviceDescription, servicePrice) {
       document.getElementById('viewUsername').textContent = serviceId;
       document.getElementById('viewFullName').textContent = serviceName;
       document.getElementById('viewPhone').textContent = serviceDescription;
