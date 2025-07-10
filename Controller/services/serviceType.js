@@ -39,12 +39,11 @@ exports.addServiceType = async (req, res) => {
 }
 exports.getServiceTypes = async (req, res) => {
     try {
-        const serviceTypes = await serviceTypemodel.find();
-        res.status(200).json({ message: 'Service types retrieved successfully', data: serviceTypes });
+       const allServiceseTypes = await serviceTypemodel.find();
         res.render('services/createServiceType', {
-            serviceId: '',
-            data: serviceTypes, // this is what the EJS is looping over
-            message: 'Service types retrieved successfully'
+        serviceId: serviceId,
+        data: allServiceseTypes,
+        message: ''
         });
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving service types', error: error.message });

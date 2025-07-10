@@ -6,8 +6,8 @@ const Connectdb = require('./db');
 const registerRoutes = require('./routes/registerRoutes'); //serviceTypeRoute
 //const serviceRoutes = require('./routes/serviceRoute/serviceTypeRoute'); 
 const userRoutes = require('./routes/userRoutes'); // Import customer service routes
-const serviceTypeRoute = require('./routes/serviceRoute/serviceTypeRoute');
-
+//const serviceTypeRoute = require('./routes/serviceRoute/serviceTypeRoute');
+const servicesRoutes = require('./routes/servicesRoutes');
 dotenv.config();
 Connectdb();
 
@@ -27,7 +27,8 @@ app.use(session({
 app.use('/', registerRoutes);
 app.use('/', userRoutes); // Use user routes
 //app.use('/serviceRoute', serviceTypeRoute); // Use service routes
-app.use('/', serviceTypeRoute);
+
+app.use('/', servicesRoutes);
 app.get('/createUser', (req, res) => {
     res.render('createUser');
 });
