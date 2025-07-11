@@ -497,7 +497,9 @@
           <label>
             <input type="checkbox" name="services" value="<%= service %>">
             <i class="fas fa-check-square" style="color: #cc3366;"></i> 
-            <!-- <span style="margin-left: 6px;"><%= service %></span> -->
+            <% (data || []).forEach(slist => { %>
+            <span style="margin-left: 6px;"><%= slist.serviceName %></span>
+            <% }) %>
           </label>
           <select name="staff_<%= service %>">
             <option disabled selected>Choose staff for <%= service %></option>
