@@ -37,45 +37,26 @@ exports.addServiceType = async (req, res) => {
             message: 'Error adding service type: ' + error.message});
     } 
 }
-exports.getServiceTypes = async (req, res) => {
+exports.getAllServiceType = async (req, res) => {
     try {
-       const allServiceseTypes = await serviceTypemodel.find();
-        res.render('services/createServiceType', {
-        serviceId: serviceId,
-        data: allServiceseTypes,
-        message: ''
+     //  const allServiceseTypes = await serviceTypemodel.find().lean();
+      const allServiceseTypes=['Haircut', 'Facial', 'Nails', 'Massage','Bridal Makeup'];
+        console.log('Service types loaded successfully:', allServiceseTypes);
+        
+        if (!allServiceseTypes || allServiceseTypes.length === 0) {
+            console.log('No service types found in database');
+            return res.render('serviceoffer', {
+                data2: [],
+                message: 'No service types found'
+            });
+        }
+
+        res.render('serviceoffer', {
+            services: allServiceseTypes,
+            message: 'Service types retrieved successfully'
         });
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving service types', error: error.message });
-    }
-}
-exports.updateServiceType = async (req, res) => {
-    try {
-        const { serviceId } = req.params;
-        const updatedServiceType = await serviceTypemodel.findOneAndUpdate(
-            { serviceId },
-            req.body,
-            { new: true }
-        );
-
-        if (!updatedServiceType) {
-            return res.status(404).json({ message: 'Service type not found' });
-        }
-        res.status(200).json({ message: 'Service type updated successfully', data: updatedServiceType });
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating service type', error: error.message });
-    }
-}
-exports.deleteServiceType = async (req, res) => {
-    try {
-        const { serviceId } = req.params;
-        const deletedServiceType = await serviceTypemodel.findOneAndDelete({ serviceId });
-        if (!deletedServiceType) {
-            return res.status(404).json({ message: 'Service type not found' });
-        }
-        res.status(200).json({ message: 'Service type deleted successfully', data: deletedServiceType });
-    }
-    catch (error) {
-        res.status(500).json({ message: 'Error deleting service type', error: error.message });
+        console.error('Error loading service types:', error);
+        res.status(500).send('Error loading service types');
     }
 }

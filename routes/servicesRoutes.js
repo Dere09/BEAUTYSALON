@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const serviceController = require('../Controller/serviceController');
 const User = require('../models/userModel');
-
+const serviceTypeController = require('../Controller/services/serviceType');
+router.get('/serviceoffer', serviceTypeController.getAllServiceType);
 router.get('/serviceoffer', serviceController.showServiceOffer);
 
 router.get('/serviceoffer/:registrationId', async (req, res) => {

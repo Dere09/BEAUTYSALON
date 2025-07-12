@@ -466,6 +466,7 @@
     font-size: 13px;
     font-weight: 600;
   } 
+  
 </style>
 </head>
 <body>
@@ -491,18 +492,18 @@
     <form method="POST" action="/submit-services">
       <input type="hidden" name="registrationId" value="<%= registrationId %>">
 
-      <% const services = ['Haircut', 'Facial', 'Nails', 'Massage']; %>
+     <!--  <% const services = ['Haircut', 'Facial', 'Nails', 'Massage']; %> -->
       <% services.forEach(service => { %>
         <div class="service-row">
           <label>
-            <input type="checkbox" name="services" value="<%= service %>">
+            <input type="checkbox" name="services" value="<%= service%>"><%= service %>
             <i class="fas fa-check-square" style="color: #cc3366;"></i> 
-            <% (data || []).forEach(slist => { %>
-            <span style="margin-left: 6px;"><%= slist.serviceName %></span>
-            <% }) %>
+    
+            <span style="margin-left: 6px;"><%= service.services %></span>
+        
           </label>
-          <select name="staff_<%= service %>">
-            <option disabled selected>Choose staff for <%= service %></option>
+          <select name="staff_<%=service%>">
+            <option disabled selected>Choose staff for <%=service%></option>
             <% users.forEach(staff => { %>
               <option value="<%= staff.username %>"><%= staff.fullName %></option>
             <% }) %>

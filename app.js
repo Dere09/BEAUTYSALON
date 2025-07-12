@@ -24,11 +24,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
-app.use('/', registerRoutes);
-app.use('/', userRoutes); // Use user routes
-//app.use('/serviceRoute', serviceTypeRoute); // Use service routes
-
 app.use('/', servicesRoutes);
+app.use('/', registerRoutes);
+app.use('/', userRoutes); 
+
 app.get('/createUser', (req, res) => {
     res.render('createUser');
 });
