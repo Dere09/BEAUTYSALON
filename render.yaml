@@ -1,0 +1,18 @@
+# render.yaml for BEAUTYSALON Node.js project
+services:
+  - type: web
+    name: beautysalon-backend
+    env: node
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        # Set your MongoDB connection string in Render dashboard
+        value: "mongodb://root:root@localhost:27017/beautysalon"
+      - key: REDIS_URL
+        # Set your Redis connection string in Render dashboard
+        value: "redis://localhost:6379"
