@@ -2,9 +2,10 @@ const Tesseract = require('tesseract.js');
 const User = require('../models/userModel');
 const getNextRegistrationId = require('../utilities/getNextRegId');
 const fs = require('fs');
+const CustomerService = require('../models/customerService');
 
 exports.handleRegistration = async (req, res) => {
-  const { fullName,phone, regdate } = req.body;
+  const { fullName, phone, regdate } = req.body;
   const imagePath = req.file.path;
 
   try {
@@ -28,29 +29,28 @@ exports.handleRegistration = async (req, res) => {
     });
 
     if (isValid) {
-       const exists = await User.findOne({ phone });
+      const exists = await User.findOne({ phone });
       if (exists) {
-        return res.render('failure', { reason: 'Phone already registered' });
-      } 
-      if(phone!=null || fullName!=null ||regdate!=null)
-      {
-      const registrationId = await getNextRegistrationId();
+        return res.render('failure', { reason: 'Phone already registered' + exists });
+      }
+      if (phone != null || fullName != null || regdate != null) {
+        const registrationId = await getNextRegistrationId();
 
-      const user = await User.create({
-        fullName,
-        phone,
-        regdate,
-        registrationId
-      });
+        const user = await User.create({
+          fullName,
+          phone,
+          regdate,
+          registrationId
+        });
 
-      return res.render('success', {
-        name: fullName,
-        phone,
-        registrationId
-      });
+        return res.render('success', {
+          name: fullName,
+          phone,
+          registrationId
+        });
+      }
     }
-    }
-     else {
+    else {
       return res.render('failure', {
         reason: `Receipt must include payee name and today's date (${currentDate})`
       });
@@ -69,8 +69,29 @@ exports.handleRegistration = async (req, res) => {
 };
 exports.getAllCustomers = async (req, res) => {
   try {
-    const registrations = await User.find().sort({ createdAt: -1 });
-    res.render('CustomerList', { registrations });
+    // 1. Get all customers
+    const allCustomers = await User.find().sort({ createdAt: -1 }).lean();
+
+    // 2. Get all services
+    const allServices = await CustomerService.find().lean();
+
+    // 3. Filter logic
+    const activeCustomers = allCustomers.filter(customer => {
+      // Find services for this specific customer
+      const customerServices = allServices.filter(s => s.registrationId === customer.registrationId);
+
+      // Rule 1: If no services, SHOW them (New customer)
+      if (customerServices.length === 0) return true;
+
+      // Rule 2: If they have services, check if ANY is NOT 'Completed'
+      // If (New or In Progress) exists -> SHOW
+      // If ALL are 'Completed' -> HIDE
+      const hasActiveService = customerServices.some(s => s.status !== 'Completed');
+
+      return hasActiveService;
+    });
+
+    res.render('CustomerList', { registrations: activeCustomers });
   } catch (error) {
     console.error('Error fetching customers:', error);
     res.status(500).json({ error: 'Internal server error' });

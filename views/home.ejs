@@ -76,6 +76,71 @@
       border: 1px solid #ccc;
     }
 
+    /* Advertisement Styles */
+    .ad-banner {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border: 2px solid #e8eaf6;
+      max-width: 1000px;
+      transition: all 0.3s ease;
+    }
+
+    .ad-banner:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+
+    .ad-banner h3 {
+      color: #cc3366;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .ad-banner p {
+      color: #666;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .ad-btn {
+      background: linear-gradient(45deg, #cc3366, #ff69b4);
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .ad-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(204, 51, 102, 0.4);
+    }
+
+    .sidebar-ad {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin: 20px 0;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .sidebar-ad img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
     .hero {
       position: relative;
       background: url('/images/thumbNail.jpg') center/cover no-repeat;
@@ -214,6 +279,19 @@
       font-family: var(--font-main);
       color: white;
     }
+
+    /* Responsive Design for Ads */
+    @media (max-width: 768px) {
+      .ad-banner {
+        margin: 10px;
+        padding: 15px;
+      }
+      
+      .sidebar-ad {
+        max-width: 100%;
+        margin: 10px auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -224,7 +302,7 @@
     <nav>
       <a href="#">Home</a>
       <a href="#">About</a>
-      <a href="registration">Services</a>
+      <a href="registration">ፀጉር ቤት ቀጠሮ(Booking)</a>
       <a href="gallery">Gallery</a>
       <a href="#">Contact</a>
     </nav>
@@ -234,13 +312,14 @@
     </div>
   </header>
 
+  <!-- HEADER ADVERTISEMENT BANNER -->
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Where Beauty Meets Serenity</h1>
       <p>Where calm meets care — a beauty journey tailored to you with elegance, passion, and serenity.</p>
       <button>
-      <a href="registration" >Booking Now(ቀጠሮ)</a></button>
+      <a href="registration" >Booking Now(ቀጠሮ ማስቀጠር)</a></button>
     </div>
     <!-- <div class="floating-cards">
       <div>🌸 Custom Services, Your Way</div>
@@ -248,6 +327,24 @@
       <div>✨ A Style to Remember</div>
     </div> -->
   </section>
+
+  <!-- MID-PAGE ADVERTISEMENT (SPLIT) -->
+  <div style="display: flex; justify-content: space-between; padding: 0 60px; max-width: 1400px; margin: 0 auto; gap: 30px;">
+    <!-- Left Sidebar Ad 
+    <div class="sidebar-ad">
+      <img src="https://www.freepik.com/free-photo/female-model-with-flowers-her-face_7412646.htm#fromView=search&page=1&position=8&uuid=32686645-e57d-4e8a-b22b-182c6bfa5e1c&query=beauty" alt="Advertisement">
+      <h4 style="color: #cc3366; margin: 10px 0 5px 0;">Beauty Essentials</h4>
+      <p style="font-size: 14px; color: #666;">Premium hair & skin care</p>
+      <a href="#" class="ad-btn" style="padding: 8px 16px; font-size: 14px;">View Deals</a>
+    </div>-->
+
+    <!-- Right Main Banner Ad -->
+    <div class="ad-banner" style="flex: 2; margin: 0;">
+      <h3>💎 <i class="fas fa-gem"></i> PARTNER: Luxury Spa Experience</h3>
+      <p>Book a VIP spa day with our trusted partners and get complimentary treatments!</p>
+      <a href="#" class="ad-btn">Book VIP Spa <i class="fas fa-spa"></i></a>
+    </div>
+  </div>
 
   <!-- Features Section feature-item feature-image --> 
   <section class="features">
@@ -279,6 +376,14 @@
 <h2 style="color: #A0522D;"><i class="fa-solid fa-gem"></i> Special Services</h2>
     </div>
   </section>
+
+  <!-- BOTTOM ADVERTISEMENT BANNER -->
+  <div class="ad-banner">
+    <h3>🎁 <i class="fas fa-gift"></i> SPECIAL OFFER: Beauty Bundle </h3>
+    <p>Get our complete beauty starter kit for only $49.99 (Save 40% today!)</p>
+    <a href="#" class="ad-btn">Claim Offer Now <i class="fas fa-arrow-right"></i></a>
+    <!-- Replace href and content with actual ad code -->
+  </div>
 
   <!-- Footer -->
   <footer>

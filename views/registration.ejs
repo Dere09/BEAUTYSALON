@@ -11,6 +11,7 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
   <style>
     * {
       margin: 0;
@@ -100,7 +101,7 @@
       margin-bottom: 30px;
     }
 
-    form input, form button {
+    form input, form button, form select {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -184,7 +185,12 @@
   .dropdown a:hover {
     color: #d9534f;
   }
+  .select2-container--open {
+    /* Use a high value, like 9999, to overlap most other elements */
+    z-index: 9999 !important; 
+}
   </style>
+
 </head>
 <body>
 
@@ -217,8 +223,32 @@
 
   <!-- Registration Form -->
   <div class="container">
-    <h2>Book Your Appointment</h2>
+    <h2>Book Your Appointment(ቀጠሮ ማስያዣ)</h2>
     <form action="/register" method="POST" enctype="multipart/form-data">
+     <!--    <div>
+        <label>Available Salon</label>
+        <select id="salon-select" name="salon" required >
+          <% institutions.forEach(function(inst)  { %>
+            <option value="<%= inst.salon_id %>"><%= inst.institutionName%></option>
+          <% }); %>
+        </select>
+      </div> -->
+      <div>
+    <label for="salon-input">Available Salon(ያሉት ፀጉር ቤት)</label>
+    <input 
+        list="salon-suggestions" 
+        id="salon-input" 
+        name="salonName" 
+        required
+        placeholder="Type or select a salon">
+    <datalist id="salon-suggestions">
+        <% institutions.forEach(function(inst) { %>
+            <option value="<%= inst.institutionName %>" data-salon-id="<%= inst.salon_id %>"></option>
+        <% }); %>
+    </datalist>
+
+    <input type="hidden" id="salon-id" name="salon_id">
+</div>
       <input type="text" name="fullName" placeholder="Full Name" required />
       <input type="number" name="phone" placeholder="Phone No." required />
        <input type="datetime-local" name="regdate" placeholder="Date " required />
@@ -238,6 +268,80 @@
       <a href="#"><i class="fab fa-twitter"></i></a>
     </div>
   </footer>
+  
+<script>
+    const input = document.getElementById('phone');
+    const messageEl = document.getElementById('message');
 
+    // Allow only digits, and enforce real-time format rules
+    input.addEventListener('input', function(e) {
+        let value = e.target.value;
+
+        // Remove any non-digit character
+        value = value.replace(/\D/g, '');
+
+        // Enforce: must start with '09' once at least 2 digits are entered
+        if (value.length >= 1 && value[0] !== '0' && value.length<=10) {
+            value = '0' + value.slice(1);
+        }
+        if (value.length >= 2 && value[1] !== '9') {
+            value = '09' + value.slice(2);
+        }
+        // Limit to 10 digits
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+
+        // Update input field
+        e.target.value = value;
+
+        // Validate
+        const isValid = /^09\d{0,8}$/.test(value) && value.length <= 10;
+        const isComplete = /^09\d{8}$/.test(value);
+
+        // Reset classes
+        e.target.classList.remove('valid', 'invalid');
+
+        if (value === '') {
+            messageEl.textContent = '';
+        } 
+        
+        else if (!/^09/.test(value)) {
+            e.target.classList.add('invalid');
+            messageEl.textContent = 'Must start with "09"';
+            messageEl.className = 'message error';
+        } else if (value.length < 10) {
+            e.target.classList.add('invalid');
+            messageEl.textContent = `Incomplete (${value.length}/10 digits)`;
+            messageEl.className = 'message error';
+        } else if (isComplete) {
+            e.target.classList.add('valid');
+            messageEl.textContent = '✓ Valid phone number';
+            messageEl.className = 'message success';
+        }
+    });
+
+    // Optional: prevent non-digit keys (except Backspace, Delete, Arrow keys, etc.)
+    input.addEventListener('keydown', function(e) {
+        // Allow: Backspace, Delete, Tab, Escape, Enter, Arrow keys
+        if ([46, 8, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode)) {
+            return;
+        }
+
+        // Ensure only digits
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+<script>
+        $(document).ready(function() {
+            $('#salon-select').select2({
+                placeholder: "Search or select a salon...",
+                allowClear: true
+            });
+        });
+</script>
 </body>
 </html>

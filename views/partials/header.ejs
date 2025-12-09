@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || 'Beauty Salon' %></title>
+
+  <!-- Common fonts and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Site CSS (add any page-specific css via `extraStyles` local) -->
+  <link href="/css/menu.css" rel="stylesheet">
+  <% if (typeof extraStyles !== 'undefined') { %>
+    <%= extraStyles %>
+  <% } %>
+
+  <style>
+    /* small shared header styles to preserve existing look */
+    :root{ --brand:#cc3366; }
+    header{ background:#fff; display:flex; justify-content:space-between; align-items:center; padding:18px 40px; box-shadow:0 2px 4px rgba(0,0,0,0.05); }
+    .logo{ font-family: 'Playfair Display', serif; font-size:22px; color:var(--brand); }
+    nav a{ margin-left:20px; color:#444; text-decoration:none; }
+    nav a.active{ color:var(--brand); font-weight:600; }
+    .search-profile input{ padding:6px 10px; border-radius:6px; border:1px solid #ddd; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo"><a href="/" style="color:inherit;text-decoration:none;">BisratBs</a></div>
+    <nav>
+      <a href="/" class="<%= navActive === 'home' ? 'active' : '' %>">Home</a>
+      <a href="/serviceoffer" class="<%= navActive === 'services' ? 'active' : '' %>">Services</a>
+      <a href="/registration" class="<%= navActive === 'registration' ? 'active' : '' %>">Booking</a>
+      <a href="/gallery" class="<%= navActive === 'gallery' ? 'active' : '' %>">Gallery</a>
+      <a href="/ads-manager" class="<%= navActive === 'ads' ? 'active' : '' %>">Ads</a>
+      <a href="/dashboard" class="<%= navActive === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+    </nav>
+
+    <div class="search-profile">
+      <form action="/search" method="GET" style="display:inline-block;">
+        <input type="text" name="q" placeholder="Search..." />
+      </form>
+      <a href="/login"><i class="fas fa-user-circle fa-2x" style="color:#666;margin-left:12px"></i></a>
+    </div>
+  </header>
+
+  <!-- page container start -->
+  <main id="page-content">

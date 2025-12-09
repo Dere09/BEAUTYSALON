@@ -1,27 +1,40 @@
-const customerList= require('../models/userModel');
-const serviceOffer = require('../models/serviceModel');
-exports.showServiceOffer = async (req, res) => {
+const customerList = require('../models/userModel');
+const serviceOffer = require('../models/customerService');
+const stafflist = require('../models/loginuser');
+//const serviceType = require('../models/services/serviceType');
+const serviceTypemodel = require('../models/services/serviceType');
+exports.showServiceOfferById = async (req, res) => {
     try {
-        const customers = await customerList.find();
-        res.render('serviceoffer', { customers });
-    } catch (error) {
-        console.error('Error fetching customers:', error);
-        res.status(500).send('Internal Server Error');
-    }
-}
-exports.showServiceOfferById = async (req, res) =>{
-    try {
-    const regId=req.params.registrationId;
-    const registrationId = await customerList.findOne({ registrationId: regId });
-    if (!registrationId) {
-        return res.status(404).send('Customer not found');
-    }
-    res.render('serviceoffer', { registrationId });
+        const regId = req.params.registrationId;
 
+        // Fetch all necessary data in parallel
+        const [serviceOffers, staffMembers, customer] = await Promise.all([
+            serviceTypemodel.find({}, 'serviceName serviceId').lean().exec(),
+            stafflist.find().lean().exec(),
+            customerList.findOne({ registrationId: regId }).lean().exec()
+        ]);
+
+        if (!customer) {
+            return res.status(404).render('error', {
+                message: `Customer with registrationId ${regId} not found.`,
+                error: {}
+            });
+        }
+
+        res.render('serviceoffer', {
+            regId,
+            customers: customer,
+            serviceOffer: serviceOffers,
+            staff: staffMembers
+        });
+
+    } catch (error) {
+        console.error('Error in showServiceOffer:', error);
+
+        res.status(500).render('error', {
+            message: 'Failed to load service offer page',
+            error: process.env.NODE_ENV === 'development' ? error : {}
+        });
     }
-    catch (error) {
-        console.error('Error fetching customer by ID:', error);
-        res.status(500).send('Internal Server Error');
-    }
-}
+};
 /* #####################################################*The above module stands for user populate in the service officer page*/

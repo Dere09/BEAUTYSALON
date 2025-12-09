@@ -1,10 +1,6 @@
 const loginuser = require('../models/loginuser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-// exports.CreateForms= (req, res) =>{
-//     res.render('createUser');
-// }
-// Controller function for GET /createUser
 exports.CreateForms = async (req, res) => {
     try {
         const users = await loginuser.find().sort({ createdAt: -1 });
@@ -14,9 +10,9 @@ exports.CreateForms = async (req, res) => {
         res.render('createUser', { users: [], error: 'Error fetching users' });
     }
 };
-exports.CreateUser = async (req, res)  =>{
-    const {username,fullName,phone,password,role}=req.body;
-    try{
+exports.CreateUser = async (req, res) => {
+    const { username, fullName, phone, password, role } = req.body;
+    try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new loginuser({
             username,
@@ -24,15 +20,15 @@ exports.CreateUser = async (req, res)  =>{
             phone,
             password: hashedPassword,
             role: role || 'staff' // Default to 'staff' if role is not provided
-            });
-            await newUser.save();
-                    // Fetch all users after saving the new one
+        });
+        await newUser.save();
+        // Fetch all users after saving the new one
         const users = await loginuser.find().sort({ createdAt: -1 });
         //    res.render('userslist', {users: newUser});
-          res.render('createUser', { users: [], error: 'Error fetching users' });
- 
+        res.render('createUser', { users: [], error: 'Error fetching users' });
+
     }
-    catch(error){
+    catch (error) {
         console.error('Error creating user:', error);
         res.status(500).send('Internal Server Error');
     }
@@ -48,6 +44,28 @@ exports.getAllUsers = async (req, res, next) => {
     }
 };
 
+exports.getPaginatedUsers = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6; // Items per page
+        const skip = (page - 1) * limit;
+
+        const totalUsers = await loginuser.countDocuments();
+        const users = await loginuser.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalPages = Math.ceil(totalUsers / limit);
+
+        res.render('userslist', {
+            users, // Overwrite/Prioritize paginated users
+            currentPage: page,
+            totalPages,
+            totalUsers
+        });
+    } catch (error) {
+        console.error('Error fetching paginated users:', error);
+        res.render('userslist', { users: [], error: 'Error loading users', currentPage: 1, totalPages: 1 });
+    }
+};
+
 // Factory function to render different views
 exports.renderPage = (viewName, extraData = {}) => {
     return (req, res) => {
@@ -59,50 +77,50 @@ exports.renderPage = (viewName, extraData = {}) => {
     };
 };
 // Show the reset password form
-exports.showResetPasswordForm =async(req, res) =>{
-    try{
+exports.showResetPasswordForm = async (req, res) => {
+    try {
         const username = req.params.username;
         const user = await loginuser.findOne({ username });
-        if(!user){
-        req.flash('error', 'User not found');
+        if (!user) {
+            req.flash('error', 'User not found');
         }
-      res.render('reset-password',  { user, error: '', success: '' });
+        res.render('reset-password', { user, error: '', success: '' });
     }
-    catch(error){
+    catch (error) {
         console.error('Error showing reset password form:', error);
-    // Fetch users so the view has data
-    const users = await loginuser.find().sort({ createdAt: -1 });
-    res.render('createUser', { users, error: 'Error showing reset password form' });
+        // Fetch users so the view has data
+        const users = await loginuser.find().sort({ createdAt: -1 });
+        res.render('createUser', { users, error: 'Error showing reset password form' });
     }
 };
 // Handle the reset password form submission
 exports.resetPassword = async (req, res) => {
     try {
-        const {userid, newPassword } = req.body.username;
+        const { userid, newPassword } = req.body.username;
         //validate the user ID
-        if(!userid || !newPassword){
+        if (!userid || !newPassword) {
             req.flash('error', 'User ID and new password are required');
-         //   return res.redirect('/userlist');
+            //   return res.redirect('/userlist');
         }
-        if(newPassword.length < 6){
+        if (newPassword.length < 6) {
             req.flash('error', 'Password must be at least 6 characters long');
-           //c return res.redirect('/userlist');
+            //c return res.redirect('/userlist');
         }
         // Find the user by ID
         const user = await loginuser.findById(userid);
-        if(!user){
+        if (!user) {
             req.flash('error', 'User not found');
-            return res.redirect('/userlist');
+            return res.redirect('/userslist');
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
         await user.save();
         req.flash('success', 'Password reset successfully');
-        res.redirect('/userlist');
+        res.redirect('/userslist');
 
     }
-    catch (error){
+    catch (error) {
         req.flash('error', 'Error resetting password');
-        res.redirect('/userlist', { error: 'Error resetting password' });
+        res.redirect('/userslist', { error: 'Error resetting password' });
     }
 };

@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Beauty Salon</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap"
+    rel="stylesheet">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     * {
@@ -109,24 +112,32 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="login-wrapper">
     <h2>Welcome Back</h2>
-    <form action="/login" method="POST">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
+    <% if (error) { %>
+      <div class="error-message"
+        style="color: #d32f2f; background-color: #fdecea; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #f5c6cb;">
+        <%= error %>
+      </div>
+      <% } %>
+        <form action="/login" method="POST">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
 
-      <button type="submit">Login</button>
-    </form>
+          <button type="submit">Login</button>
+        </form>
 
-    <div class="bottom-text">
-      Don't have an account? <a href="/register">Register here</a>
-    </div>
+        <div class="bottom-text">
+          Don't have an account? <a href="/register">Register here</a>
+        </div>
   </div>
 
 </body>
+
 </html>

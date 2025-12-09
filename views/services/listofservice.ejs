@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <title>Users List - Blossom Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #fff5f8;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: white;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      font-family: 'Playfair Display', serif;
+      color: #cc3366;
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .sidebar ul li a:hover {
+      color: #cc3366;
+    }
+
+    .sidebar ul li a i {
+      margin-right: 10px;
+      color: #cc3366;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      color: #e91e63;
+      margin-bottom: 20px;
+    }
+
+    .content-box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th,
+    table td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #fce4ec;
+    }
+
+    .actions a {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-content h3 {
+      color: #e91e63;
+      margin-bottom: 20px;
+    }
+
+    .modal-content label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+
+    .modal-content button {
+      padding: 10px 20px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background-color: #d81b60;
+    }
+
+    footer {
+      background-color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+      color: #cc3366;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      bottom: 0;
+      left: 220px;
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      footer {
+        left: 0;
+      }
+    }
+
+    /* Responsive Design for these input fields only*/
+    form {
+      margin-top: 20px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    form button {
+      background-color: #e91e63;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    form button:hover {
+      background-color: #d81b60;
+    }
+
+    /* Responsive grid for the form layout */
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #cc3366;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    /*The following css stands for table header*/
+    .table-container {
+      max-height: 400px;
+      /* Adjust height as needed */
+      overflow-y: auto;
+      border: 1px solid #ddd;
+    }
+
+    #servicesTable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #servicesTable thead th {
+      position: sticky;
+      top: 0;
+      background-color: #fff5f7;
+      /* From your image */
+      color: #2c3e50;
+      /* Your previous dark color */
+      z-index: 2;
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    #servicesTable tbody td {
+      padding: 8px;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    /* light color from your previous :root styles */
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <h2>🌸 BisratBs</h2>
+    <ul>
+      <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="/createUser"><i class="fas fa-users-cog"></i> User List</a></li>
+      <li><a href="/createUser"><i class="fas fa-user-plus"></i> Add New User</a></li>
+      <li><a href="/createServiceType"><i class="fas fa-shopping-bag"></i> Assign Service</a></li>
+      <li><a href="/reset-password/exampleUserId"><i class="fas fa-key"></i> Reset Password</a></li>
+      <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h2><i class="fas fa-boxes-packing"></i> Customers and Services</h2>
+    <div class="container">
+
+      <a class="back-link" href="/Customers">← Back to Service</a>
+    </div>
+    <!--    <h2><i class="fas fa-users-cog"></i> Users List</h2> table table-bordered  -->
+    <div class="content-box">
+      <table class="table-hover table-sm" id="servicesTable">
+        <thead>
+          <tr>
+            <th>OfferID</th>
+            <th>Service</th>
+            <th>Price</th>
+            <th>RegID</th>
+            <th>Assigned To</th>
+            <th>Rank</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% function escapeQuote(str) { return str ? str.replace(/'/g, "\\'" ) : "" ; } %>
+            <% savedServices.forEach(function(lservice) { %>
+              <tr>
+                <td>
+                  <%= lservice.serviceOffID %>
+                </td>
+                <td>
+                  <%= lservice.serviceName %>
+                </td>
+                <td>
+                  <%= lservice.servicePrice %>
+                </td>
+                <td>
+                  <%= lservice.registrationId %>
+                </td>
+                <td>
+                  <%= lservice.assignedemployee %>
+                </td>
+
+                <td>
+                  <% const percentage=lservice.percentage || 0; const progressBarStyle=`width: ${percentage}%;
+                    height:100%; background-color:#28a745; text-align:right; padding-right:3px; color:#fff;
+                    font-size:10px;`; %>
+                    <div
+                      style="background-color: #e9ecef; width: 100px; height: 12px; border-radius: 5px; overflow: hidden;">
+                      <div style="<%= progressBarStyle %>">
+                        <%= percentage %>&#37;
+                      </div>
+                    </div>
+                </td>
+                <td>
+                  <%= lservice.status %>
+                </td>
+                <td class="actions">
+                  <a onclick="openDetailsModal('<%=lservice.serviceOffID%>', '<%= escapeQuote(lservice.serviceName) %>','<%=lservice.servicePrice%>', '<%=lservice.registrationId%>','<%= escapeQuote(lservice.assignedemployee) %>','<%=lservice.createdAt%>')"
+                    title="View Details">
+                    <i class="fas fa-eye" style="color:#17a2b8;"></i>
+                  </a>
+                  <a onclick="openEditModal('<%=lservice.serviceOffID%>','<%= escapeQuote(lservice.serviceName) %>','<%=lservice.status%>','<%=lservice.servicePrice%>')"
+                    title="Edit User">
+                    <i class="fas fa-edit" style="color:#ffc107;"></i>
+                  </a>
+                </td>
+              </tr>
+              <% }); %>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination justify-content-center" id="pagination"></ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- View Details Modal -->
+  <div id="detailsModal" class="modal">
+    <div class="modal-content">
+      <h3><i class="fas fa-user"></i> User Details</h3>
+      <p><strong>Username:</strong> <span id="viewUsername"></span></p>
+      <p><strong>Full Name:</strong> <span id="viewFullName"></span></p>
+      <p><strong>Phone:</strong> <span id="viewPhone"></span></p>
+      <p><strong>Role:</strong> <span id="viewRole"></span></p>
+      <button onclick="closeModal('detailsModal')">Close</button>
+
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3><i class="fas fa-user-edit"></i> Edit User</h3>
+      <form id="editForm" method="POST">
+        <label>ServiceID</label>
+        <input type="text" name="serviceOffId" id="editServiceOffId" required>
+        <label>Service Type</label>
+        <input type="text" name="serviceName" id="editserviceName" required>
+        <label>Status</label>
+        <select name="status" id="editstatus">
+          <option value="Completed">Completed</option>
+          <option value="In Progress">In Progress</option>
+        </select>
+        <label>Paid Amount</label>
+        <input type="text" name="Amount" id="editAmount" required>
+        <!-- <label>Registration ID</label> 
+        <input type="text" name="registrationId" id="registrationId" hidden required>-->
+        <button type="submit">Save Changes</button>
+        <button type="button" onclick="closeModal('editModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> BBs Dashboard. All rights reserved. |
+        <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a>
+    </p>
+  </footer>
+  <script>
+    function openDetailsModal(username, fullName, role) {
+      document.getElementById('viewUsername').textContent = username;
+      document.getElementById('viewFullName').textContent = fullName;
+      document.getElementById('viewPhone').textContent = phone;
+      document.getElementById('viewRole').textContent = role;
+      document.getElementById('detailsModal').style.display = 'flex';
+    }
+    function openEditModal(serviceOffId, serviceName, status, Amount) {
+      document.getElementById('editForm').action = `/editUser/${serviceOffId}?_method=PUT`;
+      document.getElementById('editServiceOffId').value = serviceOffId;
+      document.getElementById('editserviceName').value = serviceName;
+      document.getElementById('editstatus').value = status;
+      document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === "Escape") {
+        closeModal('editModal');
+        closeModal('detailsModal');
+      }
+    });
+  </script>
+
+  <script>
+    const rowsPerPage = 10;
+    const rows = document.querySelectorAll("#servicesTable tbody tr");
+    const pagination = document.getElementById("pagination");
+
+    function showPage(page) {
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? "" : "none";
+      });
+
+      pagination.innerHTML = "";
+      const pageCount = Math.ceil(rows.length / rowsPerPage);
+      for (let i = 1; i <= pageCount; i++) {
+        const li = document.createElement("li");
+        li.className = "page-item" + (i === page ? " active" : "");
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener("click", function (e) {
+          e.preventDefault();
+          showPage(i);
+        });
+        pagination.appendChild(li);
+      }
+    }
+    // Initial load
+    if (rows.length > 0) {
+      showPage(1);
+    }
+  </script>
+</body>
+
+</html>

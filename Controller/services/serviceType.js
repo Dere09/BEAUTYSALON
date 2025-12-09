@@ -37,26 +37,3 @@ exports.addServiceType = async (req, res) => {
             message: 'Error adding service type: ' + error.message});
     } 
 }
-exports.getAllServiceType = async (req, res) => {
-    try {
-     //  const allServiceseTypes = await serviceTypemodel.find().lean();
-      const allServiceseTypes=['Haircut', 'Facial', 'Nails', 'Massage','Bridal Makeup'];
-        console.log('Service types loaded successfully:', allServiceseTypes);
-        
-        if (!allServiceseTypes || allServiceseTypes.length === 0) {
-            console.log('No service types found in database');
-            return res.render('serviceoffer', {
-                data2: [],
-                message: 'No service types found'
-            });
-        }
-
-        res.render('serviceoffer', {
-            services: allServiceseTypes,
-            message: 'Service types retrieved successfully'
-        });
-    } catch (error) {
-        console.error('Error loading service types:', error);
-        res.status(500).send('Error loading service types');
-    }
-}

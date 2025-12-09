@@ -8,14 +8,14 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
     lowercase: true,
     trim: true
   },
   regdate: {
-type:Date,
-required:true,
-  trim:true
+    type: Date,
+    required: true,
+    trim: true
   },
   registrationId: {
     type: String,

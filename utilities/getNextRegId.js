@@ -1,5 +1,4 @@
 const Counter = require('../models/Counter');
-
 async function getNextRegistrationId() {
   const counter = await Counter.findByIdAndUpdate(
     'registrationId',
