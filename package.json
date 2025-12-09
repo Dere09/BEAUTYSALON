@@ -1,4 +1,11 @@
 {
+  "name": "beauty-salon",
+  "version": "1.0.0",
+  "description": "Beauty Salon Management System",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-mongo": "^5.1.0",
@@ -12,7 +19,7 @@
     "module": "^1.2.5",
     "mongoose": "^8.16.1",
     "multer": "^2.0.1",
-    "nodemon": "^3.1.10",
+    "nodemon": "^3.1.11",
     "redis": "^5.8.1",
     "sharp": "^0.34.5",
     "start": "^5.1.0",
