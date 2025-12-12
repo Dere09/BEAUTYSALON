@@ -8,7 +8,7 @@ class AdController {
     async create(req, res) {
         try {
             const { title, description, url, position, status } = req.body;
-            
+
             if (!req.file) {
                 return res.status(400).json({
                     success: false,
@@ -22,7 +22,7 @@ class AdController {
             const year = new Date().getFullYear();
             const month = String(new Date().getMonth() + 1).padStart(2, '0');
             const uploadDir = path.join('public/uploads/ads', `${year}/${month}`);
-            
+
             const optimizationResult = await optimizer.optimizeImage(req.file.path, uploadDir);
 
             if (!optimizationResult.success) {
@@ -42,7 +42,7 @@ class AdController {
             };
 
             const newAd = await Ad.create(adData, req.file.path);
-            
+
             // Cleanup temp file
             fs.removeSync(req.file.path);
 
@@ -54,12 +54,12 @@ class AdController {
 
         } catch (error) {
             console.error('Create ad error:', error);
-            
+
             // Cleanup on error
             if (req.file) {
                 fs.removeSync(req.file.path);
             }
-            
+
             res.status(500).json({
                 success: false,
                 message: error.message || 'Failed to create ad'
@@ -71,7 +71,7 @@ class AdController {
     async getAll(req, res) {
         try {
             const ads = await Ad.getAll();
-            
+
             // Add image optimization stats
             const totalAds = ads.length;
             const totalSavings = ads.reduce((sum, ad) => sum + (ad.optimization?.savings_percent || 0), 0);
@@ -119,14 +119,14 @@ class AdController {
         try {
             const { status } = req.body;
             const ad = await Ad.update(req.params.id, { status, updated_at: new Date().toISOString() });
-            
+
             if (!ad) {
                 return res.status(404).json({
                     success: false,
                     message: 'Ad not found'
                 });
             }
-            
+
             res.json({
                 success: true,
                 message: 'Ad updated successfully!',
@@ -163,7 +163,7 @@ class AdController {
             }
 
             await Ad.delete(req.params.id);
-            
+
             res.json({
                 success: true,
                 message: 'Ad and optimized files deleted successfully!'
@@ -189,7 +189,7 @@ class AdController {
 
             const { bulkData } = req.body; // JSON string of bulk ad data
             const bulkAdData = JSON.parse(bulkData || '[]');
-            
+
             if (bulkAdData.length !== files.length) {
                 return res.status(400).json({
                     success: false,
@@ -204,7 +204,7 @@ class AdController {
             const processPromises = files.map(async (file, index) => {
                 try {
                     const adData = bulkAdData[index] || {};
-                    
+
                     // Default values if not provided
                     const defaultAdData = {
                         title: `Ad ${index + 1}`,
@@ -213,16 +213,16 @@ class AdController {
                         position: 'mid-page-banner',
                         status: 'active'
                     };
-                    
+
                     const finalAdData = { ...defaultAdData, ...adData };
-                    
+
                     // Optimize image
                     const year = new Date().getFullYear();
                     const month = String(new Date().getMonth() + 1).padStart(2, '0');
                     const uploadDir = path.join('public/uploads/ads', `${year}/${month}`);
-                    
+
                     const optimizationResult = await optimizer.optimizeImage(file.path, uploadDir);
-                    
+
                     if (!optimizationResult.success) {
                         throw new Error(`Optimization failed for ${file.originalname}`);
                     }

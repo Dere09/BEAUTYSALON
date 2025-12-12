@@ -1,19 +1,9 @@
 const customerService = require('../models/customerService');
-const redisClient = require('../config/redis');
 
 const getAllServiceOffered = async () => {
-  const cacheKey = 'allServices';
   try {
-    // Check cache
-    const cachedData = await redisClient.get(cacheKey);
-    if (cachedData) {
-      console.log('✅ Cache hit');
-      return JSON.parse(cachedData);
-    }
-
-    console.log('❌ Cache miss');
-    // Fetch data from database
-    const allServices = await customerService.find({'status': {$ne: 'Completed'}}).lean();
+    // Fetch data directly from database (no caching)
+    const allServices = await customerService.find({ 'status': { $ne: 'Completed' } }).lean();
     if (!allServices || allServices.length === 0) {
       return [];
     }
@@ -36,15 +26,6 @@ const getAllServiceOffered = async () => {
         : 0;
       return { ...svc, percentage: percent.toFixed(1) };
     });
-
-    // Update cache
-    try {
-      await redisClient.set(cacheKey, JSON.stringify(servicesWithPercent), {
-        EX: 60 * 5
-      });
-    } catch (cacheError) {
-      console.error('Cache update failed:', cacheError.message);
-    }
 
     return servicesWithPercent;
   } catch (error) {
