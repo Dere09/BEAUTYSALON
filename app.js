@@ -76,9 +76,7 @@ app.get('/home', (req, res) => {
 app.get('/gallery', (req, res) => {
     res.render('gallery');
 })
-app.get('/', (req, res) => {
-    res.render('CustomerList');
-});
+
 
 app.get('/dashboard', authMiddleware, (req, res) => {
     res.render('dashboard'); // Render the create user view

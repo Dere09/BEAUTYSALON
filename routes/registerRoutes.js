@@ -19,6 +19,7 @@ const upload = multer({
 });
 // Render registration page via institution controller so `institutions` is available
 router.get('/register', institutionController.getRegistrationPage);
+router.get('/', getAllCustomers);
 
 
 router.post('/register', (req, res, next) => {
