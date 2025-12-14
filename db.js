@@ -1,6 +1,11 @@
 require('dotenv').config();
 
-console.log('MONGO_URI:', process.env.MONGO_URI); // Should print your URI
+const uri = process.env.MONGO_URI;
+if (uri) {
+  console.log('MONGO_URI:', uri.replace(/(mongodb\+srv:\/\/)([^:]+):([^@]+)(@)/, '$1$2:****$4'));
+} else {
+  console.log('MONGO_URI is undefined');
+}
 
 const mongoose = require('mongoose');
 const mongoURI = process.env.MONGO_URI;
@@ -15,10 +20,10 @@ const Connectdb = async () => {
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-       waitQueueTimeoutMS: 10000,
+      waitQueueTimeoutMS: 10000,
       // waitForConnections: true,
       //serverSelectionTimeoutMS: 5000
-      
+
     });
     console.log('✅ MongoDB connected');
   } catch (err) {

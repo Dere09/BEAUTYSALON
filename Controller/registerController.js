@@ -5,6 +5,14 @@ const fs = require('fs');
 const CustomerService = require('../models/customerService');
 
 exports.handleRegistration = async (req, res) => {
+  console.log('Register Controller - Body:', req.body);
+  console.log('Register Controller - File:', req.file);
+
+  if (!req.body) {
+    console.error('CRITICAL: req.body is undefined!');
+    return res.status(500).send('Server Error: Request body is missing.');
+  }
+
   const { fullName, phone, regdate } = req.body;
   const imagePath = req.file.path;
 

@@ -1,4 +1,18 @@
 const express = require('express');
+const session = require('express-session');
+const methodOverride = require('method-override');
+const dotenv = require('dotenv');
+const path = require('path');
+const Connectdb = require('./db');
+dotenv.config();
+Connectdb();
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 // Global error handlers to capture crashes during startup/runtime
 process.on('uncaughtException', (err) => {
     console.error('UNCAUGHT_EXCEPTION:', err && err.stack ? err.stack : err);
@@ -12,11 +26,7 @@ process.on('exit', (code) => {
 process.on('SIGTERM', () => {
     console.error('SIGTERM received');
 });
-const session = require('express-session');
-const methodOverride = require('method-override');
-const dotenv = require('dotenv');
-const path = require('path');
-const Connectdb = require('./db');
+
 const registerRoutes = require('./routes/registerRoutes');
 const userRoutes = require('./routes/userRoutes'); // Import customer service routes
 const serviceTypeRoute = require('./routes/serviceRoute/serviceTypeRoute');
@@ -29,15 +39,7 @@ const adRoutes = require('./routes/AdRoute');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
 const sessionConfig = require('./config/session');
-dotenv.config();
-Connectdb();
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method')); // Allow PUT & DELETE via forms
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(sessionConfig); // Use session configuration from config/session.js
