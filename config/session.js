@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // MongoDB connection string
-const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/BEAUTYSALON';
+const mongoUrl = process.env.MONGO_URI;
 
 module.exports = session({
   secret: process.env.SESSION_SECRET || 'FlUXkohUpvPhohklu',
