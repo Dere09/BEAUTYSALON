@@ -12,4 +12,4 @@ services:
         value: production
       - key: MONGO_URI
         # Set your MongoDB connection string in Render dashboard
-        value: "mongodb://root:root@localhost:27017/beautysalon"
+        sync: false

@@ -3,6 +3,15 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const path = require('path');
+const fs = require('fs');
+
+// Ensure uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+    console.log('Created uploads directory');
+}
+
 const Connectdb = require('./db');
 dotenv.config();
 Connectdb();
