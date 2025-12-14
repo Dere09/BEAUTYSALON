@@ -10,11 +10,21 @@ exports.handleRegistration = async (req, res) => {
 
   if (!req.body) {
     console.error('CRITICAL: req.body is undefined!');
-    return res.status(500).send('Server Error: Request body is missing.');
+    console.error('Incoming Content-Type:', req.headers['content-type']); // Log the header!
+    // Attempt to salvage if it's just missing
+    req.body = {};
   }
 
   const { fullName, phone, regdate } = req.body;
-  const imagePath = req.file.path;
+
+  if (!req.file && !req.body.fullName) {
+    return res.status(400).send('Error: Request body and file are missing through the parser.');
+  }
+
+  const imagePath = req.file ? req.file.path : null;
+  if (!imagePath) {
+    return res.render('failure', { reason: 'Image upload failed or missing' });
+  }
 
   try {
     // OCR the uploaded image

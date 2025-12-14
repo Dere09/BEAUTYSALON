@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 const upload = multer({
-  storage, filefilter: (req, file, cb) => {
+  storage, fileFilter: (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
     }
@@ -22,8 +22,9 @@ router.get('/register', institutionController.getRegistrationPage);
 router.get('/', handleRegistration);
 
 router.post('/register', (req, res, next) => {
-  console.log('Parameters:', req.params);
-  console.log('Content-Type:', req.headers['content-type']);
+  console.log('--- Register Request Debug ---');
+  console.log('Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('--- End Debug ---');
   next();
 }, upload.single('receipt'), handleRegistration);
 router.get('/Customers', getAllCustomers);
