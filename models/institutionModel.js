@@ -1,11 +1,16 @@
-const mongodb=require('mongoose');
-const institutionSchema=new mongodb.Schema({
+const mongodb = require('mongoose');
+const institutionSchema = new mongodb.Schema({
     salon_id: {
         type: String,
         required: true,
         trim: true
     },
-    institutionName:{
+    institutionName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    institutionManager: {
         type: String,
         required: true,
         trim: true

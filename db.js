@@ -26,6 +26,18 @@ const Connectdb = async () => {
 
     });
     console.log('✅ MongoDB connected');
+
+    // Antigravity Fix: Drop legacy index if it exists to allow duplicates
+    try {
+      const collections = await mongoose.connection.db.listCollections({ name: 'users' }).toArray();
+      if (collections.length > 0) {
+        await mongoose.connection.db.collection('users').dropIndex('registrationId_1');
+        console.log('✅ Dropped legacy index: registrationId_1');
+      }
+    } catch (e) {
+      // Ignore error if index doesn't exist (code 27)
+      if (e.code !== 27) console.log('Notice: Could not drop registrationId_1 index (it might not exist):', e.message);
+    }
   } catch (err) {
     console.error('❌ DB connection failed:', err.message);
     process.exit(1);

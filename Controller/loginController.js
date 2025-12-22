@@ -84,7 +84,7 @@ exports.showResetPasswordForm = async (req, res) => {
         if (!user) {
             req.flash('error', 'User not found');
         }
-        res.render('reset-password', { user, error: '', success: '' });
+        res.render('reset-password', { user });
     }
     catch (error) {
         console.error('Error showing reset password form:', error);
@@ -95,32 +95,42 @@ exports.showResetPasswordForm = async (req, res) => {
 };
 // Handle the reset password form submission
 exports.resetPassword = async (req, res) => {
+    const { username } = req.params;
+    const { newPassword, confirmPassword } = req.body;
+
     try {
-        const { userid, newPassword } = req.body.username;
-        //validate the user ID
-        if (!userid || !newPassword) {
-            req.flash('error', 'User ID and new password are required');
-            //   return res.redirect('/userlist');
+        if (!newPassword || !confirmPassword) {
+            req.flash('error', 'All fields are required');
+            return res.redirect(`/reset-password/${username}`);
         }
+
+        if (newPassword !== confirmPassword) {
+            req.flash('error', 'Passwords do not match');
+            return res.redirect(`/reset-password/${username}`);
+        }
+
         if (newPassword.length < 6) {
             req.flash('error', 'Password must be at least 6 characters long');
-            //c return res.redirect('/userlist');
+            return res.redirect(`/reset-password/${username}`);
         }
-        // Find the user by ID
-        const user = await loginuser.findById(userid);
+
+        // Find the user by username
+        const user = await loginuser.findOne({ username });
         if (!user) {
             req.flash('error', 'User not found');
             return res.redirect('/userslist');
         }
+
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
         await user.save();
+
         req.flash('success', 'Password reset successfully');
         res.redirect('/userslist');
 
-    }
-    catch (error) {
+    } catch (error) {
+        console.error('Error resetting password:', error);
         req.flash('error', 'Error resetting password');
-        res.redirect('/userslist', { error: 'Error resetting password' });
+        res.redirect('/userslist');
     }
 };

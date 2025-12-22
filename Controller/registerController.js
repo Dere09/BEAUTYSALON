@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 const getNextRegistrationId = require('../utilities/getNextRegId');
 const fs = require('fs');
 const CustomerService = require('../models/customerService');
-
+const Institution = require('../models/institutionModel');
 exports.handleRegistration = async (req, res) => {
   console.log('Register Controller - Body:', req.body);
   console.log('Register Controller - File:', req.file);
@@ -15,7 +15,7 @@ exports.handleRegistration = async (req, res) => {
     req.body = {};
   }
 
-  const { fullName, phone, regdate } = req.body;
+  const { fullName, phone, regdate, salon_id } = req.body;
 
   if (!req.file && !req.body.fullName) {
     return res.status(400).send('Error: Request body and file are missing through the parser.');
@@ -38,9 +38,28 @@ exports.handleRegistration = async (req, res) => {
     const year = today.getFullYear();
     const currentDate = `${year}/${month}/${day}`;
 
-    // Validate content
-    const isValid = text.includes('dereje endale dima') || text.includes(currentDate);
+    // Fetch institution manager name dynamically
+    let managerName = 'dereje endale dima'; // Default fallback
+    if (salon_id) {
+      const institution = await Institution.findOne({ salon_id: salon_id });
+      if (institution && institution.institutionManager) {
+        managerName = institution.institutionManager.toLowerCase();
+      }
+    }
 
+    // Validate content
+    // Normalize both for better matching (handle extra spaces/newlines)
+    const normalizedText = text.replace(/\s+/g, ' ').trim();
+    const normalizedManagerName = managerName.replace(/\s+/g, ' ').trim();
+
+    // Flexible date check (handles YYYY-MM-DD or YYYY/MM/DD)
+    const flexibleDateRegex = new RegExp(currentDate.replace(/\//g, '[-/]'));
+
+    // Validate content
+    const isValid = normalizedText.includes(normalizedManagerName) || flexibleDateRegex.test(text);
+
+    console.log('Manager Name (normalized):', normalizedManagerName);
+    console.log('OCR Text (normalized):', normalizedText.substring(0, 200) + '...');
     // Delete the file whether valid or not
     fs.unlink(imagePath, (err) => {
       if (err) console.error('File deletion failed:', err);
@@ -52,13 +71,20 @@ exports.handleRegistration = async (req, res) => {
         return res.render('failure', { reason: 'Phone already registered' + exists });
       }
       if (phone != null || fullName != null || regdate != null) {
-        const registrationId = await getNextRegistrationId();
+        // Ensure salon_id is present
+        if (!salon_id) {
+          return res.render('failure', { reason: 'Salon selection is required.' });
+        }
+
+        const registrationId = await getNextRegistrationId(salon_id);
 
         const user = await User.create({
           fullName,
           phone,
           regdate,
-          registrationId
+          registrationId,
+          salonId: salon_id,
+          regDateStr: `${year}-${month}-${day}` // Consistent with ID generation
         });
 
         return res.render('success', {
@@ -66,19 +92,24 @@ exports.handleRegistration = async (req, res) => {
           phone,
           registrationId
         });
+
       }
     }
     else {
       return res.render('failure', {
-        reason: `Receipt must include payee name and today's date (${currentDate})`
+        reason: `Receipt must include manager name (${managerName}) or today's date (${currentDate})`
       });
     }
   }
 
   catch (error) {
     // Ensure image is deleted in case of OCR error
+    // Ensure image is deleted in case of OCR error
     fs.unlink(imagePath, (err) => {
-      if (err) console.error('File deletion on error failed:', err);
+      // Ignore ENOENT (file already deleted), log other errors
+      if (err && err.code !== 'ENOENT') {
+        console.error('File deletion on error failed:', err);
+      }
     });
 
     console.error('OCR Error:', error);
@@ -112,6 +143,17 @@ exports.getAllCustomers = async (req, res) => {
     res.render('CustomerList', { registrations: activeCustomers });
   } catch (error) {
     console.error('Error fetching customers:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+exports.getAllInstitutions = async (req, res) => {
+  try {
+    const allInstitutions = await institutionmodel.find().sort({ createdAt: -1 }).lean();
+    res.render('registration', { institutions: allInstitutions });
+
+  }
+  catch (err) {
+    console.error('Error fetching institutions:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

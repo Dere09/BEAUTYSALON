@@ -1,19 +1,23 @@
 const instModel = require('../models/institutionModel');
-const getNextInstitutionId = require('../utilities/institutionNext');
+const { getNextInstitutionId, peekNextInstitutionId } = require('../utilities/institutionNext');
 
 // POST: Create Institution
 const createInstitution = async (req, res) => {
   try {
-    const { salon_id, institutionName, email, phone, address, status, pageFrom } = req.body;
+    const { salon_id, institutionName, institutionManager, email, phone, address, status, pageFrom } = req.body;
 
     // Validation
-    if (!institutionName || !email || !phone || !address) {
+    if (!institutionName || !email || !phone || !address || !institutionManager) {
       return res.status(400).json({ message: 'All fields are required' });
     }
-
+    await instModel.updateMany(
+      { institutionManager: { $exists: false } }, // only missing ones
+      { $set: { institutionManager: "" } }
+    );
     const newInstitution = new instModel({
-      salon_id: salon_id || await getNextInstitutionId(),
+      salon_id: await getNextInstitutionId(),
       institutionName,
+      institutionManager,
       email,
       phone,
       address,
@@ -27,8 +31,8 @@ const createInstitution = async (req, res) => {
     //    const institutions = await instModel.find({ status: 'active' }).sort({ institutionName: 1 });
     //   return res.redirect('/registration',institutions); // Let GET handle rendering
     // }
-    const getNextId= await getNextInstitutionId();
-    return res.redirect('/institution/create',getNextId); // Or wherever you list institutions
+    // Redirect to the list/form page after successful creation
+    return res.redirect('/Institution');
 
   } catch (error) {
     if (error.code === 11000) {
@@ -42,7 +46,7 @@ const createInstitution = async (req, res) => {
 // GET: Show Create Form
 const getCreateForm = async (req, res) => {
   try {
-    const getNextId = await getNextInstitutionId();
+    const getNextId = await peekNextInstitutionId();
     const institutions = await instModel.find().sort({ createdAt: -1 });
 
     // This is a GET request → req.body is undefined → don't check it
@@ -55,15 +59,15 @@ const getCreateForm = async (req, res) => {
 
 // GET: Registration Page (Populates the select dropdown)
 const getRegistrationPage = async (req, res) => {
-    try {
-        // Fetch only the list of institutions needed for the dropdown
-        const institutions = await instModel.find({ status: 'Active' }).sort({ institutionName: 1 });
-        // Pass the list to the view
-        res.render('registration', { institutions });
-    } catch (error) {
-        console.error('Get registration page error:', error);
-        res.status(500).send('Server error.');
-    }
+  try {
+    // Fetch only the list of institutions needed for the dropdown
+    const institutions = await instModel.find({ status: 'Active' }).sort({ institutionName: 1 });
+    // Pass the list to the view
+    res.render('registration', { institutions });
+  } catch (error) {
+    console.error('Get registration page error:', error);
+    res.status(500).send('Server error.');
+  }
 };
 
 module.exports = {

@@ -1,393 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Beauty Salon</title>
+<%- include('partials/header', { title: 'Customer List' , navActive: 'dashboard' }) %>
+  <%- include('partials/sidebar', { path: '/dashboard' }) %>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+    <div class="main-content">
+      <style>
+        /* Card Container */
+        .cards {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          justify-content: flex-start;
+          max-height: 600px;
+          overflow-y: auto;
+          padding: 15px;
+          border: 1px solid #eee;
+          border-radius: 12px;
+          background: white;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        .customer-card {
+          background: white;
+          border-radius: 12px;
+          padding: 20px;
+          width: 220px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          text-decoration: none;
+          color: inherit;
+          border: 1px solid transparent;
+        }
 
-  <style>
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+        .customer-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          border-color: #cc3366;
+          background-color: #fdfdfd;
+        }
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: #fff5f8;
-  color: #333;
-}
+        .customer-card .icon {
+          font-size: 40px;
+          color: #cc3366;
+          margin-bottom: 15px;
+        }
 
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+        .customer-card p {
+          font-size: 14px;
+          margin: 5px 0;
+        }
 
-.spacer {
-  height: 100px;
-}
+        .highlight {
+          font-weight: 600;
+          color: #cc3366;
+        }
 
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  color: #cc3366;
-}
+        h2 {
+          font-family: 'Playfair Display', serif;
+          color: #cc3366;
+          margin-bottom: 30px;
+          text-align: center;
+        }
 
-.search-profile {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
+        /* Scrollbar styling */
+        .cards::-webkit-scrollbar {
+          width: 8px;
+        }
 
-.search-profile input {
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
+        .cards::-webkit-scrollbar-thumb {
+          background-color: #ddd;
+          border-radius: 10px;
+        }
 
-.profile-dropdown {
-  position: relative;
-  display: inline-block;
-}
+        .cards::-webkit-scrollbar-track {
+          background-color: #f9f9f9;
+        }
 
-.profile-dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  right: 0;
-  min-width: 120px;
-  z-index: 1;
-  border-radius: 8px;
-}
+        @media (max-width: 768px) {
+          .customer-card {
+            width: 100%;
+            max-width: 320px;
+          }
 
-.profile-dropdown-content a {
-  color: #333;
-  padding: 10px 15px;
-  text-decoration: none;
-  display: block;
-}
+          .cards {
+            justify-content: center;
+            max-height: none;
+          }
+        }
+      </style>
 
-.profile-dropdown-content a:hover {
-  background-color: #f2f2f2;
-}
+      <h2><i class="fas fa-users"></i> Registered and Waiting Clients</h2>
 
-.profile-dropdown:hover .profile-dropdown-content {
-  display: block;
-}
-
-.container {
-  max-width: 1300px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-h2 {
-  font-family: 'Playfair Display', serif;
-  color: #e91e63;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
-  max-height: 600px;
-  overflow-y: auto;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-}
-
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 15px;
-  width: 220px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  background-color: #f0f0f0;
-  box-shadow: 0 0 10px #cccccc;
-}
-
-.card .icon {
-  font-size: 30px;
-  color: #cc3366;
-  margin-bottom: 10px;
-}
-
-.card p {
-  font-size: 14px;
-  margin: 4px 0;
-}
-
-.highlight {
-  font-weight: bold;
-  color: #cc3366;
-}
-
-.card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.back-link {
-  display: block;
-  margin: 40px auto 0;
-  text-align: center;
-  text-decoration: none;
-  color: white;
-  background-color: #e91e63;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  width: fit-content;
-}
-
-.back-link:hover {
-  background-color: #d81b60;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  padding: 30px 10px;
-  background-color: #b4afaf;
-  border-top: 1px solid #ddd;
-}
-
-.socials-footer a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #cc3366;
-  font-size: 20px;
-}
-
-@media (max-width: 768px) {
-  .card {
-    width: 100%;
-  }
-}
-
-/* Optional: Scrollbar styling */
-.cards::-webkit-scrollbar {
-  width: 8px;
-}
-
-.cards::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-thumb:hover {
-  background-color: #b0b0b0;
-
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-}
-.cards::-webkit-scrollbar-thumb:active {
-  background-color: #999;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-corner {
-  background-color: transparent;
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-} 
-.cards::-webkit-scrollbar-button:single-button {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:hover {
-  background-color: #e0e0e0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:active {
-  background-color: #d0d0d0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:vertical {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal:hover {
-  background-color: #e0e0e0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal:active {
-  background-color: #d0d0d0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:vertical:hover {
-  background-color: #e0e0e0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:vertical:active {
-  background-color: #d0d0d0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-  border-radius: 4px;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal:decrement {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal:increment {
-  display: none;
-  width: 0;
-  height: 0;
-
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:vertical:decrement {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:vertical:increment {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  background-color: transparent;
-}
-.cards::-webkit-scrollbar-button:single-button:horizontal:decrement:hover {
-  background-color: #e0e0e0;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-  border-radius: 4px;
-}
-  </style>
-</head>
-<body>
-
-  <!-- Header -->
-  <header>
-    <div class="logo">Dashboard</div>
-    <div class="search-profile">
-      <input type="text" placeholder="Search client..." />
-      <div class="profile-dropdown">
-        <i class="fas fa-user-circle fa-2x"></i>
-        <div class="profile-dropdown-content">
-          <a href="/profile">Profile</a>
-          <a href="/logout">Logout</a>
+      <% if (registrations.length===0) { %>
+        <div class="content-box" style="text-align: center; padding: 50px;">
+          <i class="fas fa-user-slash fa-3x" style="color: #ddd; margin-bottom: 20px;"></i>
+          <p>No registrations found.</p>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="spacer"></div>
-
-  <!-- Dashboard Cards -->
-  <div class="container" >
-    <h2><i class="fas fa-users"></i> Registered and Waiting Clients</h2>
-
-    <% if (registrations.length === 0) { %>
-      <p style="text-align: center;">No registrations found.</p>
-    <% } else { %>
-      <div class="cards">
-        <% registrations.forEach(reg => { %>
-        <a href="/serviceoffer/<%=reg.registrationId %>" class="card-link">
-          <div class="card">
-            <div class="icon"><i class="fas fa-user"></i></div>
-            <p><span class="highlight">Name:</span><br> <%= reg.fullName %></p>
-            <p><span class="highlight">Phone:</span><br> <%= reg.phone %></p>
-            <p><span class="highlight">Reg ID:</span><br> <%= reg.registrationId %></p>
-            <p><span class="highlight">Date:</span><br> <%= new Date(reg.regdate).toLocaleDateString() %></p>
+        <% } else { %>
+          <div class="cards">
+            <% registrations.forEach(reg=> { %>
+              <a href="/serviceoffer/<%= reg.registrationId %>" class="customer-card">
+                <div class="icon"><i class="fas fa-user-circle"></i></div>
+                <p><span class="highlight">Name:</span><br>
+                  <%= reg.fullName %>
+                </p>
+                <p><span class="highlight">Phone:</span><br>
+                  <%= reg.phone %>
+                </p>
+                <p><span class="highlight">Reg ID:</span><br>
+                  <%= reg.registrationId %>
+                </p>
+                <p><span class="highlight">Date:</span><br>
+                  <%= new Date(reg.regdate).toLocaleDateString() %>
+                </p>
+              </a>
+              <% }) %>
           </div>
-        </a>
-      <% }) %>
-      </div>
-    <% } %>
-
-  </div>
-  <!-- Footer -->
-  <footer>
-    <div>© 2025 Bisrat Professional Beauty Salon. All rights reserved.</div>
-    <div class="socials-footer">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-tiktok"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+          <% } %>
     </div>
-  </footer>
 
-</body>
-</html>
+    <%- include('partials/footer') %>

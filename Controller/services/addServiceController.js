@@ -42,7 +42,7 @@ const createService = async (req, res) => {
 
       insertions.push(savedEntry);
     }
-
+    await removeservice.deleteOne({ registrationId });
     // Fetch all saved records
     const allServices = await CustomerService.find({ 'status': { $ne: 'Completed' } }).lean();
 
@@ -62,13 +62,25 @@ const createService = async (req, res) => {
     });
 
     // Pass enhanced data to view
-    res.render('services/listofservice', { savedServices: servicesWithPercent });
+    // res.render('services/listofservice', { savedServices: servicesWithPercent });
+    res.redirect('/SericeOffered');
 
   } catch (error) {
     console.error('Error submitting services:', error);
     res.status(500).send('Server error');
   }
 };
+
+const getServiceList = async (req, res) => {
+  try {
+    const savedServices = await getAllServiceOffered();
+    res.render('services/listofservice', { savedServices });
+  } catch (err) {
+    console.error('Error getting service list:', err);
+    res.status(500).send('Server Error');
+  }
+}
+
 const assignedemployee = async (req, res) => {
   try {
     const savedServices = await CustomerService.find(); // get all services, no duplicates
@@ -85,29 +97,31 @@ const assignedemployee = async (req, res) => {
 // UPDATE service serviceOffId, serviceName, status, Amount,registrationId
 const updateService = async (req, res) => {
   try {
-    const serviceOffId = req.params.id;
-    const { serviceName, status, Amount } = req.body;
-    const registrationId = req.body.registrationId;
-    const deleteService = await removeservice.findOneAndDelete({ registrationId: registrationId });
-    // if (!deleteService) {
-    //   return res.status(404).json({ message: 'Service not found' });
-    // }
-    // else {
+    const serviceOffIdInUrl = req.params.id;
+    const { status, serviceName, Amount } = req.body;
+
+    // Build update object based on what's provided
+    const updateData = { updatedAt: Date.now() };
+    if (status) updateData.status = status;
+    if (serviceName) updateData.serviceName = serviceName;
+    if (Amount) updateData.servicePrice = Amount;
+
     const updatedService = await CustomerService.findOneAndUpdate(
-      { serviceOffID: serviceOffId },
-      { serviceName, status, servicePrice: Amount, updatedAt: Date.now() },
+      { serviceOffID: serviceOffIdInUrl },
+      updateData,
       { new: true }
     );
+
     if (!updatedService) {
+      console.log(`Service with ID ${serviceOffIdInUrl} not found`);
       return res.status(404).json({ message: 'Service not found' });
     }
-    const savedServices = await getAllServiceOffered();
-    res.render('services/listofservice', { savedServices });
-    // }
+
+    res.redirect('/SericeOffered');
 
   } catch (error) {
-    console.error('Error updating service:', error);
-    res.status(400).json({ message: 'Bad Request', error });
+    console.error('Error updating service status:', error);
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 };
 
@@ -115,5 +129,6 @@ const updateService = async (req, res) => {
 module.exports = {
   createService,
   updateService,
-  assignedemployee
+  assignedemployee,
+  getServiceList
 };

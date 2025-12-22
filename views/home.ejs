@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beauty Salon - Home</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
-<link href="/css/menu.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap"
+    rel="stylesheet">
+  <link href="/css/menu.css" rel="stylesheet">
   <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-L+F8hl8..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-L+F8hl8..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     * {
@@ -19,11 +22,11 @@
     }
 
     body {
-  font-family: var(--font-main);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.6;
-  padding: var(--spacing);
+      font-family: var(--font-main);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      padding: var(--spacing);
     }
 
     header {
@@ -32,7 +35,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 50px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     header .logo {
@@ -83,7 +86,7 @@
       padding: 20px;
       margin: 20px auto;
       text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
       border: 2px solid #e8eaf6;
       max-width: 1000px;
       transition: all 0.3s ease;
@@ -91,7 +94,7 @@
 
     .ad-banner:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
     }
 
     .ad-banner h3 {
@@ -129,7 +132,7 @@
       background: white;
       border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
       margin: 20px 0;
       max-width: 300px;
       text-align: center;
@@ -191,9 +194,10 @@
       padding: 12px 16px;
       border-radius: 10px;
       max-width: 240px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       font-size: 14px;
     }
+
     .features {
       display: flex;
       padding: 60px;
@@ -223,86 +227,146 @@
 
     .feature-item:hover {
       background: #fff0f7;
-    } 
+    }
 
     .feature-image {
-     /*  flex: 1;
+      /*  flex: 1;
       align-items:center; */
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
-    gap: 20px; /* space between items */
-    align-items: start;
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* Two equal-width columns */
+      gap: 20px;
+      /* space between items */
+      align-items: start;
     }
 
     .feature-image img {
       width: 100%;
       border-radius: 20px;
-    } 
+    }
 
-     footer {
+    footer {
       text-align: center;
       padding: 30px 10px;
       background-color: #b4afaf;
       border-top: 1px solid #ddd;
       margin-top: 50px;
-    } 
+    }
+
     .socials-footer a {
       margin: 0 10px;
       text-decoration: none;
       color: #cc3366;
       font-size: 20px;
     }
-    .cylinder{
+
+    .cylinder {
       height: 50px;
       width: 500px;
-      background:linear-gradient(to right, 204,204,204,0);
+      background: linear-gradient(to right, 204, 204, 204, 0);
       border-radius: 50px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-      border-width:1px solid #cebaba;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+      border-width: 1px solid #cebaba;
       padding-top: 10px;
       padding-left: 40px;
-      
+
     }
-    .cylinder{
+
+    .cylinder {
       transition: transform 0.3 ease;
-      transform: scale(1);/*default zoom in*/
+      transform: scale(1);
+      /*default zoom in*/
     }
-    .cylinder:hover{
-      transform: scale(0.9); /*zoom-out on hover*/
+
+    .cylinder:hover {
+      transform: scale(0.9);
+      /*zoom-out on hover*/
     }
-    .column{
+
+    .column {
       flex: 1;
     }
-    a{
+
+    a {
       text-decoration: none;
       font-family: var(--font-main);
       color: white;
     }
 
     /* Responsive Design for Ads */
+    /* Responsive Design Improvements */
     @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        height: auto;
+        padding: 40px 20px;
+        background-position: top;
+      }
+
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .hero-content h1 {
+        font-size: 32px;
+      }
+
+      .features {
+        flex-direction: column;
+        padding: 30px 20px;
+      }
+
+      .feature-image {
+        grid-template-columns: 1fr;
+      }
+
+      .cylinder {
+        width: 100%;
+        padding-left: 20px;
+      }
+
       .ad-banner {
         margin: 10px;
         padding: 15px;
       }
-      
+
       .sidebar-ad {
         max-width: 100%;
         margin: 10px auto;
       }
+
+      .split-ads {
+        flex-direction: column;
+        padding: 0 20px !important;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
   <header>
-    <div class="logo">Logo</div>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo" width="73" height="73">
+    </div>
     <nav>
       <a href="#">Home</a>
       <a href="#">About</a>
-      <a href="registration">ፀጉር ቤት ቀጠሮ(Booking)</a>
+      <a href="registration">ፀጉር ቤት ወረፋ(Booking)</a>
       <a href="gallery">Gallery</a>
       <a href="#">Contact</a>
     </nav>
@@ -316,10 +380,10 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Where Beauty Meets Serenity</h1>
+      <h1>Look Good, Book Easy</h1>
       <p>Where calm meets care — a beauty journey tailored to you with elegance, passion, and serenity.</p>
       <button>
-      <a href="registration" >Booking Now(ቀጠሮ ማስቀጠር)</a></button>
+        <a href="registration">Booking Now(ቀጠሮ ማስቀጠር)</a></button>
     </div>
     <!-- <div class="floating-cards">
       <div>🌸 Custom Services, Your Way</div>
@@ -329,24 +393,15 @@
   </section>
 
   <!-- MID-PAGE ADVERTISEMENT (SPLIT) -->
-  <div style="display: flex; justify-content: space-between; padding: 0 60px; max-width: 1400px; margin: 0 auto; gap: 30px;">
-    <!-- Left Sidebar Ad 
-    <div class="sidebar-ad">
-      <img src="https://www.freepik.com/free-photo/female-model-with-flowers-her-face_7412646.htm#fromView=search&page=1&position=8&uuid=32686645-e57d-4e8a-b22b-182c6bfa5e1c&query=beauty" alt="Advertisement">
-      <h4 style="color: #cc3366; margin: 10px 0 5px 0;">Beauty Essentials</h4>
-      <p style="font-size: 14px; color: #666;">Premium hair & skin care</p>
-      <a href="#" class="ad-btn" style="padding: 8px 16px; font-size: 14px;">View Deals</a>
-    </div>-->
-
-    <!-- Right Main Banner Ad -->
-    <div class="ad-banner" style="flex: 2; margin: 0;">
-      <h3>💎 <i class="fas fa-gem"></i> PARTNER: Luxury Spa Experience</h3>
-      <p>Book a VIP spa day with our trusted partners and get complimentary treatments!</p>
-      <a href="#" class="ad-btn">Book VIP Spa <i class="fas fa-spa"></i></a>
-    </div>
+  <!-- Right Main Banner Ad -->
+  <div class="ad-banner" style="flex: 2; margin: 0;">
+    <h3>💎 <i class="fas fa-gem"></i> PARTNER: Luxury Spa Experience</h3>
+    <p>Book Beauty & Barber, Anytime, Anywhere</p>
+    <a href="#" class="ad-btn">Book VIP Spa <i class="fas fa-spa"></i></a>
+  </div>
   </div>
 
-  <!-- Features Section feature-item feature-image --> 
+  <!-- Features Section feature-item feature-image -->
   <section class="features">
     <div class="feature-list">
       <h2>Only Here, Only With Us</h2>
@@ -354,26 +409,26 @@
       <div class="cylinder">Local Living Encounters - Culture, beauty & you</div><br>
       <div class="cylinder">Sunrise Awakening Rituals - Herbal tea & guided calm</div>
     </div>
-<div class="feature-image">
-<h2 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Hair Services</h2>
+    <div class="feature-image">
+      <h2 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Hair Services</h2>
 
-<!-- Nail Services -->
-<h2 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h2>
+      <!-- Nail Services -->
+      <h2 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h2>
 
-<!-- Facial & Skin Care -->
-<h2 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Facial & Skin Care</h2>
+      <!-- Facial & Skin Care -->
+      <h2 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Facial & Skin Care</h2>
 
-<!-- Body Care -->
-<h2 style="color: #8FBC8F;" ><i class="fa-solid fa-hands-bubbles"></i> Body Care</h2>
+      <!-- Body Care -->
+      <h2 style="color: #8FBC8F;"><i class="fa-solid fa-hands-bubbles"></i> Body Care</h2>
 
-<!-- Makeup Services -->
-<h2 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h2>
+      <!-- Makeup Services -->
+      <h2 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h2>
 
-<!-- Eye & Brow Services -->
-<h2 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h2>
+      <!-- Eye & Brow Services -->
+      <h2 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h2>
 
-<!-- Special Services -->
-<h2 style="color: #A0522D;"><i class="fa-solid fa-gem"></i> Special Services</h2>
+      <!-- Special Services -->
+      <h2 style="color: #A0522D;"><i class="fa-solid fa-gem"></i> Special Services</h2>
     </div>
   </section>
 
@@ -387,7 +442,7 @@
 
   <!-- Footer -->
   <footer>
-    <div>© 2025 Bisrat Professional Beauty Salon. All rights reserved.</div>
+    <div>© 2025 MDF Professional Beauty Salons. All rights reserved.</div>
     <div class="socials-footer">
       <a href="#"><i class="fab fa-facebook-f"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
@@ -397,4 +452,5 @@
   </footer>
 
 </body>
+
 </html>

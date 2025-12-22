@@ -1,0 +1,28 @@
+<div class="sidebar">
+        <h2>🌸 BisratBs</h2>
+        <ul>
+                <li><a href="/dashboard" class="<%= path === '/dashboard' ? 'active' : '' %>"><i
+                                        class="fas fa-border-all"></i>
+                                Dashboard</a></li>
+                <li><a href="/userslist" class="<%= path === '/userslist' ? 'active' : '' %>"><i
+                                        class="fas fa-users-line"></i>
+                                User List</a></li>
+                <li><a href="/createUser" class="<%= path === '/createUser' ? 'active' : '' %>"><i
+                                        class="fas fa-user-plus"></i>
+                                Add New User</a></li>
+                <li><a href="/service" class="<%= path === '/service' ? 'active' : '' %>"><i class="fas fa-spa"></i>
+                                Service
+                                Offered</a></li>
+                <!-- Note: this link was /service in dashboard but /createServiceType in listofservice ?? -->
+                <li><a href="/reset-password/exampleUserId"
+                                class="<%= path && path.includes('/reset-password') ? 'active' : '' %>"><i
+                                        class="fas fa-unlock-alt"></i> Reset Password</a></li>
+                <li><a href="/Institution" class="<%= path === '/Institution' ? 'active' : '' %>"><i
+                                        class="fas fa-building"></i>
+                                Add Institution</a></li>
+                <li><a href="/services/createServiceType"
+                                class="<%= path === '/services/createServiceType' ? 'active' : '' %>"><i
+                                        class="fas fa-wand-magic-sparkles"></i> Manage Services</a></li>
+                <li><a href="/logout"><i class="fas fa-right-from-bracket"></i> Sign Out</a></li>
+        </ul>
+</div>

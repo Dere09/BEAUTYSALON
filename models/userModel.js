@@ -19,13 +19,26 @@ const userSchema = new mongoose.Schema({
   },
   registrationId: {
     type: String,
-    required: true,
-    unique: true
+    required: true
+    // unique: true // Removed global uniqueness
+  },
+  salonId: {
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  regDateStr: {
+    type: String, // YYYY-MM-DD
+    required: true
   }
 });
+
+// Enforce compound uniqueness per Salon + Date
+// Dropping previous index is handled by MongoDB usually if name implies, but best to be safe.
+// Note: If you have existing data without regDateStr, this strict index might fail on creation.
+userSchema.index({ salonId: 1, registrationId: 1, regDateStr: 1 }, { unique: true });
 
 module.exports = mongoose.model('User', userSchema);

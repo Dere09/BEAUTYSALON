@@ -6,8 +6,9 @@ router.post('/service', serviceAddController.createService);
 // Get all services
 //router.get('/:id', serviceAddController.getServiceById);
 router.get('/employee-counts', serviceAddController.assignedemployee);
-// Update a service
-router.put('/editUser/:id', serviceAddController.updateService);
-router.post('/editUser/:id', serviceAddController.updateService);
+// Update a service status
+router.put('/editServiceStatus/:id', serviceAddController.updateService);
+router.post('/editServiceStatus/:id', serviceAddController.updateService);
 //router.get('/services', serviceAddController.getAllServiceOffered);
+router.get('/SericeOffered', serviceAddController.getServiceList);
 module.exports = router;

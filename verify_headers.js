@@ -3,8 +3,8 @@ const querystring = require('querystring');
 
 // 1. Login to get session cookie
 const postData = querystring.stringify({
-    username: 'verifyUser',
-    password: 'verifyPass123'
+    username: process.env.USER_NAME,
+    password: process.env.USER_PASSWORD
 });
 
 const options = {

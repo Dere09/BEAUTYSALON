@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const path = require('path');
 const fs = require('fs');
+const flash = require('connect-flash');
 
 // Ensure uploads directory exists
 const uploadDir = path.join(__dirname, 'uploads');
@@ -18,8 +19,9 @@ Connectdb();
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-
+app.use(flash());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 // Global error handlers to capture crashes during startup/runtime
@@ -52,6 +54,12 @@ const sessionConfig = require('./config/session');
 app.use(methodOverride('_method')); // Allow PUT & DELETE via forms
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(sessionConfig); // Use session configuration from config/session.js
+app.use((req, res, next) => {
+    res.locals.path = req.path;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    next();
+});
 app.use('/', authRoutes);
 app.use('/', servicesRoutes);
 app.use('/', registerRoutes);
@@ -73,7 +81,7 @@ app.get('/registration', authMiddleware, institutionController.getRegistrationPa
 app.get('/home', (req, res) => {
     res.render('home');
 });
-app.get('/gallery', (req, res) => {
+app.get('/gallery', authMiddleware, (req, res) => {
     res.render('gallery');
 })
 
@@ -100,9 +108,9 @@ app.get(['/Advertisement', '/advertisement', '/Ads-Manager', '/Ads-Manager'], au
 app.get('/services/createServiceType', authMiddleware, (req, res) => {
     res.render('services/createServiceType'); // Render the create service type view
 });
-app.get('/SericeOffered', authMiddleware, (req, res) => {
-    res.render('services/listofservice'); // Render the list of services view
-});
+// app.get('/SericeOffered', authMiddleware, (req, res) => {
+//     res.render('services/listofservice'); // Moved to serviceAddRoute
+// });
 app.use('/Institution', instrouter);
 app.get('/Institution', authMiddleware, institutionController.getCreateForm);
 
