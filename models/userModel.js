@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
   regDateStr: {
     type: String, // YYYY-MM-DD
     required: true
+  },
+  queueNumber: {
+    type: Number,
+    required: false // Optional if not all users have one, but we'll set it in controller
   }
 });
 

@@ -10,5 +10,6 @@ router.get('/employee-counts', serviceAddController.assignedemployee);
 router.put('/editServiceStatus/:id', serviceAddController.updateService);
 router.post('/editServiceStatus/:id', serviceAddController.updateService);
 //router.get('/services', serviceAddController.getAllServiceOffered);
+router.post('/batchUpdateStatus', serviceAddController.batchUpdateStatus);
 router.get('/SericeOffered', serviceAddController.getServiceList);
 module.exports = router;

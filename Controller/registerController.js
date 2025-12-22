@@ -77,6 +77,24 @@ exports.handleRegistration = async (req, res) => {
         }
 
         const registrationId = await getNextRegistrationId(salon_id);
+        const todayStr = `${year}-${month}-${day}`;
+
+        // Queue Calculation Logic: (Active Customers registered today) + 1
+        // 1. Get all users registered today for this salon
+        const todayUsers = await User.find({ salonId: salon_id, regDateStr: todayStr }).lean();
+
+        // 2. Get all service records for these users
+        const todayRegIds = todayUsers.map(u => u.registrationId);
+        const todayServices = await CustomerService.find({ registrationId: { $in: todayRegIds } }).lean();
+
+        // 3. Determine how many are "Active"
+        const activeUsersCount = todayUsers.filter(user => {
+          const userServices = todayServices.filter(s => s.registrationId === user.registrationId);
+          // Active if: No services yet OR at least one service is NOT 'Completed'
+          return userServices.length === 0 || userServices.some(s => s.status !== 'Completed');
+        }).length;
+
+        const queueNumber = activeUsersCount + 1;
 
         const user = await User.create({
           fullName,
@@ -84,13 +102,15 @@ exports.handleRegistration = async (req, res) => {
           regdate,
           registrationId,
           salonId: salon_id,
-          regDateStr: `${year}-${month}-${day}` // Consistent with ID generation
+          regDateStr: todayStr,
+          queueNumber: queueNumber
         });
 
         return res.render('success', {
           name: fullName,
           phone,
-          registrationId
+          registrationId,
+          queueNumber: queueNumber
         });
 
       }

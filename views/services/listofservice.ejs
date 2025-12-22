@@ -96,16 +96,63 @@
           margin-top: 10px;
           cursor: pointer;
         }
+
+        /* Standard Pagination Styles */
+        .pagination-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px solid #f0f0f0;
+        }
+
+        .pagination-controls {
+          display: flex;
+          gap: 8px;
+        }
+
+        .pagination-btn {
+          text-decoration: none;
+          padding: 8px 16px;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          color: #555;
+          background: white;
+          transition: all 0.2s;
+          font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .pagination-btn:hover {
+          background-color: #fff5f8;
+          border-color: #cc3366;
+          color: #cc3366;
+        }
+
+        .pagination-btn.active {
+          background-color: #cc3366;
+          border-color: #cc3366;
+          color: white;
+        }
       </style>
 
-      <div class="container">
-        <a class="back-link" href="/Customers">&larr; Back to Customers</a>
+      <div class="container"
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a class="back-link" href="/Customers" style="margin-bottom: 0;">&larr; Back to Customers</a>
+        <button id="batchCompleteBtn" class="btn btn-primary"
+          style="display: none; background-color: #28a745; border: none; padding: 8px 16px; border-radius: 20px; color: white; font-weight: bold;">
+          <i class="fas fa-check-double"></i> Mark Selected as Completed
+        </button>
       </div>
 
       <div class="content-box">
         <table class="table-hover table-sm" id="servicesTable">
           <thead>
             <tr>
+              <th><input type="checkbox" id="selectAll"></th>
               <th>OfferID</th>
               <th>Service</th>
               <th>Price</th>
@@ -120,6 +167,9 @@
             <% function escapeQuote(str) { return str ? str.replace(/'/g, "\\'" ) : "" ; } %>
               <% savedServices.forEach(function(lservice) { %>
                 <tr>
+                  <td>
+                    <input type="checkbox" class="service-checkbox" value="<%= lservice.serviceOffID %>">
+                  </td>
                   <td>
                     <%= lservice.serviceOffID %>
                   </td>
@@ -144,19 +194,57 @@
                     </span>
                   </td>
                   <td class="actions">
-                    <a onclick="openEditModal('<%= lservice.serviceOffID %>', '<%= escapeQuote(lservice.serviceName) %>', '<%= lservice.status %>', '<%= lservice.servicePrice %>')"
-                      title="Edit Status">
-                      <i class="fas fa-edit" style="color:#ffc107;"></i>
-                    </a>
+                    <% if (lservice.status !=='Completed' ) { %>
+                      <form action="/editServiceStatus/<%= lservice.serviceOffID %>" method="POST"
+                        style="display: inline;">
+                        <input type="hidden" name="status" value="Completed">
+                        <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;"
+                          title="Mark as Completed">
+                          <i class="fas fa-check-circle" style="color:#28a745;"></i>
+                        </button>
+                      </form>
+                      <% } %>
+                        <a onclick="openEditModal('<%= lservice.serviceOffID %>', '<%= escapeQuote(lservice.serviceName) %>', '<%= lservice.status %>', '<%= lservice.servicePrice %>')"
+                          title="Edit Status">
+                          <i class="fas fa-edit" style="color:#ffc107;"></i>
+                        </a>
                   </td>
                 </tr>
                 <% }); %>
           </tbody>
         </table>
 
-        <nav aria-label="Page navigation" style="margin-top: 20px;">
-          <ul class="pagination justify-content-center" id="pagination"></ul>
-        </nav>
+        <!-- Standard Pagination -->
+        <% if (totalPages> 0) { %>
+          <div class="pagination-container">
+            <span style="color: #666; font-size: 14px;">
+              Showing page <strong>
+                <%= currentPage %>
+              </strong> of <strong>
+                <%= totalPages %>
+              </strong>
+            </span>
+            <div class="pagination-controls">
+              <% if (currentPage> 1) { %>
+                <a href="?page=<%= currentPage - 1 %>" class="pagination-btn">
+                  <i class="fas fa-chevron-left"></i> Previous
+                </a>
+                <% } %>
+
+                  <% for(let i=1; i <=totalPages; i++) { %>
+                    <a href="?page=<%= i %>" class="pagination-btn <%= currentPage === i ? 'active' : '' %>">
+                      <%= i %>
+                    </a>
+                    <% } %>
+
+                      <% if (currentPage < totalPages) { %>
+                        <a href="?page=<%= currentPage + 1 %>" class="pagination-btn">
+                          Next <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <% } %>
+            </div>
+          </div>
+          <% } %>
       </div>
     </div>
 
@@ -199,36 +287,52 @@
         }
       });
 
-      // Pagination script
-      const rowsPerPage = 10;
-      const rows = document.querySelectorAll("#servicesTable tbody tr");
-      const pagination = document.getElementById("pagination");
+      // Batch Selection Script
+      const selectAll = document.getElementById('selectAll');
+      const checkboxes = document.querySelectorAll('.service-checkbox');
+      const batchBtn = document.getElementById('batchCompleteBtn');
 
-      function showPage(page) {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
+      function updateBatchBtn() {
+        const checkedCount = document.querySelectorAll('.service-checkbox:checked').length;
+        batchBtn.style.display = checkedCount > 0 ? 'inline-block' : 'none';
+      }
 
-        rows.forEach((row, index) => {
-          row.style.display = (index >= start && index < end) ? "" : "none";
-        });
+      selectAll.addEventListener('change', function () {
+        checkboxes.forEach(cb => cb.checked = this.checked);
+        updateBatchBtn();
+      });
 
-        pagination.innerHTML = "";
-        const pageCount = Math.ceil(rows.length / rowsPerPage);
-        for (let i = 1; i <= pageCount; i++) {
-          const li = document.createElement("li");
-          li.className = "page-item" + (i === page ? " active" : "");
-          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-          li.addEventListener("click", function (e) {
-            e.preventDefault();
-            showPage(i);
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateBatchBtn);
+      });
+
+      batchBtn.addEventListener('click', function () {
+        const selectedIDs = Array.from(document.querySelectorAll('.service-checkbox:checked')).map(cb => cb.value);
+        if (selectedIDs.length === 0) return;
+
+        if (confirm(`Mark ${selectedIDs.length} services as Completed?`)) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/batchUpdateStatus';
+
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'serviceOffIDs';
+          input.value = JSON.stringify(selectedIDs); // Send as stringified array or multiple inputs
+
+          // Actually, let's send multiple hidden inputs for better express handling
+          selectedIDs.forEach(id => {
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'serviceOffIDs[]';
+            idInput.value = id;
+            form.appendChild(idInput);
           });
-          pagination.appendChild(li);
-        }
-      }
 
-      if (rows.length > 0) {
-        showPage(1);
-      }
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
     </script>
 
     <%- include('../partials/footer') %>

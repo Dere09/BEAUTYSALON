@@ -73,8 +73,23 @@ const createService = async (req, res) => {
 
 const getServiceList = async (req, res) => {
   try {
-    const savedServices = await getAllServiceOffered();
-    res.render('services/listofservice', { savedServices });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10; // Items per page
+    const skip = (page - 1) * limit;
+
+    const allServicesEnhanced = await getAllServiceOffered();
+    const totalServices = allServicesEnhanced.length;
+    const totalPages = Math.ceil(totalServices / limit);
+
+    // Slice the enhanced array for pagination
+    const paginatedServices = allServicesEnhanced.slice(skip, skip + limit);
+
+    res.render('services/listofservice', {
+      savedServices: paginatedServices,
+      currentPage: page,
+      totalPages: totalPages,
+      totalServices: totalServices
+    });
   } catch (err) {
     console.error('Error getting service list:', err);
     res.status(500).send('Server Error');
@@ -95,33 +110,47 @@ const assignedemployee = async (req, res) => {
   }
 };
 // UPDATE service serviceOffId, serviceName, status, Amount,registrationId
+// UPDATE service status
 const updateService = async (req, res) => {
   try {
     const serviceOffIdInUrl = req.params.id;
-    const { status, serviceName, Amount } = req.body;
-
-    // Build update object based on what's provided
-    const updateData = { updatedAt: Date.now() };
-    if (status) updateData.status = status;
-    if (serviceName) updateData.serviceName = serviceName;
-    if (Amount) updateData.servicePrice = Amount;
+    const { status } = req.body;
 
     const updatedService = await CustomerService.findOneAndUpdate(
       { serviceOffID: serviceOffIdInUrl },
-      updateData,
+      { status: status || 'Completed', updatedAt: Date.now() },
       { new: true }
     );
 
     if (!updatedService) {
-      console.log(`Service with ID ${serviceOffIdInUrl} not found`);
       return res.status(404).json({ message: 'Service not found' });
     }
 
     res.redirect('/SericeOffered');
-
   } catch (error) {
     console.error('Error updating service status:', error);
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// BATCH UPDATE status to Completed
+const batchUpdateStatus = async (req, res) => {
+  try {
+    const { serviceOffIDs } = req.body;
+
+    if (!serviceOffIDs || !Array.isArray(serviceOffIDs)) {
+      return res.status(400).json({ message: 'No services selected' });
+    }
+
+    await CustomerService.updateMany(
+      { serviceOffID: { $in: serviceOffIDs } },
+      { status: 'Completed', updatedAt: Date.now() }
+    );
+
+    res.redirect('/SericeOffered');
+  } catch (error) {
+    console.error('Error in batch update:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -129,6 +158,7 @@ const updateService = async (req, res) => {
 module.exports = {
   createService,
   updateService,
+  batchUpdateStatus, // Add here
   assignedemployee,
   getServiceList
 };
