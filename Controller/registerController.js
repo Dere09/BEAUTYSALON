@@ -58,8 +58,8 @@ exports.handleRegistration = async (req, res) => {
     // Validate content
     const isValid = normalizedText.includes(normalizedManagerName) || flexibleDateRegex.test(text);
 
-    console.log('Manager Name (normalized):', normalizedManagerName);
-    console.log('OCR Text (normalized):', normalizedText.substring(0, 200) + '...');
+    // console.log('Manager Name (normalized):', normalizedManagerName);
+    // console.log('OCR Text (normalized):', normalizedText.substring(0, 200) + '...');
     // Delete the file whether valid or not
     fs.unlink(imagePath, (err) => {
       if (err) console.error('File deletion failed:', err);

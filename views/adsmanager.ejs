@@ -1,5 +1,8 @@
-<%- include('partials/header', { title: 'Ads Manager' , navActive: 'adsmanager' }) %>
-    <%- include('partials/sidebar', { path: '/ads-manager' }) %>
+<% const isEmbed = (typeof embed !== 'undefined' && embed); %>
+<%- include('partials/header', { title: 'Ads Manager' , navActive: 'adsmanager', hideMenu: isEmbed }) %>
+    <% if (!isEmbed) { %>
+        <%- include('partials/sidebar', { path: '/ads-manager' }) %>
+    <% } %>
 
         <div class="main-content">
             <style>
@@ -281,4 +284,6 @@
             loadAds();
         </script>
 
-        <%- include('partials/footer') %>
+        <% if (!isEmbed) { %>
+            <%- include('partials/footer') %>
+        <% } %>

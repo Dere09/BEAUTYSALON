@@ -1,0 +1,91 @@
+<%- include('partials/header', { title: 'About' , navActive: '' , hideMenu: true }) %>
+
+  <div class="main-content">
+    <style>
+      .success-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h2 {
+        font-family: 'Playfair Display', serif;
+        color: #e91e63;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+
+      .highlight {
+        font-weight: bold;
+        color: #cc3366;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: white;
+        background-color: #e91e63;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .back-link:hover {
+        background-color: #d81b60;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+      }
+      .under-construction {
+    max-width: 750px;
+    margin: 80px auto;
+    padding: 40px 40px 40px 60px; /* left margin inside */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.under-construction p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin: 0 0 25px 0; /* equal spacing between rows */
+    text-align: left;
+}
+
+.under-construction p:last-child {
+    margin-bottom: 0;
+}
+
+    </style>
+
+    <div class="success-container">
+      <h2>🎉 Online Queue System – Under Construction!</h2>
+      <p class="under-construction" style="text-align: left;">Thank you, <span class="highlight">
+        Welcome to our Online Queue System for Women’s Beauty Salon & Men’s Barbershop.
+We are currently working on our website to bring you a smooth and convenient way to join the queue online, save time, and enjoy better service.
+Our platform will be available soon with features designed to make your salon and barbershop experience faster and easier.
+Thank you for your patience
+        </p>
+      <p>We look forward to serving you very soon</p>
+      <a class="back-link" href="/register">Back to Register</a>
+    </div>
+  </div>
+
+  <script>
+    // Prevent back navigation to avoid resubmission
+    history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+  </script>
+
+  <%- include('partials/footer') %>

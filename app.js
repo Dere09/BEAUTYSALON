@@ -85,28 +85,30 @@ app.get('/gallery', authMiddleware, (req, res) => {
     res.render('gallery');
 })
 
-
 app.get('/dashboard', authMiddleware, (req, res) => {
     res.render('dashboard'); // Render the create user view
 });
 app.get('/serviceoffer', authMiddleware, (req, res) => {
     res.render('serviceoffer'); // Render the service offer view
 });
-
+app.get('/CustomerList', authMiddleware, (req, res) => {
+    res.redirect('/Customers');
+});
+app.get('/about',(req, res) =>{
+res.redirect('about');
+});
 app.get('/reset-password/:username', authMiddleware, (req, res) => {
     const userId = req.params.username;
     res.render('reset-password', { userId }); // Pass userId to the view
 });
-app.get('/adsmanager', authMiddleware, (req, res) => {
-    res.render('adsmanager'); // Render the advertisement view
+app.get(['/ads-manager', '/adsmanager'], authMiddleware, (req, res) => {
+    const embed = req.query && req.query.embed === '1';
+    res.render('adsmanager', { embed }); // Render the advertisement view
 });
 // Alias for older link casing/paths
 // Legacy aliases for Advertisement (case variants)
 app.get(['/Advertisement', '/advertisement', '/Ads-Manager', '/Ads-Manager'], authMiddleware, (req, res) => {
     res.render('adsmanager'); // Render the advertisement view (alias)
-});
-app.get('/services/createServiceType', authMiddleware, (req, res) => {
-    res.render('services/createServiceType'); // Render the create service type view
 });
 // app.get('/SericeOffered', authMiddleware, (req, res) => {
 //     res.render('services/listofservice'); // Moved to serviceAddRoute
