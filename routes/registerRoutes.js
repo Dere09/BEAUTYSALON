@@ -3,6 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 const { handleRegistration, getAllCustomers } = require('../Controller/registerController');
 const institutionController = require('../Controller/institutionController');
+const midleware = require('../middleware/authMiddleware');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
@@ -29,6 +30,6 @@ router.post('/register', (req, res, next) => {
   console.log('--- End Debug ---');
   next();
 }, upload.single('receipt'), handleRegistration);
-router.get('/Customers', getAllCustomers);
+router.get('/Customers', midleware, getAllCustomers);
 
 module.exports = router;
