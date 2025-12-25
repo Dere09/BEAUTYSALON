@@ -1,38 +1,48 @@
 const loginuser = require('../models/loginuser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Institution = require('../models/institutionModel');
 exports.CreateForms = async (req, res) => {
     try {
         const users = await loginuser.find().sort({ createdAt: -1 });
-        res.render('createUser', { users, error: '' });
+        const institutions = await Institution.find().sort({ createdAt: -1 });
+        res.render('createUser', { users, error: '', institutions });
     } catch (error) {
         console.error('Error fetching users:', error);
         res.render('createUser', { users: [], error: 'Error fetching users' });
     }
 };
+
 exports.CreateUser = async (req, res) => {
-    const { username, fullName, phone, password, role } = req.body;
+    const { username, fullName, phone, password, role, salon_id } = req.body;
     try {
+        if (!salon_id) {
+            const users = await loginuser.find().sort({ createdAt: -1 });
+            const institutions = await Institution.find().sort({ createdAt: -1 });
+            return res.status(400).render('createUser', { users, error: 'Institution is required', institutions });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new loginuser({
             username,
             fullName,
             phone,
             password: hashedPassword,
-            role: role || 'staff' // Default to 'staff' if role is not provided
+            role: role || 'staff', // Default to 'staff' if role is not provided
+            salonId: salon_id
         });
         await newUser.save();
         // Fetch all users after saving the new one
         const users = await loginuser.find().sort({ createdAt: -1 });
-        //    res.render('userslist', {users: newUser});
-        res.render('createUser', { users: [], error: 'Error fetching users' });
-
-    }
-    catch (error) {
+        const institutions = await Institution.find().sort({ createdAt: -1 });
+        return res.render('createUser', { users, error: '', institutions });
+    } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).send('Internal Server Error');
+        const users = await loginuser.find().sort({ createdAt: -1 });
+        const institutions = await Institution.find().sort({ createdAt: -1 });
+        return res.status(500).render('createUser', { users, error: 'Error creating user', institutions });
     }
 }
+
 exports.getAllUsers = async (req, res, next) => {
     try {
         const users = await loginuser.find().sort({ createdAt: -1 });

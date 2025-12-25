@@ -26,6 +26,10 @@ const customerServiceSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    createdByUserId: {
+        type: String,
+        required: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

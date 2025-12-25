@@ -62,6 +62,12 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+    res.locals.currentUser = req.session && req.session.user ? req.session.user : null;
+    res.locals.isAuthenticated = Boolean(req.session && req.session.user);
+    next();
+});
+
+app.use((req, res, next) => {
     const publicPrefixes = ['/css', '/js', '/images', '/public', '/uploads', '/favicon.ico'];
     const isStatic = publicPrefixes.some((p) => req.path === p || req.path.startsWith(p + '/'));
     if (isStatic) return next();

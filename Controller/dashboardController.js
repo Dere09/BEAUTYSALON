@@ -9,18 +9,18 @@ const dailyServiceReport = async (req, res) => {
 
     // Total revenue from completed services
     // Get today's date
-const todays = new Date();
+    const todays = new Date();
 
-// Calculate the date 6 months ago
-const sixMonthsAgo = new Date();
-sixMonthsAgo.setMonth(todays.getMonth() - 6);
+    // Calculate the date 6 months ago
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(todays.getMonth() - 6);
     const monthlyRevenueAgg = await CustomerService.aggregate([
       {
         $match: {
           status: "Completed",
           updatedAt: {
-             $gte: sixMonthsAgo, // from 6 months ago
-             $lte: todays, // 1st of current month
+            $gte: sixMonthsAgo, // from 6 months ago
+            $lte: todays, // 1st of current month
           },
         },
       },
@@ -29,7 +29,8 @@ sixMonthsAgo.setMonth(todays.getMonth() - 6);
       },
     ]);
     const monthlyRevenue = monthlyRevenueAgg.length > 0 ? monthlyRevenueAgg[0].total : 0;
-    const tdappoint=new Date();
+
+    const tdappoint = new Date();
     // Total employees
     const employeesCount = await User.countDocuments();
 

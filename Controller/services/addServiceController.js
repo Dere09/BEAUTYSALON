@@ -8,6 +8,8 @@ const createService = async (req, res) => {
   try {
     const { registrationId, services } = req.body;
 
+    const loggedInUser = req.user || (req.session && req.session.user ? req.session.user : null);
+
     if (!services || services.length === 0) {
       return res.status(400).json({ message: 'No services selected' });
     }
@@ -33,6 +35,7 @@ const createService = async (req, res) => {
         servicePrice: service.servicePrice,
         registrationId,
         assignedemployee: specialistName,
+        createdByUserId: loggedInUser ? String(loggedInUser.id) : undefined,
       });
 
       const savedEntry = await newServiceEntry.save();

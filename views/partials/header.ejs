@@ -49,6 +49,8 @@
           }
 
           header {
+            position: sticky;
+            top: 0;
             background: #fff;
             display: flex;
             justify-content: space-between;
@@ -218,29 +220,41 @@
   <header>
     <div class="logo"><a href="/" style="color:inherit;text-decoration:none;">Professional</a></div>
     <% if (typeof hideMenu==='undefined' || !hideMenu) { %>
-      <div class="menu-toggle" style="display:none;" onclick="toggleNav()">
-        <i class="fas fa-bars"></i>
-      </div>
+      <% if (typeof path !=='undefined' && (path==='/' || path==='/registration' )) { %>
+        <div class="menu-toggle" style="display:none;" onclick="toggleNav()">
+          <i class="fas fa-bars"></i>
+        </div>
 
-      <nav id="mainNav">
-        <a href="/" class="<%= typeof navActive !== 'undefined' && navActive === 'home' ? 'active' : '' %>">Home</a>
-        <a href="/serviceoffer"
-          class="<%= typeof navActive !== 'undefined' && navActive === 'services' ? 'active' : '' %>">Services</a>
-        <a href="/registration"
-          class="<%= typeof navActive !== 'undefined' && navActive === 'registration' ? 'active' : '' %>">Booking</a>
-        <a href="/about"
-          class="<%= typeof navActive !== 'undefined' && navActive === 'about' ? 'active' : '' %>">Gallery</a>
-        <a href="/ads-manager"
-          class="<%= typeof navActive !== 'undefined' && navActive === 'ads' ? 'active' : '' %>">Ads</a>
-      </nav>
+        <nav id="mainNav">
+          <a href="/" class="<%= typeof navActive !== 'undefined' && navActive === 'home' ? 'active' : '' %>">Home</a>
+          <a href="/serviceoffer"
+            class="<%= typeof navActive !== 'undefined' && navActive === 'services' ? 'active' : '' %>">Services</a>
+          <a href="/registration"
+            class="<%= typeof navActive !== 'undefined' && navActive === 'registration' ? 'active' : '' %>">Booking</a>
+          <a href="/about"
+            class="<%= typeof navActive !== 'undefined' && navActive === 'about' ? 'active' : '' %>">Gallery</a>
+          <a href="/ads-manager"
+            class="<%= typeof navActive !== 'undefined' && navActive === 'ads' ? 'active' : '' %>">Ads</a>
+        </nav>
+        <% } %>
 
-      <div class="search-profile">
-        <form action="/search" method="GET" style="display:inline-block;">
-          <input type="text" name="q" placeholder="Search..." />
-        </form>
-        <a href="/login"><i class="fas fa-user-circle fa-2x" style="color:#666;margin-left:12px"></i></a>
-      </div>
-      <% } %>
+          <div class="search-profile">
+            <form action="/search" method="GET" style="display:inline-block;">
+              <input type="text" name="q" placeholder="Search..." />
+            </form>
+            <% if (typeof isAuthenticated !=='undefined' && isAuthenticated && currentUser) { %>
+              <span style="margin-left:12px;color:#444;font-weight:600;">
+                <!-- <%= currentUser.fullName || currentUser.username %> -->
+                <%=currentUser.username %>
+              </span>
+              <a href="/logout" title="Logout"><i class="fas fa-right-from-bracket fa-2x"
+                  style="color:#666;margin-left:12px"></i></a>
+              <% } else { %>
+                <a href="/login" title="Login"><i class="fas fa-user-circle fa-2x"
+                    style="color:#666;margin-left:12px"></i></a>
+                <% } %>
+          </div>
+          <% } %>
   </header>
 
   <script>

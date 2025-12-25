@@ -6,134 +6,60 @@ const CustomerService = require('../models/customerService');
 const Institution = require('../models/institutionModel');
 exports.handleRegistration = async (req, res) => {
   console.log('Register Controller - Body:', req.body);
-  console.log('Register Controller - File:', req.file);
-
-  if (!req.body) {
-    console.error('CRITICAL: req.body is undefined!');
-    console.error('Incoming Content-Type:', req.headers['content-type']); // Log the header!
-    // Attempt to salvage if it's just missing
-    req.body = {};
-  }
 
   const { fullName, phone, regdate, salon_id } = req.body;
 
-  if (!req.file && !req.body.fullName) {
-    return res.status(400).send('Error: Request body and file are missing through the parser.');
-  }
-
-  const imagePath = req.file ? req.file.path : null;
-  if (!imagePath) {
-    return res.render('failure', { reason: 'Image upload failed or missing' });
+  if (!fullName || !phone || !salon_id) {
+    return res.render('failure', { reason: 'Missing required registration details.' });
   }
 
   try {
-    // OCR the uploaded image
-    const result = await Tesseract.recognize(imagePath, 'eng');
-    const text = result.data.text.toLowerCase();
-
-    // System date in YYYY/MM/DD
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
-    const currentDate = `${year}/${month}/${day}`;
+    const todayStr = `${year}-${month}-${day}`;
 
-    // Fetch institution manager name dynamically
-    let managerName = 'dereje endale dima'; // Default fallback
-    if (salon_id) {
-      const institution = await Institution.findOne({ salon_id: salon_id });
-      if (institution && institution.institutionManager) {
-        managerName = institution.institutionManager.toLowerCase();
-      }
+    // Check if phone already registered today (to prevent spam/duplicate)
+    const exists = await User.findOne({ phone, regDateStr: todayStr, salonId: salon_id });
+    if (exists) {
+      return res.render('failure', { reason: 'This phone number is already registered for this salon today.' });
     }
 
-    // Validate content
-    // Normalize both for better matching (handle extra spaces/newlines)
-    const normalizedText = text.replace(/\s+/g, ' ').trim();
-    const normalizedManagerName = managerName.replace(/\s+/g, ' ').trim();
+    const registrationId = await getNextRegistrationId(salon_id);
 
-    // Flexible date check (handles YYYY-MM-DD or YYYY/MM/DD)
-    const flexibleDateRegex = new RegExp(currentDate.replace(/\//g, '[-/]'));
+    // Queue Calculation Logic: (Active Customers registered today) + 1
+    const todayUsers = await User.find({ salonId: salon_id, regDateStr: todayStr }).lean();
+    const todayRegIds = todayUsers.map(u => u.registrationId);
+    const todayServices = await CustomerService.find({ registrationId: { $in: todayRegIds } }).lean();
 
-    // Validate content
-    const isValid = normalizedText.includes(normalizedManagerName) || flexibleDateRegex.test(text);
+    const activeUsersCount = todayUsers.filter(user => {
+      const userServices = todayServices.filter(s => s.registrationId === user.registrationId);
+      return userServices.length === 0 || userServices.some(s => s.status !== 'Completed');
+    }).length;
 
-    // console.log('Manager Name (normalized):', normalizedManagerName);
-    // console.log('OCR Text (normalized):', normalizedText.substring(0, 200) + '...');
-    // Delete the file whether valid or not
-    fs.unlink(imagePath, (err) => {
-      if (err) console.error('File deletion failed:', err);
+    const queueNumber = activeUsersCount + 1;
+
+    const user = await User.create({
+      fullName,
+      phone,
+      regdate,
+      registrationId,
+      salonId: salon_id,
+      regDateStr: todayStr,
+      queueNumber: queueNumber
     });
 
-    if (isValid) {
-      const exists = await User.findOne({ phone });
-      if (exists) {
-        return res.render('failure', { reason: 'Phone already registered' + exists });
-      }
-      if (phone != null || fullName != null || regdate != null) {
-        // Ensure salon_id is present
-        if (!salon_id) {
-          return res.render('failure', { reason: 'Salon selection is required.' });
-        }
-
-        const registrationId = await getNextRegistrationId(salon_id);
-        const todayStr = `${year}-${month}-${day}`;
-
-        // Queue Calculation Logic: (Active Customers registered today) + 1
-        // 1. Get all users registered today for this salon
-        const todayUsers = await User.find({ salonId: salon_id, regDateStr: todayStr }).lean();
-
-        // 2. Get all service records for these users
-        const todayRegIds = todayUsers.map(u => u.registrationId);
-        const todayServices = await CustomerService.find({ registrationId: { $in: todayRegIds } }).lean();
-
-        // 3. Determine how many are "Active"
-        const activeUsersCount = todayUsers.filter(user => {
-          const userServices = todayServices.filter(s => s.registrationId === user.registrationId);
-          // Active if: No services yet OR at least one service is NOT 'Completed'
-          return userServices.length === 0 || userServices.some(s => s.status !== 'Completed');
-        }).length;
-
-        const queueNumber = activeUsersCount + 1;
-
-        const user = await User.create({
-          fullName,
-          phone,
-          regdate,
-          registrationId,
-          salonId: salon_id,
-          regDateStr: todayStr,
-          queueNumber: queueNumber
-        });
-
-        return res.render('success', {
-          name: fullName,
-          phone,
-          registrationId,
-          queueNumber: queueNumber
-        });
-
-      }
-    }
-    else {
-      return res.render('failure', {
-        reason: `Receipt must include manager name (${managerName}) or today's date (${currentDate})`
-      });
-    }
-  }
-
-  catch (error) {
-    // Ensure image is deleted in case of OCR error
-    // Ensure image is deleted in case of OCR error
-    fs.unlink(imagePath, (err) => {
-      // Ignore ENOENT (file already deleted), log other errors
-      if (err && err.code !== 'ENOENT') {
-        console.error('File deletion on error failed:', err);
-      }
+    return res.render('success', {
+      name: fullName,
+      phone,
+      registrationId,
+      queueNumber: queueNumber
     });
 
-    console.error('OCR Error:', error);
-    return res.render('failure', { reason: 'OCR processing failed' });
+  } catch (error) {
+    console.error('Registration Error:', error);
+    return res.render('failure', { reason: 'Registration failed. Please try again later.' });
   }
 };
 exports.getAllCustomers = async (req, res) => {

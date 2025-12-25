@@ -175,6 +175,15 @@
               <option value="staff" selected>Staff</option>
             </select>
           </div>
+           <div>
+            <label>Institution</label>
+            <select name="salon_id" required>
+              <option value="" selected disabled>Select institution</option>
+              <% institutions.forEach(institution => { %>
+              <option value="<%= institution.salon_id %>"><%= institution.institutionName %></option>
+              <% }) %>
+            </select>
+          </div>
 
           <div style="display: flex; align-items: end;">
             <button type="submit" style="width: 100%;">Create User</button>

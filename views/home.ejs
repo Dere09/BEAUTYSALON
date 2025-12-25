@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beauty Salon - Home</title>
+  <title>All-in-One Beauty Salon Platform - Home</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap"
@@ -26,10 +26,12 @@
       background-color: var(--color-bg);
       color: var(--color-text);
       line-height: 1.6;
-      padding: var(--spacing);
     }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       background-color: white;
       display: flex;
       justify-content: space-between;
@@ -362,11 +364,14 @@
   <header>
     <div class="logo">
       <img src="images/logo.png" alt="Logo" width="73" height="73">
+      <span
+        style="font-family:'Playfair Display', serif; font-size: 1.2rem; color: #cc3366; margin-left: 10px; vertical-align: middle;">BeautyHub
+        Africa</span>
     </div>
     <nav>
       <a href="#">Home</a>
       <a href="login">Login</a>
-      <a href="registration">ፀጉር ቤት ወረፋ(Booking)</a>
+      <a href="registration">ወረፋ አሁን ያስይዙ(Booking)</a>
       <a href="gallery">Gallery</a>
       <a href="#">Contact</a>
     </nav>
@@ -380,10 +385,11 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Look Good, Book Easy</h1>
-      <p>Where calm meets care — a beauty journey tailored to you with elegance, passion, and serenity.</p>
+      <h1>All-in-One Beauty Salon Platform</h1>
+      <p>Discover top-rated salons, explore premium services, and secure your appointment instantly. The ultimate
+        destination for all your beauty and grooming needs.</p>
       <button>
-        <a href="registration">Booking Now(ቀጠሮ ማስቀጠር)</a></button>
+        <a href="registration">Discover Salons & Book Now</a></button>
     </div>
     <!-- <div class="floating-cards">
       <div>🌸 Custom Services, Your Way</div>
@@ -395,9 +401,9 @@
   <!-- MID-PAGE ADVERTISEMENT (SPLIT) -->
   <!-- Right Main Banner Ad -->
   <div class="ad-banner" style="flex: 2; margin: 0;">
-    <h3>💎 <i class="fas fa-gem"></i> PARTNER: Luxury Spa Experience</h3>
-    <p>Book Beauty & Barber, Anytime, Anywhere</p>
-    <a href="#" class="ad-btn">Book VIP Spa <i class="fas fa-spa"></i></a>
+    <h3>💎 <i class="fas fa-gem"></i> PARTNER: Premium Spa Experiences</h3>
+    <p>Explore Beauty & Barber Salons, Anytime, Anywhere</p>
+    <a href="registration" class="ad-btn">Explore Partner Salons <i class="fas fa-spa"></i></a>
   </div>
   </div>
 
@@ -409,40 +415,270 @@
       <div class="cylinder">Local Living Encounters - Culture, beauty & you</div><br>
       <div class="cylinder">Sunrise Awakening Rituals - Herbal tea & guided calm</div>
     </div>
-    <div class="feature-image">
-      <h2 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Hair Services</h2>
+    <style>
+      .services-section {
+        padding: 80px 20px;
+        background: #fff;
+        text-align: center;
+        overflow: hidden;
+      }
 
-      <!-- Nail Services -->
-      <h2 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h2>
+      .services-section h2.section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 36px;
+        color: #cc3366;
+        margin-bottom: 60px;
+      }
 
-      <!-- Facial & Skin Care -->
-      <h2 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Facial & Skin Care</h2>
+      .stack-wrapper {
+        position: relative;
+        max-width: 400px;
+        height: 450px;
+        margin: 0 auto;
+        perspective: 1000px;
+      }
 
-      <!-- Body Care -->
-      <h2 style="color: #8FBC8F;"><i class="fa-solid fa-hands-bubbles"></i> Body Care</h2>
+      .stack-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+      }
 
-      <!-- Makeup Services -->
-      <h2 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h2>
+      .service-card {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(204, 51, 102, 0.1);
+        backface-visibility: hidden;
+      }
 
-      <!-- Eye & Brow Services -->
-      <h2 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h2>
+      .service-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
 
-      <!-- Special Services -->
-      <h2 style="color: #A0522D;"><i class="fa-solid fa-gem"></i> Special Services</h2>
+      .service-card-content {
+        padding: 25px;
+        background: white;
+        flex: 1;
+      }
+
+      .service-card-content h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+
+      .service-card-content p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      /* Stack Positions - Sequential Overlap */
+      .service-card[data-index="0"] {
+        z-index: 5;
+        transform: translateZ(0) translateY(0);
+        opacity: 1;
+      }
+
+      .service-card[data-index="1"] {
+        z-index: 4;
+        transform: translateZ(-50px) translateY(20px) scale(0.95);
+        opacity: 0.8;
+      }
+
+      .service-card[data-index="2"] {
+        z-index: 3;
+        transform: translateZ(-100px) translateY(40px) scale(0.9);
+        opacity: 0.6;
+      }
+
+      .service-card[data-index="3"] {
+        z-index: 2;
+        transform: translateZ(-150px) translateY(60px) scale(0.85);
+        opacity: 0.4;
+      }
+
+      .service-card:nth-child(n+5) {
+        z-index: 1;
+        transform: translateZ(-200px) translateY(80px) scale(0.8);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .stack-nav {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .nav-btn {
+        background: white;
+        border: 2px solid #cc3366;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        color: #cc3366;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(204, 51, 102, 0.1);
+      }
+
+      .nav-btn:hover {
+        background: #cc3366;
+        color: white;
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(204, 51, 102, 0.3);
+      }
+
+      @media (max-width: 480px) {
+        .stack-wrapper {
+          max-width: 300px;
+          height: 400px;
+        }
+      }
+    </style>
+
+    <div class="services-section">
+      <h2 class="section-title">Experience Our Magic</h2>
+
+      <div class="stack-wrapper">
+        <div class="stack-container" id="serviceStack">
+          <!-- Hair Services -->
+          <div class="service-card" data-order="0">
+            <img src="/images/Scroll/woman_hair.jpg" alt="Hair Services">
+            <div class="service-card-content">
+              <h3 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Women's Hair Services</h3>
+              <p>Expert cuts, coloring, and styling tailored to your unique personality.</p>
+            </div>
+          </div>
+
+          <!-- Nail Services -->
+          <div class="service-card" data-order="1">
+            <img src="/images/Scroll/nailService_img.jpg" alt="Nail Services">
+            <div class="service-card-content">
+              <h3 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h3>
+              <p>Elegant manicures and creative nail art for a polished, professional look.</p>
+            </div>
+          </div>
+
+          <!-- Facial & Skin Care -->
+          <div class="service-card" data-order="2">
+            <img src="/images/Scroll/manhairCut_img.jpg" alt="Facial & Skin Care">
+            <div class="service-card-content">
+              <h3 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Men's Hair Services</h3>
+              <p>Rejuvenating treatments designed to give your skin a healthy, natural glow.</p>
+            </div>
+          </div>
+
+          <!-- Body Care -->
+          <div class="service-card" data-order="3">
+            <img src="/images/Scroll/bodyCare_img.jpg" alt="Body Care">
+            <div class="service-card-content">
+              <h3 style="color: #8FBC8F;"><i class="fa-solid fa-hands-bubbles"></i> Body Care</h3>
+              <p>Relaxing body treatments that melt away stress and restore your energy.</p>
+            </div>
+          </div>
+
+          <!-- Makeup Services -->
+          <div class="service-card" data-order="4">
+            <img src="/images/Scroll/Makeup_img.jpg" alt="Makeup Services">
+            <div class="service-card-content">
+              <h3 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h3>
+              <p>Professional makeup for weddings, parties, and special events.</p>
+            </div>
+          </div>
+
+          <!-- Eye & Brow Services -->
+          <div class="service-card" data-order="5">
+            <img src="/images/Scroll/Eye_brow_img.jpg" alt="Eye & Brow Services">
+            <div class="service-card-content">
+              <h3 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h3>
+              <p>Precision brow shaping and lash styling to frame your beautiful eyes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-nav">
+        <button class="nav-btn" id="stackPrev"><i class="fas fa-arrow-left"></i></button>
+        <button class="nav-btn" id="stackNext"><i class="fas fa-arrow-right"></i></button>
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const stack = document.getElementById('serviceStack');
+          const cards = Array.from(stack.querySelectorAll('.service-card'));
+          let currentIndex = 0;
+
+          function updateStack() {
+            cards.forEach((card, i) => {
+              // Calculate relative position in stack
+              let pos = (i - currentIndex + cards.length) % cards.length;
+              card.setAttribute('data-index', pos);
+
+              // Add simple classes for transition effects if needed
+              if (pos === 0) card.style.pointerEvents = 'auto';
+              else card.style.pointerEvents = 'none';
+            });
+          }
+
+          document.getElementById('stackNext').addEventListener('click', () => {
+            // Animating the top card out before shifting
+            const topCard = cards[currentIndex];
+            topCard.style.transform = 'translateX(120%) rotate(20deg)';
+            topCard.style.opacity = '0';
+
+            setTimeout(() => {
+              currentIndex = (currentIndex + 1) % cards.length;
+              updateStack();
+              // Reset top card position for when it comes back around
+              setTimeout(() => {
+                topCard.style.opacity = '';
+                topCard.style.transform = '';
+              }, 600);
+            }, 300);
+          });
+
+          document.getElementById('stackPrev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateStack();
+          });
+
+          updateStack();
+        });
+      </script>
     </div>
   </section>
 
-  <!-- BOTTOM ADVERTISEMENT BANNER -->
-  <div class="ad-banner">
-    <h3>🎁 <i class="fas fa-gift"></i> SPECIAL OFFER: Beauty Bundle </h3>
-    <p>Get our complete beauty starter kit for only $49.99 (Save 40% today!)</p>
-    <a href="#" class="ad-btn">Claim Offer Now <i class="fas fa-arrow-right"></i></a>
-    <!-- Replace href and content with actual ad code -->
+  <!-- BOTTOM PROMO BANNER -->
+  <div class="ad-banner"
+    style="background: linear-gradient(135deg, #fff0f7 0%, #ffe3ec 100%); border: 2px solid #cc3366;">
+    <h3>✨ <i class="fas fa-sparkles"></i> 2025 PREMIUM ACCESS: Join the Queue Online</h3>
+    <p>New to our platform? Get <span style="color: #cc3366; font-weight: bold; font-size: 20px;">Priority Access</span>
+      to the best stylists and barbers at any of our partner salons!</p>
+    <a href="registration" class="ad-btn">Start Your Experience <i class="fas fa-calendar-check"></i></a>
   </div>
 
   <!-- Footer -->
   <footer>
-    <div>© 2025 MDF Professional Beauty Salons. All rights reserved.</div>
+    <div>© 2025 MDF BeautyHub Platform. All rights reserved.</div>
     <div class="socials-footer">
       <a href="#"><i class="fab fa-facebook-f"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
