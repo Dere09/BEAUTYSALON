@@ -31,7 +31,7 @@ module.exports = (req, res, next) => {
 
     // If neither, handle based on request type
     if (req.accepts('html')) {
-        return res.redirect('/login');
+        return res.redirect('/');
     } else {
         return res.status(401).json({ message: 'Unauthorized' });
     }

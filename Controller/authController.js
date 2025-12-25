@@ -49,10 +49,17 @@ exports.postLogin = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
+    if (!req.session) {
+        return res.redirect('/');
+    }
+
     req.session.destroy(err => {
         if (err) {
             console.error('Logout error:', err);
         }
-        res.redirect('/login');
+
+        // Ensure the browser cookie is removed (default express-session cookie name)
+        res.clearCookie('connect.sid');
+        return res.redirect('/');
     });
 };

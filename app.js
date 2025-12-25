@@ -60,6 +60,26 @@ app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     next();
 });
+
+app.use((req, res, next) => {
+    const publicPrefixes = ['/css', '/js', '/images', '/public', '/uploads', '/favicon.ico'];
+    const isStatic = publicPrefixes.some((p) => req.path === p || req.path.startsWith(p + '/'));
+    if (isStatic) return next();
+
+    const isPublicRoute =
+        req.path === '/' ||
+        req.path === '/login' ||
+        req.path === '/logout' ||
+        req.path === '/registration' ||
+        (req.path === '/register' && req.method === 'POST');
+
+    if (isPublicRoute) return next();
+
+    if (req.session && req.session.user) return next();
+
+    return res.redirect('/');
+});
+
 app.use('/', authRoutes);
 app.use('/', servicesRoutes);
 app.use('/', registerRoutes);
@@ -69,6 +89,7 @@ app.use('/', serviceAddRoutes); // Use the service add routes
 app.use("/dashboard", dashboardRoutes);
 // Mount ads API routes
 app.use('/api/ads', adRoutes);
+
 app.get('/createUser', (req, res) => {
     res.render('createUser');
 });
@@ -77,8 +98,8 @@ app.get('/member', (req, res) => {
 })
 //app.use('/registration', instrouter);
 // Use the controller to populate registration with institutions
-app.get('/registration', authMiddleware, institutionController.getRegistrationPage);
-app.get('/home', (req, res) => {
+app.get('/registration', institutionController.getRegistrationPage);
+app.get('/', (req, res) => {
     res.render('home');
 });
 app.get('/gallery', authMiddleware, (req, res) => {
