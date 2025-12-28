@@ -1,6 +1,8 @@
 // controllers/dashboardController.js
 const CustomerService = require('../models/customerService'); // your MongoDB model
-const User = require("../models/loginuser");        // assuming you have employee collection
+const employee = require("../models/loginuser");
+const User = require('../models/userModel');    // assuming you have employee collection
+const menuConfig = require('../config/menuConfig');
 
 const dailyServiceReport = async (req, res) => {
   try {
@@ -32,22 +34,27 @@ const dailyServiceReport = async (req, res) => {
 
     const tdappoint = new Date();
     // Total employees
-    const employeesCount = await User.countDocuments();
+    const employeesCount = await employee.countDocuments();
 
     // Today’s appointments
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
-
+    // const today = new Date();
+    // const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    // const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    endOfDay.setMilliseconds(endOfDay.getMilliseconds() - 1);
     const todaysAppointments = await User.countDocuments({
       createdAt: { $gte: startOfDay, $lte: endOfDay },
     });
-
+    const roles = req.session.user.role;
+    const menu = menuConfig[roles];
     res.render('dashboard', {
       totalServices,
       monthlyRevenue,
       employeesCount,
       todaysAppointments,
+      menu
     });
   } catch (error) {
     console.error(error);

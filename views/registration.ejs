@@ -238,15 +238,11 @@
     </div>
     <nav>
       <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/registration">Salons</a>
+      <!-- <a href="/registration">Salons</a> -->
       <a href="/gallery">Gallery</a>
       <a href="/contact">Contact</a>
+      <a href="/about">About</a>
     </nav>
-    <!-- <div class="search-profile">
-      <input type="text" placeholder="Search..." />
-      <i class="fas fa-user-circle fa-2x"></i>
-    </div> -->
     <div class="search-profile">
       <input type="text" placeholder="Search..." />
       <div class="user-menu">
@@ -385,6 +381,15 @@
         placeholder: "Search or select a salon...",
         allowClear: true
       });
+    });
+    document.getElementById('salon-select').addEventListener('keyup', function () {
+      const filter = this.value.toLowerCase();
+      const options = document.getElementById('salon-select').options;
+
+      for (let i = 0; i < options.length; i++) {
+        const text = options[i].text.toLowerCase();
+        options[i].style.display = text.includes(filter) ? '' : 'none';
+      }
     });
   </script>
 </body>

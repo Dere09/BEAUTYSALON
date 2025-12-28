@@ -264,21 +264,20 @@
     }
 
     .cylinder {
-      height: 50px;
-      width: 500px;
+      height: auto;
+      min-height: 50px;
+      width: 100%;
+      max-width: 500px;
       background: linear-gradient(to right, 204, 204, 204, 0);
       border-radius: 50px;
       box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
       border-width: 1px solid #cebaba;
-      padding-top: 10px;
-      padding-left: 40px;
-
-    }
-
-    .cylinder {
-      transition: transform 0.3 ease;
+      padding: 10px 40px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      transition: transform 0.3s ease;
       transform: scale(1);
-      /*default zoom in*/
     }
 
     .cylinder:hover {
@@ -335,11 +334,6 @@
         grid-template-columns: 1fr;
       }
 
-      .cylinder {
-        width: 100%;
-        padding-left: 20px;
-      }
-
       .ad-banner {
         margin: 10px;
         padding: 15px;
@@ -350,9 +344,25 @@
         margin: 10px auto;
       }
 
+      .cylinder {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
       .split-ads {
         flex-direction: column;
         padding: 0 20px !important;
+      }
+
+      .floating-cards {
+        position: static;
+        margin-top: 20px;
+      }
+
+      .floating-cards div {
+        max-width: 100%;
       }
     }
   </style>
@@ -369,10 +379,10 @@
         Africa</span>
     </div>
     <nav>
-      <a href="#">Home</a>
-      <a href="login">Login</a>
-      <a href="registration">ወረፋ አሁን ያስይዙ(Booking)</a>
-      <a href="gallery">Gallery</a>
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/registration">ወረፋ አሁን ያስይዙ(Booking)</a>
+      <a href="/gallery">Gallery</a>
       <a href="#">Contact</a>
     </nav>
     <div class="search-profile">
@@ -391,11 +401,6 @@
       <button>
         <a href="registration">Discover Salons & Book Now</a></button>
     </div>
-    <!-- <div class="floating-cards">
-      <div>🌸 Custom Services, Your Way</div>
-      <div>💆‍♀️ Spa + Hair + Skin in One Place</div>
-      <div>✨ A Style to Remember</div>
-    </div> -->
   </section>
 
   <!-- MID-PAGE ADVERTISEMENT (SPLIT) -->
@@ -583,7 +588,7 @@
             <img src="/images/Scroll/manhairCut_img.jpg" alt="Facial & Skin Care">
             <div class="service-card-content">
               <h3 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Men's Hair Services</h3>
-              <p>Rejuvenating treatments designed to give your skin a healthy, natural glow.</p>
+              <p>Where Style Meets Tradition.</p>
             </div>
           </div>
 

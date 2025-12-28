@@ -1,9 +1,15 @@
 const jwt = require('jsonwebtoken');
+const menuConfig = require('../config/menuConfig');
 
 module.exports = (req, res, next) => {
     // Check for session-based auth (for browser/EJS)
     if (req.session && req.session.user) {
         req.user = req.session.user;
+        res.locals.user = req.session.user; // Fix typo: req.local -> res.locals
+
+        // Set menu based on role
+        const role = req.session.user.role || 'staff'; // Default to staff if role missing
+        res.locals.menu = menuConfig[role] || [];
 
         // Prevent caching of protected pages
         res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');

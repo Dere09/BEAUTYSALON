@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
- salonId: {
+  salonId: {
     type: String,
     required: true
   }
