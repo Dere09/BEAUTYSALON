@@ -6,23 +6,32 @@ const menuConfig = require('../config/menuConfig');
 
 const dailyServiceReport = async (req, res) => {
   try {
-    // Total completed services
-    const totalServices = await CustomerService.countDocuments({ status: "Completed" });
+    const salonId = req.session.user.salonId;
+
+    // Get all registrationIds belonging to this salon to filter services
+    // (Since CustomerService doesn't have salonId directly)
+    const salonCustomers = await User.find({ salonId: salonId }).select('registrationId');
+    const salonRegistrationIds = salonCustomers.map(user => user.registrationId);
+
+    // Total completed services for this salon
+    const totalServices = await CustomerService.countDocuments({
+      status: "Completed",
+      registrationId: { $in: salonRegistrationIds }
+    });
 
     // Total revenue from completed services
-    // Get today's date
     const todays = new Date();
-
-    // Calculate the date 6 months ago
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(todays.getMonth() - 6);
+
     const monthlyRevenueAgg = await CustomerService.aggregate([
       {
         $match: {
           status: "Completed",
+          registrationId: { $in: salonRegistrationIds },
           updatedAt: {
-            $gte: sixMonthsAgo, // from 6 months ago
-            $lte: todays, // 1st of current month
+            $gte: sixMonthsAgo,
+            $lte: todays,
           },
         },
       },
@@ -32,21 +41,20 @@ const dailyServiceReport = async (req, res) => {
     ]);
     const monthlyRevenue = monthlyRevenueAgg.length > 0 ? monthlyRevenueAgg[0].total : 0;
 
-    const tdappoint = new Date();
-    // Total employees
-    const employeesCount = await employee.countDocuments();
+    // Total employees in this salon
+    const employeesCount = await employee.countDocuments({ salonId: salonId });
 
-    // Today’s appointments
-    // const today = new Date();
-    // const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    // const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    // Today’s appointments in this salon
     const now = new Date();
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
     endOfDay.setMilliseconds(endOfDay.getMilliseconds() - 1);
+
     const todaysAppointments = await User.countDocuments({
       createdAt: { $gte: startOfDay, $lte: endOfDay },
+      salonId: salonId
     });
+
     const roles = req.session.user.role;
     const menu = menuConfig[roles];
     res.render('dashboard', {

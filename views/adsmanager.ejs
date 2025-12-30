@@ -1,245 +1,249 @@
-<% const isEmbed = (typeof embed !== 'undefined' && embed); %>
-<%- include('partials/header', { title: 'Ads Manager' , navActive: 'adsmanager', hideMenu: isEmbed }) %>
-    <% if (!isEmbed) { %>
-        <%- include('partials/sidebar', { path: '/ads-manager' }) %>
-    <% } %>
+<% const isEmbed=(typeof embed !=='undefined' && embed); %>
+    <%- include('partials/header', { title: 'Ads Manager' , navActive: 'adsmanager' , hideMenu: true }) %>
+        <% if (!isEmbed) { %>
+            <%- include('partials/sidebar', { path: '/ads-manager' }) %>
+                <% } %>
 
-        <div class="main-content">
-            <style>
-                /* Page-specific styles for Ads Manager */
-                .ads-container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                }
+                    <div class="main-content">
+                        <style>
+                            /* Page-specific styles for Ads Manager */
+                            .ads-container {
+                                max-width: 1200px;
+                                margin: 0 auto;
+                            }
 
-                .page-title {
-                    text-align: center;
-                    font-family: 'Playfair Display', serif;
-                    font-size: 32px;
-                    color: #cc3366;
-                    margin: 10px 0 25px 0;
-                }
+                            .page-title {
+                                text-align: center;
+                                font-family: 'Playfair Display', serif;
+                                font-size: 32px;
+                                color: #cc3366;
+                                margin: 10px 0 25px 0;
+                            }
 
-                .ad-form-container {
-                    background: white;
-                    border-radius: 20px;
-                    padding: 30px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                    margin-bottom: 30px;
-                }
+                            .ad-form-container {
+                                background: white;
+                                border-radius: 20px;
+                                padding: 30px;
+                                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                                margin-bottom: 30px;
+                            }
 
-                .form-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 25px;
-                }
+                            .form-grid {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 25px;
+                            }
 
-                .btn {
-                    background: linear-gradient(45deg, #cc3366, #ff69b4);
-                    color: white;
-                    padding: 12px 25px;
-                    border: none;
-                    border-radius: 25px;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                    font-weight: 600;
-                }
+                            .btn {
+                                background: linear-gradient(45deg, #cc3366, #ff69b4);
+                                color: white;
+                                padding: 12px 25px;
+                                border: none;
+                                border-radius: 25px;
+                                cursor: pointer;
+                                transition: all 0.3s;
+                                font-weight: 600;
+                            }
 
-                .btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 5px 15px rgba(204, 51, 102, 0.3);
-                }
+                            .btn:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 5px 15px rgba(204, 51, 102, 0.3);
+                            }
 
-                .ads-list {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                    gap: 20px;
-                }
+                            .ads-list {
+                                display: grid;
+                                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                                gap: 20px;
+                            }
 
-                .ad-card {
-                    background: white;
-                    border-radius: 15px;
-                    padding: 20px;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-                    transition: all 0.3s;
-                }
+                            .ad-card {
+                                background: white;
+                                border-radius: 15px;
+                                padding: 20px;
+                                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                                transition: all 0.3s;
+                            }
 
-                .ad-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-                }
+                            .ad-card:hover {
+                                transform: translateY(-5px);
+                                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                            }
 
-                .tab-content {
-                    display: none;
-                }
+                            .tab-content {
+                                display: none;
+                            }
 
-                .tab-content.active {
-                    display: block;
-                }
+                            .tab-content.active {
+                                display: block;
+                            }
 
-                .tabs button.active {
-                    background: #cc3366 !important;
-                    color: white !important;
-                }
+                            .tabs button.active {
+                                background: #cc3366 !important;
+                                color: white !important;
+                            }
 
-                @media (max-width: 768px) {
-                    .form-grid {
-                        grid-template-columns: 1fr;
-                    }
+                            @media (max-width: 768px) {
+                                .form-grid {
+                                    grid-template-columns: 1fr;
+                                }
 
-                    .page-title {
-                        font-size: 24px;
-                    }
-                }
-            </style>
+                                .page-title {
+                                    font-size: 24px;
+                                }
+                            }
+                        </style>
 
-            <div class="ads-container">
-                <h1 class="page-title">
-                    <i class="fas fa-ad"></i> Beauty Salon Ads Manager
-                    <span style="font-size: 16px; color: #666; display: block; margin-top: 5px;">
-                        Powered by MDTechnologies
-                    </span>
-                </h1>
+                        <div class="ads-container">
+                            <h1 class="page-title">
+                                <i class="fas fa-ad"></i> Beauty Salon Ads Manager
+                                <span style="font-size: 16px; color: #666; display: block; margin-top: 5px;">
+                                    Powered by MDTechnologies
+                                </span>
+                            </h1>
 
-                <div class="tabs"
-                    style="display: flex; background: white; border-radius: 15px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                    <button class="tab-btn active" onclick="showTab('create')"
-                        style="flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 10px; transition: all 0.3s; font-weight: 600;">
-                        <i class="fas fa-plus"></i> Create New Ad
-                    </button>
-                    <button class="tab-btn" onclick="showTab('manage')"
-                        style="flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 10px; transition: all 0.3s; font-weight: 600;">
-                        <i class="fas fa-list"></i> Manage Ads
-                    </button>
-                </div>
-
-                <!-- CREATE TAB -->
-                <div id="create" class="tab-content active">
-                    <div class="ad-form-container">
-                        <h2 style="color: #cc3366; margin-bottom: 25px; font-family: 'Playfair Display', serif;">
-                            <i class="fas fa-cloud-upload-alt"></i> Upload New Advertisement
-                        </h2>
-
-                        <form id="adForm">
-                            <div class="form-grid">
-                                <div style="margin-bottom: 25px;">
-                                    <label
-                                        style="display: block; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
-                                        <i class="fas fa-image"></i> Ad Image
-                                    </label>
-                                    <div style="border: 2px dashed #cc3366; border-radius: 15px; padding: 30px; text-align: center; cursor: pointer; background: #f8f9ff;"
-                                        onclick="document.getElementById('imageInput').click()">
-                                        <input type="file" id="imageInput" name="image" accept="image/*"
-                                            style="display: none;" required>
-                                        <i class="fas fa-cloud-upload-alt fa-2x"
-                                            style="color: #cc3366; margin-bottom: 15px;"></i>
-                                        <p><strong>Click to upload image</strong></p>
-                                        <p style="font-size: 12px; color: #666;">JPG, PNG, GIF • Max 5MB</p>
-                                    </div>
-                                    <img id="imagePreview"
-                                        style="max-width: 100%; max-height: 150px; border-radius: 10px; margin-top: 15px; display: none;">
-                                </div>
-
-                                <div style="margin-bottom: 25px;">
-                                    <label
-                                        style="display: block; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
-                                        <i class="fas fa-tag"></i> Ad Title
-                                    </label>
-                                    <input type="text" id="adTitle" name="title"
-                                        placeholder="e.g. Premium Beauty Products"
-                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
-                                        required>
-
-                                    <label
-                                        style="display: block; margin-top: 15px; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
-                                        <i class="fas fa-link"></i> Destination URL
-                                    </label>
-                                    <input type="url" id="adUrl" name="url" placeholder="https://your-link.com"
-                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
-                                        required>
-
-                                    <label
-                                        style="display: block; margin-top: 15px; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
-                                        <i class="fas fa-map-marker-alt"></i> Position
-                                    </label>
-                                    <select id="adPosition" name="position"
-                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
-                                        required>
-                                        <option value="">Select position...</option>
-                                        <option value="header-banner">📢 Header Banner</option>
-                                        <option value="sidebar-ad">📱 Sidebar Ad</option>
-                                        <option value="mid-page-banner">⭐ Mid-Page Banner</option>
-                                        <option value="bottom-banner">🎁 Bottom Banner</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div style="text-align: center; margin-top: 10px;">
-                                <button type="submit" class="btn" id="submitBtn">
-                                    <i class="fas fa-save"></i> Save Ad
+                            <div class="tabs"
+                                style="display: flex; background: white; border-radius: 15px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+                                <button class="tab-btn active" onclick="showTab('create')"
+                                    style="flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 10px; transition: all 0.3s; font-weight: 600;">
+                                    <i class="fas fa-plus"></i> Create New Ad
+                                </button>
+                                <button class="tab-btn" onclick="showTab('manage')"
+                                    style="flex: 1; padding: 12px; border: none; background: transparent; cursor: pointer; border-radius: 10px; transition: all 0.3s; font-weight: 600;">
+                                    <i class="fas fa-list"></i> Manage Ads
                                 </button>
                             </div>
-                        </form>
-                    </div>
-                </div>
 
-                <!-- MANAGE TAB -->
-                <div id="manage" class="tab-content">
-                    <div class="ad-form-container">
-                        <h2 style="color: #cc3366; margin-bottom: 25px; font-family: 'Playfair Display', serif;">
-                            <i class="fas fa-list"></i> Active Advertisements
-                        </h2>
-                        <div class="ads-list" id="adsList">
-                            <div class="ad-card" style="text-align: center; padding: 40px; grid-column: 1/-1;">
-                                <i class="fas fa-spinner fa-spin fa-2x" style="color: #cc3366;"></i>
-                                <p style="margin-top: 10px; color: #666;">Loading ads...</p>
+                            <!-- CREATE TAB -->
+                            <div id="create" class="tab-content active">
+                                <div class="ad-form-container">
+                                    <h2
+                                        style="color: #cc3366; margin-bottom: 25px; font-family: 'Playfair Display', serif;">
+                                        <i class="fas fa-cloud-upload-alt"></i> Upload New Advertisement
+                                    </h2>
+
+                                    <form id="adForm">
+                                        <div class="form-grid">
+                                            <div style="margin-bottom: 25px;">
+                                                <label
+                                                    style="display: block; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
+                                                    <i class="fas fa-image"></i> Ad Image
+                                                </label>
+                                                <div style="border: 2px dashed #cc3366; border-radius: 15px; padding: 30px; text-align: center; cursor: pointer; background: #f8f9ff;"
+                                                    onclick="document.getElementById('imageInput').click()">
+                                                    <input type="file" id="imageInput" name="image" accept="image/*"
+                                                        style="display: none;" required>
+                                                    <i class="fas fa-cloud-upload-alt fa-2x"
+                                                        style="color: #cc3366; margin-bottom: 15px;"></i>
+                                                    <p><strong>Click to upload image</strong></p>
+                                                    <p style="font-size: 12px; color: #666;">JPG, PNG, GIF • Max 5MB</p>
+                                                </div>
+                                                <img id="imagePreview"
+                                                    style="max-width: 100%; max-height: 150px; border-radius: 10px; margin-top: 15px; display: none;">
+                                            </div>
+
+                                            <div style="margin-bottom: 25px;">
+                                                <label
+                                                    style="display: block; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
+                                                    <i class="fas fa-tag"></i> Ad Title
+                                                </label>
+                                                <input type="text" id="adTitle" name="title"
+                                                    placeholder="e.g. Premium Beauty Products"
+                                                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
+                                                    required>
+
+                                                <label
+                                                    style="display: block; margin-top: 15px; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
+                                                    <i class="fas fa-link"></i> Destination URL
+                                                </label>
+                                                <input type="url" id="adUrl" name="url"
+                                                    placeholder="https://your-link.com"
+                                                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
+                                                    required>
+
+                                                <label
+                                                    style="display: block; margin-top: 15px; margin-bottom: 8px; font-weight: 600; color: #cc3366;">
+                                                    <i class="fas fa-map-marker-alt"></i> Position
+                                                </label>
+                                                <select id="adPosition" name="position"
+                                                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
+                                                    required>
+                                                    <option value="">Select position...</option>
+                                                    <option value="header-banner">📢 Header Banner</option>
+                                                    <option value="sidebar-ad">📱 Sidebar Ad</option>
+                                                    <option value="mid-page-banner">⭐ Mid-Page Banner</option>
+                                                    <option value="bottom-banner">🎁 Bottom Banner</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div style="text-align: center; margin-top: 10px;">
+                                            <button type="submit" class="btn" id="submitBtn">
+                                                <i class="fas fa-save"></i> Save Ad
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- MANAGE TAB -->
+                            <div id="manage" class="tab-content">
+                                <div class="ad-form-container">
+                                    <h2
+                                        style="color: #cc3366; margin-bottom: 25px; font-family: 'Playfair Display', serif;">
+                                        <i class="fas fa-list"></i> Active Advertisements
+                                    </h2>
+                                    <div class="ads-list" id="adsList">
+                                        <div class="ad-card"
+                                            style="text-align: center; padding: 40px; grid-column: 1/-1;">
+                                            <i class="fas fa-spinner fa-spin fa-2x" style="color: #cc3366;"></i>
+                                            <p style="margin-top: 10px; color: #666;">Loading ads...</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <script>
-            function showTab(tabName) {
-                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById(tabName).classList.add('active');
-                event.target.closest('.tab-btn').classList.add('active');
+                    <script>
+                        function showTab(tabName) {
+                            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                            document.getElementById(tabName).classList.add('active');
+                            event.target.closest('.tab-btn').classList.add('active');
 
-                if (tabName === 'manage') loadAds();
-            }
+                            if (tabName === 'manage') loadAds();
+                        }
 
-            document.getElementById('imageInput').addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const preview = document.getElementById('imagePreview');
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+                        document.getElementById('imageInput').addEventListener('change', function (e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = e => {
+                                    const preview = document.getElementById('imagePreview');
+                                    preview.src = e.target.result;
+                                    preview.style.display = 'block';
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
 
-            async function loadAds() {
-                try {
-                    const response = await fetch('/api/ads');
-                    const data = await response.json();
-                    const ads = Array.isArray(data) ? data : (data && data.ads ? data.ads : []);
-                    const adsList = document.getElementById('adsList');
-                    adsList.innerHTML = '';
+                        async function loadAds() {
+                            try {
+                                const response = await fetch('/api/ads');
+                                const data = await response.json();
+                                const ads = Array.isArray(data) ? data : (data && data.ads ? data.ads : []);
+                                const adsList = document.getElementById('adsList');
+                                adsList.innerHTML = '';
 
-                    if (ads.length === 0) {
-                        adsList.innerHTML = '<div style="text-align:center; padding:40px; grid-column:1/-1;"><p>No ads found.</p></div>';
-                        return;
-                    }
+                                if (ads.length === 0) {
+                                    adsList.innerHTML = '<div style="text-align:center; padding:40px; grid-column:1/-1;"><p>No ads found.</p></div>';
+                                    return;
+                                }
 
-                    ads.forEach(ad => {
-                        const card = document.createElement('div');
-                        card.className = 'ad-card';
-                        card.innerHTML = `
+                                ads.forEach(ad => {
+                                    const card = document.createElement('div');
+                                    card.className = 'ad-card';
+                                    card.innerHTML = `
                     <img src="${ad.image_path}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;" onerror="this.src='/images/placeholder-ad.png'">
                     <h3 style="color: #cc3366; margin-bottom: 10px;">${ad.title}</h3>
                     <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Position: ${ad.position}</p>
@@ -247,43 +251,43 @@
                         <i class="fas fa-trash"></i> Delete
                     </button>
                 `;
-                        adsList.appendChild(card);
-                    });
-                } catch (error) {
-                    console.error('Error loading ads:', error);
-                }
-            }
+                                    adsList.appendChild(card);
+                                });
+                            } catch (error) {
+                                console.error('Error loading ads:', error);
+                            }
+                        }
 
-            async function deleteAd(id) {
-                if (confirm('Are you sure?')) {
-                    await fetch(`/api/ads/${id}`, { method: 'DELETE' });
-                    loadAds();
-                }
-            }
+                        async function deleteAd(id) {
+                            if (confirm('Are you sure?')) {
+                                await fetch(`/api/ads/${id}`, { method: 'DELETE' });
+                                loadAds();
+                            }
+                        }
 
-            document.getElementById('adForm').addEventListener('submit', async function (e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const button = document.getElementById('submitBtn');
-                button.disabled = true;
+                        document.getElementById('adForm').addEventListener('submit', async function (e) {
+                            e.preventDefault();
+                            const formData = new FormData(this);
+                            const button = document.getElementById('submitBtn');
+                            button.disabled = true;
 
-                try {
-                    const response = await fetch('/api/ads/create', { method: 'POST', body: formData });
-                    if (response.ok) {
-                        alert('Ad created!');
-                        this.reset();
-                        document.getElementById('imagePreview').style.display = 'none';
-                    }
-                } catch (err) {
-                    alert('Error creating ad');
-                } finally {
-                    button.disabled = false;
-                }
-            });
+                            try {
+                                const response = await fetch('/api/ads/create', { method: 'POST', body: formData });
+                                if (response.ok) {
+                                    alert('Ad created!');
+                                    this.reset();
+                                    document.getElementById('imagePreview').style.display = 'none';
+                                }
+                            } catch (err) {
+                                alert('Error creating ad');
+                            } finally {
+                                button.disabled = false;
+                            }
+                        });
 
-            loadAds();
-        </script>
+                        loadAds();
+                    </script>
 
-        <% if (!isEmbed) { %>
-            <%- include('partials/footer') %>
-        <% } %>
+                    <% if (!isEmbed) { %>
+                        <%- include('partials/footer') %>
+                            <% } %>

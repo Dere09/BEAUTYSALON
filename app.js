@@ -112,17 +112,15 @@ app.get('/gallery', authMiddleware, (req, res) => {
     res.render('gallery');
 })
 
-app.get('/dashboard', authMiddleware, (req, res) => {
-    res.render('dashboard'); // Render the create user view
-});
+
 app.get('/serviceoffer', authMiddleware, (req, res) => {
     res.render('serviceoffer'); // Render the service offer view
 });
 app.get('/CustomerList', authMiddleware, (req, res) => {
     res.redirect('/Customers');
 });
-app.get('/about',(req, res) =>{
-res.redirect('about');
+app.get('/about', (req, res) => {
+    res.redirect('about');
 });
 app.get('/reset-password/:username', authMiddleware, (req, res) => {
     const userId = req.params.username;
