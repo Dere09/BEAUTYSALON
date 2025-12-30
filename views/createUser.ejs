@@ -1,4 +1,4 @@
-<%- include('partials/header', { title: 'Create User' , navActive: 'createUser' }) %>
+<%- include('partials/header', { title: 'Create User' , navActive: 'createUser' , hideMenu: true }) %>
   <%- include('partials/sidebar', { path: '/createUser' }) %>
 
     <div class="main-content">
@@ -175,13 +175,15 @@
               <option value="staff" selected>Staff</option>
             </select>
           </div>
-           <div>
+          <div>
             <label>Institution</label>
             <select name="salon_id" required>
               <option value="" selected disabled>Select institution</option>
-              <% institutions.forEach(institution => { %>
-              <option value="<%= institution.salon_id %>"><%= institution.institutionName %></option>
-              <% }) %>
+              <% institutions.forEach(institution=> { %>
+                <option value="<%= institution.salon_id %>">
+                  <%= institution.institutionName %>
+                </option>
+                <% }) %>
             </select>
           </div>
 
