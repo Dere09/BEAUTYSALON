@@ -4,138 +4,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Beauty Salon</title>
+  <title>Login - BeautyHub Ethiopia</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap"
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
     rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background: linear-gradient(135deg, #fff5f8, #ffe3ec);
-      color: #333;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .login-wrapper {
-      background: #fff;
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .login-wrapper h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: #e91e63;
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .login-wrapper form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .login-wrapper label {
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .login-wrapper input[type="text"],
-    .login-wrapper input[type="password"] {
-      padding: 12px 15px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 15px;
-      margin-bottom: 20px;
-      transition: border 0.3s ease;
-    }
-
-    .login-wrapper input:focus {
-      border-color: #e91e63;
-      outline: none;
-    }
-
-    .login-wrapper button {
-      background-color: #e91e63;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .login-wrapper button:hover {
-      background-color: #d81b60;
-    }
-
-    .login-wrapper .bottom-text {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    .login-wrapper .bottom-text a {
-      color: #e91e63;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .login-wrapper .bottom-text a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 500px) {
-      .login-wrapper {
-        padding: 30px 20px;
-      }
-    }
-  </style>
+  <!-- Custom CSS -->
+  <link href="/css/login.css" rel="stylesheet">
 </head>
 
 <body>
 
-  <div class="login-wrapper">
-    <h2>Welcome Back</h2>
-    <% if (error) { %>
-      <div class="error-message"
-        style="color: #d32f2f; background-color: #fdecea; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #f5c6cb;">
-        <%= error %>
+  <a href="/" class="home-link">
+    <i class="fas fa-arrow-left"></i> Back to Home
+  </a>
+
+  <div class="login-container">
+
+    <!-- Left Side: Brand Visual -->
+    <div class="login-visual">
+      <h2>BeautyHub Ethiopia</h2>
+      <p>Manage your salon, staff, and appointments all in one place. Experience the future of beauty management.</p>
+    </div>
+
+    <!-- Right Side: Login Form -->
+    <div class="login-form-wrapper">
+      <div class="form-header">
+        <img src="/images/logo.png" alt="Logo">
+        <h3>Welcome Back</h3>
+        <p>Please enter your credentials to access your dashboard.</p>
       </div>
-      <% } %>
-        <form action="/login" method="POST">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
 
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-
-          <button type="submit">Login</button>
-        </form>
-
-        <div class="bottom-text">
-          Don't have an account? <a href="/register">Register here</a>
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>
+            <%= error %>
+          </span>
         </div>
+        <% } %>
+
+          <form action="/login" method="POST">
+
+            <div class="form-group">
+              <label for="username">Username</label>
+              <div class="input-wrapper">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username"
+                  required />
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••"
+                  required />
+                <i class="fas fa-lock"></i>
+              </div>
+            </div>
+
+            <button type="submit" class="login-btn">
+              Sign In
+            </button>
+
+            <div class="links">
+              <span>New to BeautyHub?</span> <a href="/registration">Data Recording</a>
+            </div>
+          </form>
+    </div>
   </div>
 
 </body>

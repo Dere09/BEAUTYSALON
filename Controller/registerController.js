@@ -4,8 +4,10 @@ const getNextRegistrationId = require('../utilities/getNextRegId');
 const fs = require('fs');
 const CustomerService = require('../models/customerService');
 const Institution = require('../models/institutionModel');
+const CustomerRating = require('../models/customerRating');
+const menuConfig = require('../config/menuConfig');
 exports.handleRegistration = async (req, res) => {
-  console.log('Register Controller - Body:', req.body);
+
 
   const { fullName, phone, regdate, salon_id } = req.body;
 
@@ -101,5 +103,93 @@ exports.getAllInstitutions = async (req, res) => {
   catch (err) {
     console.error('Error fetching institutions:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.getRecurringCustomers = async (req, res) => {
+  try {
+    // Enhanced debugging
+    // console.log('=== Recurring Customers Debug ===');
+    // console.log('Session exists:', !!req.session);
+    // console.log('Session user exists:', !!req.session?.user);
+    // console.log('Full session user:', JSON.stringify(req.session?.user, null, 2));
+    // console.log('Session ID:', req.sessionID);
+
+    const salonId = req.session?.user?.salonId;
+
+    if (!salonId) {
+      // console.log('ERROR: Missing salonId from session');
+      // console.error('User object:', req.session?.user);
+      return res.status(400).render('failure', {
+        reason: 'Session error: Salon ID not found. Please log out and log in again.'
+      });
+    }
+
+    // console.log('Using salonId:', salonId);
+
+    const pipeline = [
+      { $match: { salonId: salonId } },
+      {
+        $group: {
+          _id: "$phone",
+          fullName: { $first: "$fullName" },
+          visitCount: { $sum: 1 },
+          lastVisit: { $max: "$createdAt" }
+        }
+      },
+      { $sort: { visitCount: -1 } },
+      {
+        $lookup: {
+          from: "customerratings",
+          let: { phone_num: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$phone", "$$phone_num"] },
+                    { $eq: ["$salonId", salonId] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "ratingInfo"
+        }
+      },
+      { $addFields: { rating: { $arrayElemAt: ["$ratingInfo.rating", 0] } } }
+    ];
+
+    const customers = await User.aggregate(pipeline);
+
+    const roles = req.session.user.role || 'staff';
+    const menu = menuConfig[roles];
+    res.render('recurring_customers', { customers, menu });
+
+  } catch (error) {
+    console.error('Error fetching recurring customers:', error);
+    res.status(500).render('failure', { reason: 'Error fetching customer data' });
+  }
+};
+
+exports.rateCustomer = async (req, res) => {
+  try {
+    const { phone, rating } = req.body;
+    const salonId = req.session?.user?.salonId;
+
+    if (!salonId || !phone || !rating) {
+      return res.status(400).json({ success: false, message: 'Missing data' });
+    }
+
+    await CustomerRating.findOneAndUpdate(
+      { phone, salonId },
+      { rating: parseInt(rating) },
+      { upsert: true, new: true }
+    );
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error rating customer:', error);
+    res.status(500).json({ success: false });
   }
 };

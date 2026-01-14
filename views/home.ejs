@@ -4,375 +4,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All-in-One Beauty Salon Platform - Home</title>
+  <title>BeautyHub Ethiopia | Premium Salon Experiences</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap"
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
     rel="stylesheet">
-  <link href="/css/menu.css" rel="stylesheet">
-  <!-- Font Awesome for icons -->
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    integrity="sha512-L+F8hl8..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: var(--font-main);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.6;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background-color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 50px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    header .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: #cc3366;
-      display: flex;
-      align-items: center;
-    }
-
-    header .logo img {
-      mix-blend-mode: multiply;
-      background: transparent;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #444;
-      font-size: 16px;
-      position: relative;
-    }
-
-    nav a:hover::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      background: #cc3366;
-      bottom: -6px;
-      left: 0;
-    }
-
-    .search-profile {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .search-profile input {
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    /* Advertisement Styles */
-    .ad-banner {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px auto;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border: 2px solid #e8eaf6;
-      max-width: 1000px;
-      transition: all 0.3s ease;
-    }
-
-    .ad-banner:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-    }
-
-    .ad-banner h3 {
-      color: #cc3366;
-      font-family: 'Playfair Display', serif;
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
-
-    .ad-banner p {
-      color: #666;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-
-    .ad-btn {
-      background: linear-gradient(45deg, #cc3366, #ff69b4);
-      color: white;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-
-    .ad-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(204, 51, 102, 0.4);
-    }
-
-    .sidebar-ad {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-      margin: 20px 0;
-      max-width: 300px;
-      text-align: center;
-    }
-
-    .sidebar-ad img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .hero {
-      position: relative;
-      background: url('/images/thumbNail.jpg') center/cover no-repeat;
-      height: 80vh;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0 60px;
-    }
-
-    .hero-content {
-      max-width: 40%;
-    }
-
-    .hero-content h1 {
-      font-size: 48px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .hero-content p {
-      margin: 20px 0;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-
-    .hero-content button {
-      background: #cc3366;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .floating-cards {
-      position: absolute;
-      right: 60px;
-      bottom: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .floating-cards div {
-      background: rgba(255, 255, 255, 0.8);
-      color: #333;
-      padding: 12px 16px;
-      border-radius: 10px;
-      max-width: 240px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      font-size: 14px;
-    }
-
-    .features {
-      display: flex;
-      padding: 60px;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .feature-list {
-      flex: 1;
-    }
-
-    .feature-list h2 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    .feature-item {
-      background: #f9f9f9;
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: flex;
-      gap: 20px;
-    }
-
-    .feature-item:hover {
-      background: #fff0f7;
-    }
-
-    .feature-image {
-      /*  flex: 1;
-      align-items:center; */
-      flex: 1;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* Two equal-width columns */
-      gap: 20px;
-      /* space between items */
-      align-items: start;
-    }
-
-    .feature-image img {
-      width: 100%;
-      border-radius: 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 10px;
-      background-color: #b4afaf;
-      border-top: 1px solid #ddd;
-      margin-top: 50px;
-    }
-
-    .socials-footer a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #cc3366;
-      font-size: 20px;
-    }
-
-    .cylinder {
-      height: auto;
-      min-height: 50px;
-      width: 100%;
-      max-width: 500px;
-      background: linear-gradient(to right, 204, 204, 204, 0);
-      border-radius: 50px;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-      border-width: 1px solid #cebaba;
-      padding: 10px 40px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      white-space: normal;
-      transition: transform 0.3s ease;
-      transform: scale(1);
-    }
-
-    .cylinder:hover {
-      transform: scale(0.9);
-      /*zoom-out on hover*/
-    }
-
-    .column {
-      flex: 1;
-    }
-
-    a {
-      text-decoration: none;
-      font-family: var(--font-main);
-      color: white;
-    }
-
-    /* Responsive Design for Ads */
-    /* Responsive Design Improvements */
-    @media (max-width: 768px) {
-      header {
-        padding: 15px 20px;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      nav {
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .hero {
-        height: auto;
-        padding: 40px 20px;
-        background-position: top;
-      }
-
-      .hero-content {
-        max-width: 100%;
-        text-align: center;
-      }
-
-      .hero-content h1 {
-        font-size: 32px;
-      }
-
-      .features {
-        flex-direction: column;
-        padding: 30px 20px;
-      }
-
-      .feature-image {
-        grid-template-columns: 1fr;
-      }
-
-      .ad-banner {
-        margin: 10px;
-        padding: 15px;
-      }
-
-      .sidebar-ad {
-        max-width: 100%;
-        margin: 10px auto;
-      }
-
-      .cylinder {
-        width: 100%;
-        max-width: 100%;
-        padding: 10px 20px;
-        font-size: 14px;
-      }
-
-      .split-ads {
-        flex-direction: column;
-        padding: 0 20px !important;
-      }
-
-      .floating-cards {
-        position: static;
-        margin-top: 20px;
-      }
-
-      .floating-cards div {
-        max-width: 100%;
-      }
-    }
-  </style>
+  <!-- Custom CSS -->
+  <link href="/css/home.css" rel="stylesheet">
 </head>
 
 <body>
@@ -380,251 +27,156 @@
   <!-- Header -->
   <header>
     <div class="logo">
-      <img src="images/logo.png" alt="Logo" width="73" height="73">
-      <span
-        style="font-family:'Playfair Display', serif; font-size: 1.2rem; color: #cc3366; margin-left: 10px; vertical-align: middle;">BeautyHub
-        Africa</span>
+      <img src="/images/logo.png" alt="BeautyHub Africa Logo">
+      <span>BeautyHub Ethiopia</span>
     </div>
+
     <nav>
       <a href="/">Home</a>
-      <a href="/login">Login</a>
-      <a href="/registration">ወረፋ አሁን ያስይዙ(Booking)</a>
       <a href="/gallery">Gallery</a>
-      <a href="#">Contact</a>
+      <a href="/registration">Online Booking</a>
+      <a href="/login">Login</a>
     </nav>
+
     <div class="search-profile">
-      <input type="text" placeholder="Search..." />
-      <i class="fas fa-user-circle fa-2x"></i>
+      <div class="search-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search salons, services..." />
+      </div>
+      <div class="user-icon">
+        <i class="fas fa-user-circle fa-2x"></i>
+      </div>
     </div>
   </header>
 
-  <!-- HEADER ADVERTISEMENT BANNER -->
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>All-in-One Beauty Salon Platform</h1>
-      <p>Discover top-rated salons, explore premium services, and secure your appointment instantly. The ultimate
-        destination for all your beauty and grooming needs.</p>
-      <button>
-        <a href="registration">Discover Salons & Book Now</a></button>
+      <h1>Elevate Your Beauty Experience</h1>
+      <p>Discover top-rated salons, book premium services, and enjoy a curated wellness journey. Your personal beauty
+        destination starts here.</p>
+      <a href="/registration" class="hero-btn">Book Appointment</a>
+    </div>
+
+    <!-- Floating Cards Animation -->
+    <div class="floating-cards">
+      <div class="float-card">
+        <i class="fas fa-star"></i>
+        <div>
+          <span>Top Rated Professionals</span>
+          <br><small>4.9/5 Average Rating</small>
+        </div>
+      </div>
+      <div class="float-card">
+        <i class="fas fa-clock"></i>
+        <div>
+          <span>Instant Booking</span>
+          <br><small>Confirmed in seconds</small>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- MID-PAGE ADVERTISEMENT (SPLIT) -->
-  <!-- Right Main Banner Ad -->
-  <div class="ad-banner" style="flex: 2; margin: 0;">
-    <h3>💎 <i class="fas fa-gem"></i> PARTNER: Premium Spa Experiences</h3>
-    <p>Explore Beauty & Barber Salons, Anytime, Anywhere</p>
-    <a href="registration" class="ad-btn">Explore Partner Salons <i class="fas fa-spa"></i></a>
-  </div>
-  </div>
-
-  <!-- Features Section feature-item feature-image -->
-  <section class="features">
-    <div class="feature-list">
-      <h2>Only Here, Only With Us</h2>
-      <div class="cylinder">Dine by Design - Romantic coastal dinner</div><br>
-      <div class="cylinder">Local Living Encounters - Culture, beauty & you</div><br>
-      <div class="cylinder">Sunrise Awakening Rituals - Herbal tea & guided calm</div>
+  <!-- Promo Banner -->
+  <div class="container">
+    <div class="promo-banner">
+      <h3>Premium Spa & Salon Partners</h3>
+      <p>Access exclusive offers from our network of top-tier beauty and wellness centers.</p>
+      <a href="/registration" class="banner-btn">
+        <span>Explore Partners</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
     </div>
-    <style>
-      .services-section {
-        padding: 80px 20px;
-        background: #fff;
-        text-align: center;
-        overflow: hidden;
-      }
+  </div>
 
-      .services-section h2.section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 36px;
-        color: #cc3366;
-        margin-bottom: 60px;
-      }
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 50px;">
+        <h2 class="section-title">Why Choose Us</h2>
+        <p style="color: #666; max-width: 600px; margin: 0 auto;">We bring you a seamless beauty experience with
+          features designed for your convenience and comfort.</p>
+      </div>
 
-      .stack-wrapper {
-        position: relative;
-        max-width: 400px;
-        height: 450px;
-        margin: 0 auto;
-        perspective: 1000px;
-      }
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-cut"></i>
+          </div>
+          <h3>Expert Stylists</h3>
+          <p>Connect with certified professionals who are masters of their craft in hair, skin, and beauty.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <h3>Easy Scheduling</h3>
+          <p>Book appointments 24/7 with real-time availability. Manage your visits effortlessly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Verified Reviews</h3>
+          <p>Read authentic feedback from real clients to make informed decisions for your beauty care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      .stack-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transform-style: preserve-3d;
-      }
-
-      .service-card {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: white;
-        border-radius: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        border: 1px solid rgba(204, 51, 102, 0.1);
-        backface-visibility: hidden;
-      }
-
-      .service-card img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-      }
-
-      .service-card-content {
-        padding: 25px;
-        background: white;
-        flex: 1;
-      }
-
-      .service-card-content h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 22px;
-        margin-bottom: 12px;
-      }
-
-      .service-card-content p {
-        font-size: 15px;
-        color: #666;
-        line-height: 1.5;
-      }
-
-      /* Stack Positions - Sequential Overlap */
-      .service-card[data-index="0"] {
-        z-index: 5;
-        transform: translateZ(0) translateY(0);
-        opacity: 1;
-      }
-
-      .service-card[data-index="1"] {
-        z-index: 4;
-        transform: translateZ(-50px) translateY(20px) scale(0.95);
-        opacity: 0.8;
-      }
-
-      .service-card[data-index="2"] {
-        z-index: 3;
-        transform: translateZ(-100px) translateY(40px) scale(0.9);
-        opacity: 0.6;
-      }
-
-      .service-card[data-index="3"] {
-        z-index: 2;
-        transform: translateZ(-150px) translateY(60px) scale(0.85);
-        opacity: 0.4;
-      }
-
-      .service-card:nth-child(n+5) {
-        z-index: 1;
-        transform: translateZ(-200px) translateY(80px) scale(0.8);
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .stack-nav {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 50px;
-      }
-
-      .nav-btn {
-        background: white;
-        border: 2px solid #cc3366;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        color: #cc3366;
-        font-size: 24px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(204, 51, 102, 0.1);
-      }
-
-      .nav-btn:hover {
-        background: #cc3366;
-        color: white;
-        transform: scale(1.1);
-        box-shadow: 0 8px 25px rgba(204, 51, 102, 0.3);
-      }
-
-      @media (max-width: 480px) {
-        .stack-wrapper {
-          max-width: 300px;
-          height: 400px;
-        }
-      }
-    </style>
-
-    <div class="services-section">
+  <!-- Services Stack Section -->
+  <section class="services-section">
+    <div class="container">
       <h2 class="section-title">Experience Our Magic</h2>
 
       <div class="stack-wrapper">
         <div class="stack-container" id="serviceStack">
-          <!-- Hair Services -->
-          <div class="service-card" data-order="0">
+
+          <!-- Card 1 -->
+          <div class="service-card" data-index="0">
             <img src="/images/Scroll/woman_hair.jpg" alt="Hair Services">
-            <div class="service-card-content">
-              <h3 style="color: #D6336C;"><i class="fa-solid fa-scissors"></i> Women's Hair Services</h3>
+            <div class="service-content">
+              <h3>Women's Hair Services</h3>
               <p>Expert cuts, coloring, and styling tailored to your unique personality.</p>
             </div>
           </div>
 
-          <!-- Nail Services -->
-          <div class="service-card" data-order="1">
+          <!-- Card 2 -->
+          <div class="service-card" data-index="1">
             <img src="/images/Scroll/nailService_img.jpg" alt="Nail Services">
-            <div class="service-card-content">
-              <h3 style="color: #FF69B4;"><i class="fa-solid fa-hand-sparkles"></i> Nail Services</h3>
+            <div class="service-content">
+              <h3>Nail Artistry</h3>
               <p>Elegant manicures and creative nail art for a polished, professional look.</p>
             </div>
           </div>
 
-          <!-- Facial & Skin Care -->
-          <div class="service-card" data-order="2">
-            <img src="/images/Scroll/manhairCut_img.jpg" alt="Facial & Skin Care">
-            <div class="service-card-content">
-              <h3 style="color: #FFD700;"><i class="fa-solid fa-face-smile-beam"></i> Men's Hair Services</h3>
-              <p>Where Style Meets Tradition.</p>
+          <!-- Card 3 -->
+          <div class="service-card" data-index="2">
+            <img src="/images/Scroll/manhairCut_img.jpg" alt="Men's Services">
+            <div class="service-content">
+              <h3>Men's Grooming</h3>
+              <p>Where modern style meets traditional barbering excellence.</p>
             </div>
           </div>
 
-          <!-- Body Care -->
-          <div class="service-card" data-order="3">
+          <!-- Card 4 -->
+          <div class="service-card" data-index="3">
             <img src="/images/Scroll/bodyCare_img.jpg" alt="Body Care">
-            <div class="service-card-content">
-              <h3 style="color: #8FBC8F;"><i class="fa-solid fa-hands-bubbles"></i> Body Care</h3>
+            <div class="service-content">
+              <h3>Body Treatments</h3>
               <p>Relaxing body treatments that melt away stress and restore your energy.</p>
             </div>
           </div>
 
-          <!-- Makeup Services -->
-          <div class="service-card" data-order="4">
-            <img src="/images/Scroll/Makeup_img.jpg" alt="Makeup Services">
-            <div class="service-card-content">
-              <h3 style="color: #C71585;"><i class="fa-solid fa-ring"></i> Makeup Services</h3>
-              <p>Professional makeup for weddings, parties, and special events.</p>
+          <!-- Card 5 -->
+          <div class="service-card" data-index="4">
+            <img src="/images/Scroll/Makeup_img.jpg" alt="Makeup">
+            <div class="service-content">
+              <h3>Professional Makeup</h3>
+              <p>Flawless looks for weddings, parties, and special events.</p>
             </div>
           </div>
 
-          <!-- Eye & Brow Services -->
-          <div class="service-card" data-order="5">
-            <img src="/images/Scroll/Eye_brow_img.jpg" alt="Eye & Brow Services">
-            <div class="service-card-content">
-              <h3 style="color: #8B008B;"><i class="fa-solid fa-eye"></i> Eye & Brow Services</h3>
-              <p>Precision brow shaping and lash styling to frame your beautiful eyes.</p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -632,72 +184,127 @@
         <button class="nav-btn" id="stackPrev"><i class="fas fa-arrow-left"></i></button>
         <button class="nav-btn" id="stackNext"><i class="fas fa-arrow-right"></i></button>
       </div>
-
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const stack = document.getElementById('serviceStack');
-          const cards = Array.from(stack.querySelectorAll('.service-card'));
-          let currentIndex = 0;
-
-          function updateStack() {
-            cards.forEach((card, i) => {
-              // Calculate relative position in stack
-              let pos = (i - currentIndex + cards.length) % cards.length;
-              card.setAttribute('data-index', pos);
-
-              // Add simple classes for transition effects if needed
-              if (pos === 0) card.style.pointerEvents = 'auto';
-              else card.style.pointerEvents = 'none';
-            });
-          }
-
-          document.getElementById('stackNext').addEventListener('click', () => {
-            // Animating the top card out before shifting
-            const topCard = cards[currentIndex];
-            topCard.style.transform = 'translateX(120%) rotate(20deg)';
-            topCard.style.opacity = '0';
-
-            setTimeout(() => {
-              currentIndex = (currentIndex + 1) % cards.length;
-              updateStack();
-              // Reset top card position for when it comes back around
-              setTimeout(() => {
-                topCard.style.opacity = '';
-                topCard.style.transform = '';
-              }, 600);
-            }, 300);
-          });
-
-          document.getElementById('stackPrev').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-            updateStack();
-          });
-
-          updateStack();
-        });
-      </script>
     </div>
   </section>
 
-  <!-- BOTTOM PROMO BANNER -->
-  <div class="ad-banner"
-    style="background: linear-gradient(135deg, #fff0f7 0%, #ffe3ec 100%); border: 2px solid #cc3366;">
-    <h3>✨ <i class="fas fa-sparkles"></i> 2025 PREMIUM ACCESS: Join the Queue Online</h3>
-    <p>New to our platform? Get <span style="color: #cc3366; font-weight: bold; font-size: 20px;">Priority Access</span>
-      to the best stylists and barbers at any of our partner salons!</p>
-    <a href="registration" class="ad-btn">Start Your Experience <i class="fas fa-calendar-check"></i></a>
+  <!-- Bottom CTA -->
+  <div class="container">
+    <div class="promo-banner" style="background: var(--primary-color); color: white;">
+      <h3 style="color: white;">Join Priority Access 2026</h3>
+      <p style="color: rgba(255,255,255,0.9);">Skip the wait. Get exclusive access to the best stylists in town.</p>
+      <a href="/registration" class="banner-btn" style="background: white; color: var(--primary-color); border: none;">
+        <span>Get Started</span>
+      </a>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <div>© 2025 MDF BeautyHub Platform. All rights reserved.</div>
-    <div class="socials-footer">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-tiktok"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-col">
+          <h4>BeautyHub Ethiopia</h4>
+          <p>The ultimate destination for all your beauty and grooming needs. Innovating the salon experience.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/registration">Book Now</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/login">Login</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-links">
+            <a href="#">support@beautyhub.africa</a>
+            <a href="#">+251 912 329 696</a>
+            <a href="#">Addis Ababa, Ethiopia</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 MDF BeautyHub Platform. All rights reserved.</div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
     </div>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const stack = document.getElementById('serviceStack');
+      const cards = Array.from(stack.querySelectorAll('.service-card'));
+      let currentIndex = 0;
+
+      function updateStack() {
+        cards.forEach((card, i) => {
+          // Calculate relative position in stack
+          let pos = (i - currentIndex + cards.length) % cards.length;
+
+          // Reset styles
+          card.style.zIndex = '';
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.pointerEvents = 'none';
+
+          if (pos === 0) { // Top card
+            card.style.zIndex = '5';
+            card.style.transform = 'translateZ(0) translateY(0)';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          } else if (pos === 1) {
+            card.style.zIndex = '4';
+            card.style.transform = 'translateZ(-50px) translateY(20px) scale(0.95)';
+            card.style.opacity = '0.8';
+          } else if (pos === 2) {
+            card.style.zIndex = '3';
+            card.style.transform = 'translateZ(-100px) translateY(40px) scale(0.9)';
+            card.style.opacity = '0.6';
+          } else if (pos === 3) {
+            card.style.zIndex = '2';
+            card.style.transform = 'translateZ(-150px) translateY(60px) scale(0.85)';
+            card.style.opacity = '0.4';
+          } else {
+            card.style.zIndex = '1';
+            card.style.transform = 'translateZ(-200px) translateY(80px) scale(0.8)';
+            card.style.opacity = '0';
+          }
+        });
+      }
+
+      document.getElementById('stackNext').addEventListener('click', () => {
+        const topCard = cards[currentIndex];
+
+        // Animate out
+        topCard.style.transform = 'translateX(120%) rotate(20deg)';
+        topCard.style.opacity = '0';
+
+        setTimeout(() => {
+          currentIndex = (currentIndex + 1) % cards.length;
+          updateStack();
+
+          // Reset the card that just left so it can come back in the stack order properly
+          // (The updateStack function handles the visual reset based on position)
+        }, 300);
+      });
+
+      document.getElementById('stackPrev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateStack();
+      });
+
+      // Initialize
+      updateStack();
+    });
+  </script>
 
 </body>
 

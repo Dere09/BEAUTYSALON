@@ -4,228 +4,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beauty Salon - Registration</title>
+  <title>Book Appointment - BeautyHub Ethiopia</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap"
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
     rel="stylesheet">
 
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <!-- Custom CSS -->
+  <link href="/css/register.css" rel="stylesheet">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #fff5f8;
-      color: #333;
-      margin: 0;
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background-color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 50px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    body>.spacer {
-      height: 100px;
-    }
-
-    header .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: #cc3366;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #444;
-      font-size: 16px;
-      position: relative;
-    }
-
-    nav a:hover::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      background: #cc3366;
-      bottom: -6px;
-      left: 0;
-    }
-
-    .search-profile {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .search-profile input {
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 60px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      color: #e91e63;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    form input,
-    form button,
-    form select {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    form button {
-      background-color: #e91e63;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      background-color: #d81b60;
-    }
-
-    .note {
-      margin-top: 15px;
-      color: #888;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      padding: 30px 10px;
-      background-color: #b4afaf;
-      border-top: 1px solid #ddd;
-    }
-
-    .socials-footer a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #cc3366;
-      font-size: 20px;
-    }
-
-    /*dddddd8888888888888888888888888888888*/
-    .search-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-    }
-
-    .user-menu {
-      position: relative;
-      cursor: pointer;
-    }
-
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 35px;
-      right: 0;
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      z-index: 100;
-    }
-
-    .user-menu:hover .dropdown {
-      display: block;
-    }
-
-    .dropdown a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .dropdown a:hover {
-      color: #d9534f;
-    }
-
-    .select2-container--open {
-      /* Use a high value, like 9999, to overlap most other elements */
-      z-index: 9999 !important;
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        padding: 15px;
-        position: relative;
-        height: auto;
-      }
-
-      nav {
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 10px;
-      }
-
-      .search-profile {
-        margin-top: 15px;
-        justify-content: center;
-      }
-
-      .spacer {
-        display: none;
-      }
-
-      footer {
-        position: relative;
-      }
-    }
-  </style>
-
+  <!-- Select2 CSS (Optional if you still use it, but our custom select is better styled) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -233,165 +29,175 @@
   <!-- Header -->
   <header>
     <div class="logo">
-
-      <img src="images/logo.png" alt="Logo" width="73" height="73">
+      <img src="/images/logo.png" alt="BeautyHub Africa Logo">
+      <span>BeautyHub Ethiopia</span>
     </div>
     <nav>
       <a href="/">Home</a>
-      <!-- <a href="/registration">Salons</a> -->
       <a href="/gallery">Gallery</a>
       <a href="/contact">Contact</a>
-      <a href="/about">About</a>
+      <a href="/registration" class="active">Book Now</a>
     </nav>
     <div class="search-profile">
-      <input type="text" placeholder="Search..." />
-      <div class="user-menu">
-        <i class="fas fa-user-circle fa-2x"></i>
-        <div class="dropdown">
-          <a href="/logout">Sign Out</a>
-        </div>
+      <!-- Simple search icon for now in internal pages -->
+      <i class="fas fa-search" style="color: #666; cursor: pointer;"></i>
+      <div class="user-menu" style="position: relative;">
+        <i class="fas fa-user-circle fa-2x" style="color: var(--primary-color); cursor: pointer;"></i>
       </div>
     </div>
   </header>
 
-  <div class="spacer"></div>
-
-  <!-- Registration Form -->
-  <div class="container">
-    <h2>Book Your Appointment(ቀጠሮ ማስያዣ)</h2>
-    <form action="/register" method="POST" enctype="multipart/form-data">
-      <div>
-        <label>Available Salon(ፀጉር ቤት ዝርዝር)</label>
-        <select id="salon-select" name="salon_id" required>
-          <% institutions.forEach(function(inst) { %>
-            <option value="<%= inst.salon_id %>">
-              <%= inst.institutionName%>
-            </option>
-            <% }); %>
-        </select>
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>Secure Your Spot</h2>
+        <p>Book instantly with your favorite salon. No waiting lines.</p>
       </div>
-      <input type="text" name="fullName" placeholder="Full Name" required />
-      <input type="number" name="phone" id="phone" placeholder="Phone No." required />
-      <div id="message"></div>
-      <input type="datetime-local" name="regdate" placeholder="Date " required />
-      <button type="submit">Book My Spot Now</button>
-    </form>
-    <div class="note">Instantly join the queue for your selected salon.</div>
+
+      <form action="/register" method="POST" enctype="multipart/form-data">
+
+        <!-- Salon Selection -->
+        <div class="form-group">
+          <label for="salon-select">Select Preferred Salon</label>
+          <div class="input-wrapper">
+            <select id="salon-select" name="salon_id" required class="form-control">
+              <option value="" disabled selected>Choose a salon...</option>
+              <% institutions.forEach(function(inst) { %>
+                <option value="<%= inst.salon_id %>">
+                  <%= inst.institutionName%>
+                </option>
+                <% }); %>
+            </select>
+            <i class="fas fa-store"></i>
+          </div>
+        </div>
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="fullName" name="fullName" class="form-control" placeholder="e.g. Abebe Kebede"
+              required />
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <div class="input-wrapper">
+            <input type="number" id="phone" name="phone" class="form-control" placeholder="09..." required />
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <div id="message"></div>
+        </div>
+
+        <!-- Date Selection -->
+        <div class="form-group">
+          <label for="regdate">Preferred Date & Time</label>
+          <div class="input-wrapper">
+            <input type="datetime-local" id="regdate" name="regdate" class="form-control" required />
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <span>Confirm Booking</span>
+          <i class="fas fa-check-circle"></i>
+        </button>
+
+        <p class="note" style="text-align: center; margin-top: 20px; color: #888; font-size: 0.9rem;">
+          <i class="fas fa-lock" style="font-size: 0.8rem;"></i> Your booking is secure and confirmed instantly.
+        </p>
+
+      </form>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <div>© 2025 MDF BeautyHub Platform. All rights reserved.</div>
-    <div class="socials-footer">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-tiktok"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 MDF BeautyHub Platform. All rights reserved.
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Optional Select2 if User really wants search inside dropdown, though native select is often cleaner for mobile -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   <script>
+    // Initialize Select2 if needed, but styling it to match custom CSS is tricky.
+    // Let's keep the user's logic but style the container.
+    $(document).ready(function () {
+      $('#salon-select').select2({
+        width: '100%',
+        placeholder: "Choose a salon...",
+        allowClear: true
+      });
+
+      // Fix Select2 styling to match our theme (optional JS tweaks)
+      $('.select2-selection').css({
+        'height': '50px',
+        'border-radius': '12px',
+        'border': '2px solid transparent', // Let css handle it? No, select2 overrides.
+        'background-color': '#f8f9fa',
+        'display': 'flex',
+        'align-items': 'center',
+        'padding-left': '10px'
+      });
+    });
+
     const input = document.getElementById('phone');
     const messageEl = document.getElementById('message');
 
-    // Allow only digits, and enforce real-time format rules
+    // Phone Validation Logic
     input.addEventListener('input', function (e) {
       let value = e.target.value;
 
-      // Remove any non-digit character
+      // Remove non-digits
       value = value.replace(/\D/g, '');
 
-      // Enforce: must start with '09' once at least 2 digits are entered
-      if (value.length >= 1 && value[0] !== '0' && value.length <= 10) {
-        value = '0' + value.slice(1);
-      }
-      if (value.length >= 2 && value[1] !== '9') {
-        value = '09' + value.slice(2);
-      }
-      // Limit to 10 digits
-      if (value.length > 10) {
-        value = value.slice(0, 10);
-      }
+      // Enforce 09 prefix
+      if (value.length >= 1 && value[0] !== '0') value = '0' + value.slice(1);
+      if (value.length >= 2 && value[1] !== '9') value = '09' + value.slice(2);
+      if (value.length > 10) value = value.slice(0, 10);
 
-      // Update input field
       e.target.value = value;
 
-      // Validate
-      const isValid = /^09\d{0,8}$/.test(value) && value.length <= 10;
       const isComplete = /^09\d{8}$/.test(value);
 
-      // Reset classes
+      // Visual Feedback
       e.target.classList.remove('valid', 'invalid');
 
       if (value === '') {
         messageEl.textContent = '';
-      }
-
-      else if (!/^09/.test(value)) {
+        messageEl.className = 'message'; // reset
+      } else if (!/^09/.test(value)) {
         e.target.classList.add('invalid');
-        messageEl.textContent = 'Must start with "09"';
+        messageEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Must start with "09"';
         messageEl.className = 'message error';
       } else if (value.length < 10) {
         e.target.classList.add('invalid');
-        messageEl.textContent = `Incomplete (${value.length}/10 digits)`;
+        messageEl.innerHTML = `<i class="fas fa-info-circle"></i> ${value.length}/10 digits`;
         messageEl.className = 'message error';
       } else if (isComplete) {
         e.target.classList.add('valid');
-        messageEl.textContent = '✓ Valid phone number';
+        messageEl.innerHTML = '<i class="fas fa-check"></i> Valid phone number';
         messageEl.className = 'message success';
       }
     });
-
-    // Optional: prevent non-digit keys (except Backspace, Delete, Arrow keys, etc.)
-    input.addEventListener('keydown', function (e) {
-      // Allow: Backspace, Delete, Tab, Escape, Enter, Arrow keys
-      if ([46, 8, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode)) {
-        return;
-      }
-
-      // Ensure only digits
-      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-        e.preventDefault();
-      }
-    });
-
-    // Handle Salon Selection for Datalist
-    const salonInput = document.getElementById('salon-input');
-    const salonIdHidden = document.getElementById('salon-id');
-    const salonList = document.getElementById('salon-suggestions');
-
-    salonInput.addEventListener('input', function () {
-      const val = this.value;
-      const options = salonList.options;
-      // Default to empty if no match found yet
-      salonIdHidden.value = "";
-
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].value === val) {
-          salonIdHidden.value = options[i].getAttribute('data-salon-id');
-          break;
-        }
-      }
-    });
   </script>
 
-  <script>
-    $(document).ready(function () {
-      $('#salon-select').select2({
-        placeholder: "Search or select a salon...",
-        allowClear: true
-      });
-    });
-    document.getElementById('salon-select').addEventListener('keyup', function () {
-      const filter = this.value.toLowerCase();
-      const options = document.getElementById('salon-select').options;
-
-      for (let i = 0; i < options.length; i++) {
-        const text = options[i].text.toLowerCase();
-        options[i].style.display = text.includes(filter) ? '' : 'none';
-      }
-    });
-  </script>
 </body>
 
 </html>

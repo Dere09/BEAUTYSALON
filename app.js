@@ -19,9 +19,7 @@ Connectdb();
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(flash());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 // Global error handlers to capture crashes during startup/runtime
@@ -54,6 +52,8 @@ const sessionConfig = require('./config/session');
 app.use(methodOverride('_method')); // Allow PUT & DELETE via forms
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(sessionConfig); // Use session configuration from config/session.js
+app.use(flash());
+
 app.use((req, res, next) => {
     res.locals.path = req.path;
     res.locals.error = req.flash('error');

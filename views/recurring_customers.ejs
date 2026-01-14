@@ -1,0 +1,204 @@
+<%- include('partials/header', { title: 'Recurring Customers' , navActive: 'recurring-customers' , hideMenu: true }) %>
+    <%- include('partials/sidebar', { path: '/recurring-customers' }) %>
+
+        <div class="main-content">
+            <style>
+                /* Page-specific styles */
+                .header-section {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 30px;
+                }
+
+                .page-title h1 {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 32px;
+                    color: #cc3366;
+                    margin-bottom: 5px;
+                }
+
+                .page-title p {
+                    color: #777;
+                    font-size: 14px;
+                }
+
+                .table-card {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 30px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                    overflow-x: auto;
+                }
+
+                @media (max-width: 768px) {
+                    .header-section {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 15px;
+                    }
+
+                    .table-card {
+                        padding: 15px;
+                    }
+                }
+
+                .customer-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .customer-table th {
+                    text-align: left;
+                    padding: 15px 20px;
+                    color: #888;
+                    font-weight: 600;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    border-bottom: 2px solid #f0f0f0;
+                }
+
+                .customer-table td {
+                    padding: 16px 20px;
+                    border-bottom: 1px solid #f9f9f9;
+                    vertical-align: middle;
+                    color: #444;
+                    font-size: 15px;
+                }
+
+                .customer-table tr:hover td {
+                    background-color: #fff9fc;
+                }
+
+                .rating-stars {
+                    color: #ddd;
+                    cursor: pointer;
+                    font-size: 18px;
+                }
+
+                .rating-stars .fas.active {
+                    color: #ffc107;
+                }
+
+
+
+                .avatar-circle {
+                    width: 40px;
+                    height: 40px;
+                    background: linear-gradient(135deg, #cc3366, #ff80ab);
+                    color: white;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin-right: 15px;
+                }
+
+                .customer-info {
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+
+            <div class="header-section">
+                <div class="page-title">
+                    <h1>Recurring Customers</h1>
+                    <p>Identify, rate, and reward your most loyal customers.</p>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <% if (!customers || customers.length===0) { %>
+                    <div style="text-align: center; padding: 50px; color: #888;">
+                        <i class="fas fa-users-slash" style="font-size: 48px; margin-bottom: 20px; color: #ddd;"></i>
+                        <p>No recurring customers data available.</p>
+                    </div>
+                    <% } else { %>
+                        <table class="customer-table" id="customerTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Phone</th>
+                                    <th>Visits</th>
+                                    <th>Last Visit</th>
+                                    <th>Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% customers.forEach(c=> { %>
+                                    <tr>
+                                        <td>
+                                            <div class="customer-info">
+                                                <div class="avatar-circle">
+                                                    <%= c.fullName ? c.fullName.charAt(0).toUpperCase() : '?' %>
+                                                </div>
+                                                <div style="font-weight: 600;">
+                                                    <%= c.fullName || 'Unknown' %>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%= c._id %>
+                                        </td>
+                                        <td>
+                                            <%= c.visitCount %>
+                                        </td>
+                                        <td>
+                                            <%= c.lastVisit ? new Date(c.lastVisit).toLocaleDateString() : 'N/A' %>
+                                        </td>
+                                        <td>
+                                            <div class="rating-stars" data-phone="<%= c._id %>">
+                                                <% for(let i=1; i<=5; i++) { %>
+                                                    <i class="fas fa-star <%= (c.rating && i <= c.rating) ? 'active' : '' %>"
+                                                        onclick="rateCustomer('<%= c._id %>', <%= i %>)"></i>
+                                                    <% } %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                        <% } %>
+            </div>
+        </div>
+
+        <script>
+            async function rateCustomer(phone, rating) {
+                try {
+                    // Optimistic UI update
+                    const starContainer = document.querySelector(`.rating-stars[data-phone="${phone}"]`);
+                    if (starContainer) {
+                        const stars = starContainer.querySelectorAll('i');
+                        stars.forEach((star, index) => {
+                            if (index < rating) {
+                                star.classList.add('active');
+                            } else {
+                                star.classList.remove('active');
+                            }
+                        });
+                    }
+
+                    const response = await fetch('/rate-customer', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ phone, rating })
+                    });
+
+                    const result = await response.json();
+                    if (!result.success) {
+                        alert('Failed to save rating.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Error saving rating.');
+                }
+            }
+        </script>
+
+        <%- include('partials/footer') %>

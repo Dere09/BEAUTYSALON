@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
-const { handleRegistration, getAllCustomers } = require('../Controller/registerController');
+const { handleRegistration, getAllCustomers, getRecurringCustomers, rateCustomer } = require('../Controller/registerController');
 const institutionController = require('../Controller/institutionController');
 const midleware = require('../middleware/authMiddleware');
 const storage = multer.diskStorage({
@@ -29,5 +29,7 @@ router.post('/register', (req, res, next) => {
   next();
 }, upload.single('receipt'), handleRegistration);
 router.get('/Customers', midleware, getAllCustomers);
+router.get('/recurring-customers', midleware, getRecurringCustomers);
+router.post('/rate-customer', midleware, rateCustomer);
 
 module.exports = router;

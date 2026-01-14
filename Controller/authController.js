@@ -30,7 +30,8 @@ exports.postLogin = async (req, res) => {
             id: user._id,
             username: user.username,
             role: user.role,
-            fullName: user.fullName
+            fullName: user.fullName,
+            salonId: user.salonId
         };
 
         // Save session before redirect to ensure cookie is set
